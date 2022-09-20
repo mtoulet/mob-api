@@ -1,0 +1,20 @@
+{
+  "name": "projet-02-tournoi-e-sport-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/O-clock-Flamel/projet-02-tournoi-e-sport-back.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/O-clock-Flamel/projet-02-tournoi-e-sport-back/issues"
+  },
+  "homepage": "https://github.com/O-clock-Flamel/projet-02-tournoi-e-sport-back#readme"
+}
