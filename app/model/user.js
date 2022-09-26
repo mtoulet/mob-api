@@ -15,12 +15,15 @@ class User {
         this.role = obj.role;
         this.created_at = obj.created_at;
         this.updated_at = obj.updated_at;
-
     }
-// create user
+
+// create user in database
    static async create(userTemp){
-       const result = await client.query(``)
+       const result = await client.query(`SELECT * FROM create_user ($1)`,[userTemp]);
+       const user = new User(result.rows[0]);
+       return user;
    }
+   
 
 
 
