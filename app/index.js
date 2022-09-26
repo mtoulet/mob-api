@@ -1,9 +1,6 @@
-
 const express = require('express');
 
-
-
-const router = require('./router');
+// const router = require('./router');
 
 
 const app = express();
@@ -17,9 +14,6 @@ const sessionMiddleware = session({
 });
 app.use(sessionMiddleware);
 
-app.use(express.static('public'));
-
-
 // On active le middleware pour parser le payload JSON
 app.use(express.json());
 // On active le middleware pour parser le payload urlencoded
@@ -27,8 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-app.use(router);
+// app.use(router);
 
 
 
-module.exports = server;
+module.exports = app;
