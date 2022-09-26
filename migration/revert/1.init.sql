@@ -2,6 +2,6 @@
 
 BEGIN;
 
--- XXX Add DDLs here.
+DROP TABLE IF EXISTS public."user", "tournament", "tournament_has_user", "encounter", "round", "user_has_encounter";
 
 COMMIT;
