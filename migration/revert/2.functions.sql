@@ -2,6 +2,8 @@
 
 BEGIN;
 
--- XXX Add DDLs here.
+DROP FUNCTION create_user(json);
+DROP FUNCTION update_user(json);
+DROP FUNCTION delete_user(json);
 
 COMMIT;
