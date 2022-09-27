@@ -2,8 +2,45 @@ const express = require('express');
 
 const router = require('./router');
 
-
 const app = express();
+
+/** ********* */
+/*  SWAGGER */
+/** ******** */
+
+const expressJSDocSwagger = require('express-jsdoc-swagger');
+
+const options = {
+    info: {
+        version: "1.0.0",
+        title: "API Mob",
+        license: {
+            name: "MIT"
+        },
+        description: "API description",
+        contact: {
+        name: "API Support",
+        email: "g.dolle12@gmail.com"
+        }
+    },
+    security: {
+        BasicAuth: {
+            type: "http",
+            scheme: "basic"
+        }
+    },
+    swaggerUIPath: "/api-docs", // URL where SwaggerUI will be rendered
+    baseDir: __dirname, // Base directory which we use to locate your JSDOC files
+    filesPattern: "./**/*.js", // Global pattern to find our jsdoc files (multiple patterns can be added in an array)
+    exposeSwaggerUI: true // Expose OpenAPI UI
+};
+
+expressJSDocSwagger(app)(options);
+
+
+/** ********* */
+/*  EXPRESS */
+/** ******** */
 
 const session = require('express-session');
 

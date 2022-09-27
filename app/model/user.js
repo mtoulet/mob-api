@@ -17,14 +17,22 @@ class User {
         this.updated_at = obj.updated_at;
     }
 
-    // create user in database
+    /**
+     * Ajout d'un nouvel utilisateur en BDD
+     * @param {Object} userTemp 
+     * @returns {User}
+     */
     static async create(userTemp) {
         const result = await client.query(`SELECT * FROM create_user ($1)`, [userTemp]);
         const user = new User(result.rows[0]);
         return user;
     }
 
-    // get user by mail with call db
+    /**
+     * Récupération des informations d'un utilisateur via son email
+     * @param {String} mail 
+     * @returns 
+     */
     static async getUserByMail(mail) {
         const result = await client.query('SELECT * FROM public."user" WHERE mail=$1', [mail]);
         if (result?.rows.length > 0) {
@@ -35,7 +43,11 @@ class User {
         }
     }
 
-    // check password in db
+    /**
+     * Vérification du mot de passe
+     * @param {String} passwordTemp 
+     * @returns {Boolean}
+     */
     checkPassword(passwordTemp) {
         return this.password === passwordTemp;
     }
