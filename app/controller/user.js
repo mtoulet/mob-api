@@ -1,11 +1,11 @@
 const bcrypt = require('bcrypt');
-
+const debug = require('debug')('CONTROLLER');
 
 const {
     User
 } = require('../model');
 
-const encrypt = require('../utils/encrypt');
+const encrypt = require('../service/bcrypt');
 
 
 const userController = {
@@ -64,7 +64,16 @@ const userController = {
     async disconnect(req, res) {
         req.session.destroy();
     
-      }
+    },
+    // Récupérer tous les profils des utilisateurs enregistrés en bdd
+    async getAllProfiles(req, res) {
+        try {
+            const profiles = await User.findAllProfiles();
+            return res.json(profiles);
+        } catch(err) {
+            console.error(err);
+        }
+    }
 };
 
 module.exports = userController;
