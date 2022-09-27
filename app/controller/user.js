@@ -6,7 +6,7 @@ const {
 } = require('../model');
 
 const encrypt = require('../service/bcrypt');
-
+const { generateAccessToken } = require('../service/jwt');
 
 const userController = {
 
@@ -17,7 +17,7 @@ const userController = {
                 error: 'Votre Mot de passe doit contenir 8 caracteres minimum',
             });
         }
-        //hash the password (https://www.npmjs.com/package/bcrypt)
+        // hash the password (https://www.npmjs.com/package/bcrypt)
         const hashedPassword = await encrypt(req.body.password);
         // register new user
         const newUser = await User.create({
@@ -32,11 +32,11 @@ const userController = {
         req.session.user = newUser;
         delete newUser.mail;
         delete newUser.password;
-        //return new user 
+        // return new user 
         res.json(newUser);
     },
     async login(req, res) {
-        //    we are looking for the user with his email address
+        // we are looking for the user with his email address
         const foundUser = await User.getUserByMail(
             req.body.mail
         );
@@ -60,7 +60,10 @@ const userController = {
         req.session.user = {
             id: foundUser.id,
         }
-        res.json(req.session.user);
+
+        // Response of the Json Web Token to the client
+        const accessToken = generateAccessToken(foundUser);
+        res.json({success: true, token: accessToken});
 
 
     },
