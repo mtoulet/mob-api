@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-
+const debug = require('debug')('CONTROLLER');
 
 const {
     User
@@ -65,6 +65,7 @@ const userController = {
         req.session.destroy();
     
     },
+    // Récupérer tous les profils des utilisateurs enregistrés en bdd
     async getAllProfiles(req, res) {
         try {
             const profiles = await User.findAllProfiles();
