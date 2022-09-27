@@ -10,18 +10,16 @@ const encrypt = require('../service/bcrypt');
 
 const userController = {
 
-    async signupAction(req, res) {
+    async register(req, res) {
         // confirm password strength
         if (req.body.password.length < 8) {
             res.json({
                 error: 'Votre Mot de passe doit contenir 8 caracteres minimum',
             });
         }
-
-
-
+        //hash the password (https://www.npmjs.com/package/bcrypt)
         const hashedPassword = await encrypt(req.body.password);
-
+        // register new user
         const newUser = await User.create({
             firstname: req.body.firstname,
             lastname: req.body.lastname,
@@ -30,47 +28,62 @@ const userController = {
             password: hashedPassword
         })
 
-        req.session.user = { login: newUser.login };
+        // add new user to session and delete user mail and user password
+        req.session.user = newUser;
+        delete newUser.mail;
+        delete newUser.password;
+        //return new user 
+        res.json(newUser);
     },
-    async loginAction(req, res) {
+    async login(req, res) {
         //    we are looking for the user with his email address
         const foundUser = await User.getUserByMail(
             req.body.mail
         );
 
         if (!foundUser) {
-            return res.status(401).json( {
-                error:'Mauvais couple email/mot de passe'
+            return res.status(401).json({
+                error: 'Mauvais couple email/mot de passe'
             });
         }
 
-        // test password
+        // test password (https://www.npmjs.com/package/bcrypt)
         const checkPassword = await bcrypt.compare(req.body.password, foundUser.password);
 
         if (!checkPassword) {
-            return res.status(401).json( {
+            return res.status(401).json({
                 error: "Mauvais couple email/mot de passe"
             });
         }
 
         // add user in session
-        req.session.user =  {
+        req.session.user = {
             id: foundUser.id,
         }
-        
+        res.json(req.session.user);
+
 
     },
-    // disconnect user session 
+    // disconnect user session if exist
     async disconnect(req, res) {
-        req.session.destroy();
-    
+        if (req.session.user) {
+            req.session.destroy();
+            res.json({
+                message: 'vous etes deconnecté'
+            })
+        } else {
+            res.json({
+                message: "vous n'etes pas connecté"
+            })
+        }
+
     },
-    // Récupérer tous les profils des utilisateurs enregistrés en bdd
+    // return a list of users profils from DB 
     async getAllProfiles(req, res) {
         try {
             const profiles = await User.findAllProfiles();
             return res.json(profiles);
-        } catch(err) {
+        } catch (err) {
             console.error(err);
         }
     }
