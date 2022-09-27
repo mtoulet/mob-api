@@ -5,7 +5,7 @@ const {
     User
 } = require('../model');
 
-const encrypt = require('../utils/encrypt');
+const encrypt = require('../service/bcrypt');
 
 
 const userController = {
@@ -64,7 +64,15 @@ const userController = {
     async disconnect(req, res) {
         req.session.destroy();
     
-      }
+    },
+    async getAllProfiles(req, res) {
+        try {
+            const profiles = await User.findAllProfiles();
+            return res.json(profiles);
+        } catch(err) {
+            console.error(err);
+        }
+    }
 };
 
 module.exports = userController;

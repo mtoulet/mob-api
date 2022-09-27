@@ -40,7 +40,10 @@ class User {
         return this.password === passwordTemp;
     }
 
-
+    static async findAllProfiles() {
+        const result = await client.query('SELECT * FROM public."user";');
+        return result.rows;
+    }
 
 };
 
