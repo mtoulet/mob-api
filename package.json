@@ -25,5 +25,8 @@
     "express-session": "^1.17.3",
     "joi": "^17.6.0",
     "pg": "^8.8.0"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.11"
   }
 }
