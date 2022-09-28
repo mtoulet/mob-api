@@ -3,7 +3,7 @@ require('dotenv').config();
 
 module.exports = {
     generateAccessToken(user) {
-        return jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET);
+        return jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '3600s'});
     },
 
     authenticateToken(req, res, next) {
@@ -25,5 +25,9 @@ module.exports = {
             // Passing to the API Routes that needs the authentication
             next();
         });
+    },
+
+    generateRefreshToken(user) {
+        return jwt.sign({user}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1y'});
     }
 }

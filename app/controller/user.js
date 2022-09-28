@@ -6,7 +6,7 @@ const {
 } = require('../model');
 
 const encrypt = require('../service/bcrypt');
-const { generateAccessToken } = require('../service/jwt');
+const { generateAccessToken, generateRefreshToken } = require('../service/jwt');
 
 const userController = {
 
@@ -28,10 +28,6 @@ const userController = {
             password: hashedPassword
         })
 
-        // add new user to session and delete user mail and user password
-        req.session.user = newUser;
-        delete newUser.mail;
-        delete newUser.password;
         // return new user 
         res.json(newUser);
     },
@@ -56,31 +52,14 @@ const userController = {
             });
         }
 
-        // add user in session
-        req.session.user = {
-            id: foundUser.id,
-        }
-
         // Response of the Json Web Token to the client
         const accessToken = generateAccessToken(foundUser);
-        res.json({success: true, token: accessToken});
+        const refreshToken = generateRefreshToken(foundUser);
+        res.json({success: true, accessToken, refreshToken});
 
 
     },
-    // disconnect user session if exist
-    async disconnect(req, res) {
-        if (req.session.user) {
-            req.session.destroy();
-            res.json({
-                message: 'vous etes deconnecté'
-            })
-        } else {
-            res.json({
-                message: "vous n'etes pas connecté"
-            })
-        }
-
-    },
+    
     // return a list of users profils from DB 
     async getAllProfiles(req, res) {
         try {
