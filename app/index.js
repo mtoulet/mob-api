@@ -37,19 +37,9 @@ const options = {
 
 expressJSDocSwagger(app)(options);
 
-
 /** ********* */
 /*  EXPRESS */
 /** ******** */
-
-const session = require('express-session');
-
-const sessionMiddleware = session({
-    secret: "MOB idick",
-    resave: true,
-    saveUninitialized: true
-});
-app.use(sessionMiddleware);
 
 // On active le middleware pour parser le payload JSON
 app.use(express.json());
