@@ -2,12 +2,12 @@ require('dotenv').config();
 const { Client } = require("pg");
 
 // Connection à la bdd distante (heroku)
-// const client = new Client({
-//     connectionString:process.env.DATABASE_URL
-// });
+const client = new Client({
+    connectionString:process.env.DATABASE_URL
+});
 
 // Connection à la bdd locale (PgAdmin)
-const client = new Client(process.env.PG_URL);
+// const client = new Client(process.env.PG_URL);
 
 client.connect(err => {
     if (err) {
