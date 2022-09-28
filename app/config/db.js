@@ -3,7 +3,10 @@ const { Client } = require("pg");
 
 // Connection à la bdd distante (heroku)
 const client = new Client({
-    connectionString:process.env.DATABASE_URL
+    connectionString:process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 // Connection à la bdd locale (PgAdmin)
