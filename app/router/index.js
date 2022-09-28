@@ -23,15 +23,14 @@ router.get('/api/profiles', userController.getAllProfiles);
  * @param {string} mail mob@mob.mob
  * @param {string} password azerty1234
  * @return {object} 200 - success: true, accessToken, refreshToken
- * @example response 200 - success: true, response example
+ * @return {object} 400 - Bad request response
+ * @return {object} 403 - forbidden
+ * @example response - 200 - success: true, response example
  * {
  *      "success": "true",
  *      "accessToken": "opajzepogajezpojapog",
  *      "refreshToken": "idqjsoizekdopqikzdoi"
  * }
- * @return {object} 400 - Bad request response
- * @return {object} 403 - forbidden
- *
  */
 router.post('/api/login', userController.login);
 
@@ -58,7 +57,7 @@ router.post('/api/register', userController.register);
 /**
  * GET /api/me
  * @summary Verify the accessToken of the user
- * @security BasicAuth
+ * @security BearerAuth
  * @tags user
  * @return {object} 200 - success response - application/json
  * @return {object} 400 - Bad request response
@@ -84,7 +83,7 @@ router.get('/api/me', authenticateToken, (req, res) => {
  * @return {object} 200 - succes response - application/json
  * @example response - 200 - sucess response exemple
  * {
- *      "accessToken":
+ *      "accessToken":"iqhzjudmoihjsqqefgôihjsef"
  * }   
  */
 router.post('/api/refreshToken', (req, res) => {

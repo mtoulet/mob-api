@@ -10,6 +10,12 @@ const { generateAccessToken, generateRefreshToken } = require('../service/jwt');
 
 const userController = {
 
+    /**
+     * @summary add a new user in the database
+     * @param {*} req 
+     * @param {*} res 
+     * @return {User} newUser
+     */
     async register(req, res) {
         // confirm password strength
         if (req.body.password.length < 8) {
@@ -20,17 +26,25 @@ const userController = {
         // hash the password (https://www.npmjs.com/package/bcrypt)
         const hashedPassword = await encrypt(req.body.password);
         // register new user
+        
         const newUser = await User.create({
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             nickname: req.body.nickname,
             mail: req.body.mail,
             password: hashedPassword
-        })
+        });
 
         // return new user 
         res.json(newUser);
     },
+
+    /**
+    * @summary login the user with json accessToken and check mail and password
+    * @param {*} req 
+    * @param {*} res 
+    * @return {User}
+    */
     async login(req, res) {
         // we are looking for the user with his email address
         const foundUser = await User.getUserByMail(

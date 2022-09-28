@@ -43,6 +43,44 @@ const options = {
 
 expressJSDocSwagger(app)(options);
 
+/**
+ * A newUser
+ * @typedef {object} newUser
+ * @property {string} firstname.required - The firstname
+ * @property {string} lastname.required - The lastname
+ * @property {string} nickname.required - The nickname
+ * @property {string} mail.required - The email
+ * @property {string} password.required - The password
+ */
+
+/**
+ * A User
+ * @typedef {object} User
+ * @property {integer} id - the id
+ * @property {string} firstname - The firstname
+ * @property {string} lastname - The lastname
+ * @property {string} nickname - The nickname
+ * @property {string} mail - The email
+ * @property {string} password - The password
+ * @property {integer} trophies - Number of trophies
+ * @property {integer} honor_point -  behavior score
+ * @property {string} team - The team
+ * @property {string} role - The role
+ * @property {timestamptz} created_at - The timestamp with timezone when user profile was created
+ * @property {timetsamptz} updated_at - The timestamp with timezone when user profile is updated
+ * }
+*/
+
+/**
+ * An AccessToken
+ * @typedef {string} AccessToken
+ */
+
+/**
+ * A RefreshToken
+ * @typedef {string} RefreshToken
+ */
+
 /** ********* */
 /*  EXPRESS */
 /** ******** */
