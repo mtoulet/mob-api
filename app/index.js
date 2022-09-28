@@ -20,19 +20,25 @@ const options = {
         description: "API description",
         contact: {
         name: "API Support",
-        email: "g.dolle12@gmail.com"
+        email: "g.dolle12@gmail.com", 
+        email: "mkarmensky@gmail.com"
         }
     },
     security: {
         BasicAuth: {
             type: "http",
             scheme: "basic"
+        },
+        BearerAuth: {
+            type: "http",
+            scheme: "bearer"
         }
     },
     swaggerUIPath: "/api-docs", // URL where SwaggerUI will be rendered
     baseDir: __dirname, // Base directory which we use to locate your JSDOC files
     filesPattern: "./**/*.js", // Global pattern to find our jsdoc files (multiple patterns can be added in an array)
     exposeSwaggerUI: true // Expose OpenAPI UI
+
 };
 
 expressJSDocSwagger(app)(options);
