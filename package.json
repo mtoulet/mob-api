@@ -29,5 +29,8 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.8.0",
     "swagger-jsdoc": "^6.2.5"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.5.0"
   }
 }
