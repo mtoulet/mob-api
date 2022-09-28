@@ -10,13 +10,13 @@ const encrypt = require('../service/bcrypt');
 
 (async () => {
     try {
-        // hash the password (https://www.npmjs.com/package/bcrypt)
-        const hashedPassword = await encrypt(faker.internet.password());
         // Declare a variable and set it equal to an array. 
         let users = [];
         // This for loop decides how many datapoints you will create.
         // If you want to change the amount, just change the number in the for loop!
         for (let i = 0; i < 10; i++) {
+            // hash the password (https://www.npmjs.com/package/bcrypt)
+            let hashedPassword = await encrypt(faker.internet.password());
 
             // The keys in this user object are set equal to the fake information
             let newUser = {

@@ -11,7 +11,26 @@ const { authenticateToken, generateAccessToken } = require('../service/jwt');
  * @tags user
  * @security Admin
  * @return {array<User>} 200 - success response - application/json
+ * @example response - 200 - response example
+ * {
+ *      "id": 14,
+ *      "firstname": "Hugo",
+ *      "lastname": "Victor",
+ *      "nickname": "Vic",
+ *      "mail": "vichug@gmail.com",
+ *      "password": "$2b$10$McwT7bdF1s3iEUYamndDXOKNduchPiMuhTzPPyAGqQz9vCORtdGDi",
+ *      "trophies": null,
+ *      "honor_point": 0,
+ *      "team": null,
+ *      "role": null,
+ *      "created_at": "2022-09-28T13:59:10.857Z",
+ *      "updated_at": "2022-09-28T13:59:10.857Z"
+ * }
  * @return {array<User>} 403 - forbidden
+ * @example response - 403 - error example
+ * {
+ *      message: "You don't have permission to access this resource"
+ * }
  */
 router.get('/api/profiles', userController.getAllProfiles);
 
@@ -23,13 +42,16 @@ router.get('/api/profiles', userController.getAllProfiles);
  * @param {string} mail mob@mob.mob
  * @param {string} password azerty1234
  * @return {object} 200 - success: true, accessToken, refreshToken
- * @return {object} 400 - Bad request response
- * @return {object} 403 - forbidden
+ * @return {object} 401 - Unauthorized response
  * @example response - 200 - success: true, response example
  * {
  *      "success": "true",
  *      "accessToken": "opajzepogajezpojapog",
  *      "refreshToken": "idqjsoizekdopqikzdoi"
+ * }
+ * @example response - 401 - error example
+ * {
+ *      error: 'Mauvais couple email/mot de passe'
  * }
  */
 router.post('/api/login', userController.login);
@@ -41,14 +63,26 @@ router.post('/api/login', userController.login);
  * @tags user
  * @param {object} request.body.required - user info
  * @return {object} 200 - success response - application/json
- * @return {object} 400 - Bad request response
- * @example response - 200 - success response example
+ * @return {object} 401 - Unauthorized response
+ * @example response - 200 - response example
  * {
  *      "firstname": "Harleen",
  *      "lastname": "Quinzel",
  *      "nickname": "HarleyQuinn",
  *      "mail": "harleyquinn@gmail.com",
  *      "password": "joker12345"
+ * }
+ * @example user info
+ * {
+ *      "firstname": "Harleen",
+ *      "lastname": "Quinzel",
+ *      "nickname": "HarleyQuinn",
+ *      "mail": "harleyquinn@gmail.com",
+ *      "password": "$2b$10$SpWduNY5tEHr/6HxqETx9OT9ILtXPS8CROp1gJA6dmUfHKN7A6dLo"
+ * }
+ * @example response - 401 - error example
+ * {
+ *      "error": "Votre Mot de passe doit contenir 8 caractères minimum"
  * }
  */
 router.post('/api/register', userController.register);
@@ -60,8 +94,8 @@ router.post('/api/register', userController.register);
  * @security BearerAuth
  * @tags user
  * @return {object} 200 - success response - application/json
- * @return {object} 400 - Bad request response
- * @example response - 200 - success response example
+ * @return {object} 401 - Unauthorized response
+ * @example response - 200 - response example
  * {
  *      "firstname": "Harleen",
  *      "lastname": "Quinzel",
@@ -69,6 +103,8 @@ router.post('/api/register', userController.register);
  *      "mail": "harleyquinn@gmail.com",
  *      "password": "joker12345"
  * }
+ * @example response - 401 - error example
+ * Unauthorized
  */
 router.get('/api/me', authenticateToken, (req, res) => {
     res.send(req.user);
@@ -83,7 +119,7 @@ router.get('/api/me', authenticateToken, (req, res) => {
  * @return {object} 200 - succes response - application/json
  * @example response - 200 - sucess response exemple
  * {
- *      "accessToken":"iqhzjudmoihjsqqefgôihjsef"
+ *      "accessToken":"iqhzjudmoihSRGjstrfhfthfhftftQZdQihjsefzefzefzpoaiQRSGuhrbngpoaleQZDnrvhgzfopentgpaynbSRGpeyhpvçaehngvpaebn"
  * }   
  */
 router.post('/api/refreshToken', (req, res) => {
