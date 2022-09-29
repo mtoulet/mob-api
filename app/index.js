@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = require('./router');
-
+const cors = require('cors');
 const app = express();
 
 /** ********* */
@@ -42,14 +42,7 @@ expressJSDocSwagger(app)(options);
 /*  EXPRESS */
 /** ******** */
 
-const session = require('express-session');
-
-const sessionMiddleware = session({
-    secret: "MOB idick",
-    resave: true,
-    saveUninitialized: true
-});
-app.use(sessionMiddleware);
+app.use(cors());
 
 // On active le middleware pour parser le payload JSON
 app.use(express.json());
