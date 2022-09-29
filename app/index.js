@@ -76,7 +76,7 @@ expressJSDocSwagger(app)(options);
 
 /**
  * A User who wants to login
- * @typedef {guest}
+ * @typedef {object} Guest
  * @property {string} mail - The email
  * @property {string} password - The password
  */
