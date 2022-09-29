@@ -189,7 +189,6 @@ router.post('/api/refreshToken', (req, res) => {
 });
 // #endregion
 
-
 /**
  * DELETE /api/deleteUser
  * @summary return message 
