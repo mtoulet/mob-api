@@ -57,6 +57,11 @@ class User {
         return result.rows;
     }
 
+    static async deleteProfile(userId) {
+        const result = await client.query('DELETE FROM public."user" WHERE id=$1;', [userId]);
+        return result;
+    }
+
 };
 
 module.exports = User;
