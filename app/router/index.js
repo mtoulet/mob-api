@@ -3,7 +3,7 @@ const userController = require('../controller/user');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { authenticateToken, generateAccessToken } = require('../service/jwt');
-
+// #region /api/profiles
 // Route to get all user profiles stored in the database
 /**
  * GET /api/profiles
@@ -63,7 +63,9 @@ const { authenticateToken, generateAccessToken } = require('../service/jwt');
  * }
  */
 router.get('/api/profiles', userController.getAllProfiles);
+// #endregion
 
+// #region /api/login
 /**
  * POST /api/login
  * @summary login user and create an access token 
@@ -99,7 +101,9 @@ router.get('/api/profiles', userController.getAllProfiles);
  * }
  */
 router.post('/api/login', userController.login);
+// #endregion
 
+// #region /api/register
 /**
  * POST /api/register
  * @summary Creates a user and save it in the database
@@ -122,7 +126,9 @@ router.post('/api/login', userController.login);
  * }
  */
 router.post('/api/register', userController.register);
+// #endregion
 
+// #region /api/me
 // Testing route for authentication
 /**
  * GET /api/me
@@ -145,7 +151,9 @@ router.post('/api/register', userController.register);
 router.get('/api/me', authenticateToken, (req, res) => {
     res.send(req.user);
 });
+// #endregion
 
+// #region /api/refreshToken
 // Refresh token route
 /**
  * POST /api/refreshToken
@@ -179,7 +187,9 @@ router.post('/api/refreshToken', (req, res) => {
         res.send({accessToken: refreshedToken});
     });
 });
+// #endregion
 
+// #region home page
 /**
  * GET /
  * @summary Home page test
@@ -190,5 +200,5 @@ router.post('/api/refreshToken', (req, res) => {
 router.get('/', (req, res) => {
     res.send("Hello there :)");
 });
-
+// #endregion
 module.exports = router;
