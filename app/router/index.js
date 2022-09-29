@@ -150,6 +150,19 @@ router.post('/api/refreshToken', (req, res) => {
     });
 });
 
+
+/**
+ * DELETE /api/deleteUser
+ * @summary return message 
+ * @tags user
+ * @param {object} request.body.required - password
+ * @return {object} 200 - succes response - application/json
+ * @example response - 200 - sucess response exemple
+ * {
+ *      "message":"vote compte à été supprimé avec succes"
+ * }   
+ */
+
 router.delete('/api/deleteUser', userController.deleteAccount);
 
 /**
