@@ -17,11 +17,10 @@ const options = {
         license: {
             name: "MIT"
         },
-        description: "API description",
+        description: "This api is directly linked to the mob (multiplayer online bracket) application. It is used to make calls to our to create tournaments and new users",
         contact: {
         name: "API Support",
-        email: "g.dolle12@gmail.com", 
-        email: "mkarmensky@gmail.com"
+        email: "mob.api.contact@gmail.com"
         }
     },
     security: {

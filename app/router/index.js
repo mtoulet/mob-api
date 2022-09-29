@@ -29,7 +29,7 @@ const { authenticateToken, generateAccessToken } = require('../service/jwt');
  * @return {array<User>} 403 - forbidden
  * @example response - 403 - error example
  * {
- *      message: "You don't have permission to access this resource"
+ *     "message": "You don't have permission to access this resource"
  * }
  */
 router.get('/api/profiles', userController.getAllProfiles);
@@ -39,8 +39,7 @@ router.get('/api/profiles', userController.getAllProfiles);
  * @summary login user and create an access token 
  * @security BasicAuth
  * @tags user
- * @param {string} mail mob@mob.mob
- * @param {string} password azerty1234
+ * @param {object} request.body.required - user info
  * @return {object} 200 - success: true, accessToken, refreshToken
  * @return {object} 401 - Unauthorized response
  * @example response - 200 - success: true, response example
@@ -51,7 +50,7 @@ router.get('/api/profiles', userController.getAllProfiles);
  * }
  * @example response - 401 - error example
  * {
- *      error: 'Mauvais couple email/mot de passe'
+ *      "error": "Mauvais couple email/mot de passe"
  * }
  */
 router.post('/api/login', userController.login);
@@ -61,8 +60,8 @@ router.post('/api/login', userController.login);
  * @summary Creates a user and save it in the database
  * @security BasicAuth
  * @tags user
- * @param {object} request.body.required - user info
- * @return {object} 200 - success response - application/json
+ * @param {newUser} request.body.required - user info
+ * @return {newUser} 200 - success response - application/json
  * @return {object} 401 - Unauthorized response
  * @example response - 200 - response example
  * {
