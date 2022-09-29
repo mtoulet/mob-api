@@ -9,7 +9,7 @@ const client = new Client({
     }
 });
 
-// Connection à la bdd locale (PgAdmin)
+// Connection à la bdd locale (PgAdmin) 
 // const client = new Client(process.env.PG_URL);
 
 client.connect(err => {
