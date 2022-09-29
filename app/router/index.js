@@ -3,7 +3,7 @@ const userController = require('../controller/user');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { authenticateToken, generateAccessToken } = require('../service/jwt');
-
+// #region /api/profiles
 // Route to get all user profiles stored in the database
 /**
  * GET /api/profiles
@@ -12,20 +12,50 @@ const { authenticateToken, generateAccessToken } = require('../service/jwt');
  * @security Admin
  * @return {array<User>} 200 - success response - application/json
  * @example response - 200 - response example
- * {
- *      "id": 14,
- *      "firstname": "Hugo",
- *      "lastname": "Victor",
- *      "nickname": "Vic",
- *      "mail": "vichug@gmail.com",
- *      "password": "$2b$10$McwT7bdF1s3iEUYamndDXOKNduchPiMuhTzPPyAGqQz9vCORtdGDi",
- *      "trophies": null,
- *      "honor_point": 0,
- *      "team": null,
- *      "role": null,
- *      "created_at": "2022-09-28T13:59:10.857Z",
- *      "updated_at": "2022-09-28T13:59:10.857Z"
- * }
+ * [
+ *      {
+ *          "id": 1,
+ *          "lastname": "Simonis",
+ *          "firstname": "Olin",
+ *          "nickname": "Breana81",
+ *          "mail": "Damaris_Kihn@gmail.com",
+ *          "password": "$2b$10$SpWduNY5tEHr/6HxqEKp9OT9ILtXPS8CRdL1gJA6dmUfHKN7A6dMy",
+ *          "trophies": null,
+ *          "honor_point": 0,
+ *          "team": null,
+ *          "role": null,
+ *          "created_at": "2022-09-28T12:04:51.908Z",
+ *          "updated_at": "2022-09-28T12:04:51.908Z"
+ *      },
+ *      {
+ *          "id": 2,
+ *          "lastname": "Wolf",
+ *          "firstname": "Tom",
+ *          "nickname": "Cristopher71",
+ *          "mail": "Fidel47@yahoo.com",
+ *          "password": "$2b$10$SpWduNY5tEHr/6HxqEKp9OT9ILtXPS8CRdL1gJA6dmUfHKN7A6dMy",
+ *          "trophies": null,
+ *          "honor_point": 0,
+ *          "team": null,
+ *          "role": null,
+ *          "created_at": "2022-09-28T12:04:51.931Z",
+ *          "updated_at": "2022-09-28T12:04:51.931Z"
+ *      },
+ *      {
+ *          "id": 3,
+ *          "lastname": "Walter",
+ *          "firstname": "Zelda",
+ *          "nickname": "Garrett.Hagenes",
+ *          "mail": "Stephon_Zemlak@hotmail.com",
+ *          "password": "$2b$10$SpWduNY5tEHr/6HxqEKp9OT9ILtXPS8CRdL1gJA6dmUfHKN7A6dMy",
+ *          "trophies": null,
+ *          "honor_point": 0,
+ *          "team": null,
+ *          "role": null,
+ *          "created_at": "2022-09-28T12:04:51.952Z",
+ *          "updated_at": "2022-09-28T12:04:51.952Z"
+ *      }
+ * ]
  * @return {array<User>} 403 - forbidden
  * @example response - 403 - error example
  * {
@@ -33,7 +63,9 @@ const { authenticateToken, generateAccessToken } = require('../service/jwt');
  * }
  */
 router.get('/api/profiles', userController.getAllProfiles);
+// #endregion
 
+// #region /api/login
 /**
  * POST /api/login
  * @summary login user and create an access token 
@@ -47,7 +79,7 @@ router.get('/api/profiles', userController.getAllProfiles);
  * {
  *      "success": "true",
  *      "accessToken": "opajzepogajezpojapog",
- *      "refreshToken": "idqjsoizekdopqikzdoi"
+ *      "refreshToken": "idqjsoizekdopqikzdoi",
  *      "foundUser": {
  *          "id": 14,
  *          "firstname": "Hugo",
@@ -69,7 +101,9 @@ router.get('/api/profiles', userController.getAllProfiles);
  * }
  */
 router.post('/api/login', userController.login);
+// #endregion
 
+// #region /api/register
 /**
  * POST /api/register
  * @summary Creates a user and save it in the database
@@ -92,7 +126,9 @@ router.post('/api/login', userController.login);
  * }
  */
 router.post('/api/register', userController.register);
+// #endregion
 
+// #region /api/me
 // Testing route for authentication
 /**
  * GET /api/me
@@ -115,13 +151,15 @@ router.post('/api/register', userController.register);
 router.get('/api/me', authenticateToken, (req, res) => {
     res.send(req.user);
 });
+// #endregion
 
+// #region /api/refreshToken
 // Refresh token route
 /**
  * POST /api/refreshToken
  * @summary return new accessToken
  * @tags user
- * @param {object} request.body.required - refreshToken
+ * @security BearerAuth
  * @return {object} 200 - succes response - application/json
  * @example response - 200 - sucess response exemple
  * {
@@ -149,6 +187,7 @@ router.post('/api/refreshToken', (req, res) => {
         res.send({accessToken: refreshedToken});
     });
 });
+// #endregion
 
 
 /**
@@ -165,6 +204,7 @@ router.post('/api/refreshToken', (req, res) => {
 
 router.delete('/api/deleteUser', userController.deleteAccount);
 
+// #region home page
 /**
  * GET /
  * @summary Home page test
@@ -175,5 +215,5 @@ router.delete('/api/deleteUser', userController.deleteAccount);
 router.get('/', (req, res) => {
     res.send("Hello there :)");
 });
-
+// #endregion
 module.exports = router;

@@ -1,18 +1,21 @@
 require('dotenv').config();
+// #region express
 const express = require('express');
+const cors = require('cors');
 const app = express();
-// middleware CORS
-app.use((request, response, next) => {
-    response.header('Access-Control-Allow-Origin', '*');
-    response.header('Access-Control-Allow-Credentials', true);
-    response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    response.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    next();
-});
+app.use(cors());
 
-/** ********* */
-/*  SWAGGER */
-/** ******** */
+// On active le middleware pour parser le payload JSON
+app.use(express.json());
+// On active le middleware pour parser le payload urlencoded
+app.use(express.urlencoded({ extended: true }));
+
+
+const router = require('./router');
+app.use(router);
+// #endregion
+
+// #region swagger
 
 const expressJSDocSwagger = require('express-jsdoc-swagger');
 
@@ -71,8 +74,8 @@ expressJSDocSwagger(app)(options);
  * @property {integer} honor_point -  behavior score
  * @property {string} team - The team
  * @property {string} role - The role
- * @property {date} created_at - The timestamp with timezone when user profile was created
- * @property {date} updated_at - The timestamp with timezone when user profile is updated
+ * @property {string} created_at - The timestamp with timezone when user profile was created
+ * @property {string} updated_at - The timestamp with timezone when user profile is updated
 */
 
 /**
@@ -81,18 +84,6 @@ expressJSDocSwagger(app)(options);
  * @property {string} mail - The email
  * @property {string} password - The password
  */
-
-/** ********* */
-/*  EXPRESS */
-/** ******** */
-
-// On active le middleware pour parser le payload JSON
-app.use(express.json());
-// On active le middleware pour parser le payload urlencoded
-app.use(express.urlencoded({ extended: true }));
-
-
-const router = require('./router');
-app.use(router);
+// #endregion
 
 module.exports = app;
