@@ -3,7 +3,7 @@ require('dotenv').config();
 
 module.exports = {
     generateAccessToken(user) {
-        return jwt.sign({user}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '3600s'});
+        return jwt.sign({user}, `${process.env.ACCESS_TOKEN_SECRET}`, {expiresIn: '3600s'});
     },
 
     authenticateToken(req, res, next) {
@@ -16,7 +16,7 @@ module.exports = {
         }
 
         // If it's found we verify it by passing the token, the secret key and a function called to send either an error or the collected data
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        jwt.verify(token, `${process.env.ACCESS_TOKEN_SECRET}`, (err, user) => {
             if (err) {
                 return res.sendStatus(401);
             }
@@ -28,6 +28,6 @@ module.exports = {
     },
 
     generateRefreshToken(user) {
-        return jwt.sign({user}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '1y'});
+        return jwt.sign({user}, `${process.env.REFRESH_TOKEN_SECRET}`, {expiresIn: '1y'});
     }
 }
