@@ -81,6 +81,20 @@ const userController = {
         } catch (err) {
             console.error(err);
         }
+    },
+
+    //delet user account
+    deleteAccount(req, res) {
+        try {
+            const UserToDelete = await User.getUserByMail(
+                req.body.mail
+            );
+            await User.deleteProfile(UserToDelete.id)
+            return res.json({message: 'votre compte à bien été supprimé'})
+
+        }catch (err) {
+            console.error(err);
+        }
     }
 };
 
