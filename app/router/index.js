@@ -39,7 +39,7 @@ router.get('/api/profiles', userController.getAllProfiles);
  * @summary login user and create an access token 
  * @security BasicAuth
  * @tags user
- * @param {guest} request.body.required - user info
+ * @param {Guest} request.body.required - user info
  * @return {object<AccessToken><RefreshToken>} 200 - success: true, accessToken, refreshToken
  * @return {object} 401 - Unauthorized response
  * @example response - 200 - success: true, response example
