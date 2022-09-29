@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = require('./router');
-
+const cors = require('cors');
 const app = express();
 
 /** ********* */
@@ -83,6 +83,9 @@ expressJSDocSwagger(app)(options);
 /** ********* */
 /*  EXPRESS */
 /** ******** */
+
+
+app.use(cors());
 
 // On active le middleware pour parser le payload JSON
 app.use(express.json());
