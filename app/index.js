@@ -85,7 +85,11 @@ expressJSDocSwagger(app)(options);
 /** ******** */
 
 
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    credentials: true,
+    optionSuccessStatus: 200
+}));
 
 // On active le middleware pour parser le payload JSON
 app.use(express.json());
