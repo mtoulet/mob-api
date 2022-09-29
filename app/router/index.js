@@ -45,23 +45,23 @@ router.get('/api/profiles', userController.getAllProfiles);
  * @return {object} 401 - Unauthorized response
  * @example response - 200 - success: true, response example
  * {
- *      "id": 14,
- *      "firstname": "Hugo",
- *      "lastname": "Victor",
- *      "nickname": "Vic",
- *      "mail": "vichug@gmail.com",
- *      "password": "$2b$10$McwT7bdF1s3iEUYamndDXOKNduchPiMuhTzPPyAGqQz9vCORtdGDi",
- *      "trophies": null,
- *      "honor_point": 0,
- *      "team": null,
- *      "role": null,
- *      "created_at": "2022-09-28T13:59:10.857Z",
- *      "updated_at": "2022-09-28T13:59:10.857Z"
- * },
- * {
  *      "success": "true",
  *      "accessToken": "opajzepogajezpojapog",
  *      "refreshToken": "idqjsoizekdopqikzdoi"
+ *      "foundUser": {
+ *          "id": 14,
+ *          "firstname": "Hugo",
+ *          "lastname": "Victor",
+ *          "nickname": "Vic",
+ *          "mail": "vichug@gmail.com",
+ *          "password": "$2b$10$McwT7bdF1s3iEUYamndDXOKNduchPiMuhTzPPyAGqQz9vCORtdGDi",
+ *          "trophies": null,
+ *          "honor_point": 0,
+ *          "team": null,
+ *          "role": null,
+ *          "created_at": "2022-09-28T13:59:10.857Z",
+ *          "updated_at": "2022-09-28T13:59:10.857Z"
+ *      }
  * }
  * @example response - 401 - error example
  * {
@@ -149,6 +149,8 @@ router.post('/api/refreshToken', (req, res) => {
         res.send({accessToken: refreshedToken});
     });
 });
+
+router.delete('/api/deleteUser', userController.deleteAccount);
 
 /**
  * GET /
