@@ -84,7 +84,7 @@ const userController = {
     },
 
     //delet user account
-    deleteAccount(req, res) {
+    async deleteAccount(req, res) {
         try {
             const UserToDelete = await User.getUserByMail(
                 req.body.mail
