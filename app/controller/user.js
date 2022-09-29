@@ -26,7 +26,6 @@ const userController = {
         // hash the password (https://www.npmjs.com/package/bcrypt)
         const hashedPassword = await encrypt(req.body.password);
         // register new user
-        
         const newUser = await User.create({
             firstname: req.body.firstname,
             lastname: req.body.lastname,
