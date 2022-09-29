@@ -40,9 +40,24 @@ router.get('/api/profiles', userController.getAllProfiles);
  * @security BasicAuth
  * @tags user
  * @param {Guest} request.body.required - user info
- * @return {object<AccessToken><RefreshToken>} 200 - success: true, accessToken, refreshToken
+ * @return {User} 200 - User - application/json
+ * @return {object} 200 - accessToken, refreshToken - application/json
  * @return {object} 401 - Unauthorized response
  * @example response - 200 - success: true, response example
+ * {
+ *      "id": 14,
+ *      "firstname": "Hugo",
+ *      "lastname": "Victor",
+ *      "nickname": "Vic",
+ *      "mail": "vichug@gmail.com",
+ *      "password": "$2b$10$McwT7bdF1s3iEUYamndDXOKNduchPiMuhTzPPyAGqQz9vCORtdGDi",
+ *      "trophies": null,
+ *      "honor_point": 0,
+ *      "team": null,
+ *      "role": null,
+ *      "created_at": "2022-09-28T13:59:10.857Z",
+ *      "updated_at": "2022-09-28T13:59:10.857Z"
+ * },
  * {
  *      "success": "true",
  *      "accessToken": "opajzepogajezpojapog",

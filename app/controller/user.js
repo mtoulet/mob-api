@@ -68,7 +68,7 @@ const userController = {
         // Response of the Json Web Token to the client
         const accessToken = generateAccessToken(foundUser);
         const refreshToken = generateRefreshToken(foundUser);
-        res.json({success: true, accessToken, refreshToken});
+        res.json({success: true, accessToken, refreshToken, foundUser});
 
 
     },

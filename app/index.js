@@ -81,16 +81,6 @@ expressJSDocSwagger(app)(options);
  * @property {string} password - The password
  */
 
-/**
- * An AccessToken
- * @typedef {string} AccessToken
- */
-
-/**
- * A RefreshToken
- * @typedef {string} RefreshToken
- */
-
 /** ********* */
 /*  EXPRESS */
 /** ******** */
