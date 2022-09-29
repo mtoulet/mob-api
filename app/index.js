@@ -74,8 +74,8 @@ expressJSDocSwagger(app)(options);
  * @property {integer} honor_point -  behavior score
  * @property {string} team - The team
  * @property {string} role - The role
- * @property {date} created_at - The timestamp with timezone when user profile was created
- * @property {date} updated_at - The timestamp with timezone when user profile is updated
+ * @property {string} created_at - The timestamp with timezone when user profile was created
+ * @property {string} updated_at - The timestamp with timezone when user profile is updated
 */
 
 /**
