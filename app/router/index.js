@@ -71,14 +71,6 @@ router.post('/api/login', userController.login);
  *      "mail": "harleyquinn@gmail.com",
  *      "password": "joker12345"
  * }
- * @example user info
- * {
- *      "firstname": "Harleen",
- *      "lastname": "Quinzel",
- *      "nickname": "HarleyQuinn",
- *      "mail": "harleyquinn@gmail.com",
- *      "password": "$2b$10$SpWduNY5tEHr/6HxqETx9OT9ILtXPS8CROp1gJA6dmUfHKN7A6dLo"
- * }
  * @example response - 401 - error example
  * {
  *      "error": "Votre Mot de passe doit contenir 8 caractères minimum"
