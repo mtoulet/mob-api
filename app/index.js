@@ -1,8 +1,3 @@
-const express = require('express');
-
-const router = require('./router');
-const cors = require('cors');
-const app = express();
 
 /** ********* */
 /*  SWAGGER */
@@ -84,14 +79,9 @@ expressJSDocSwagger(app)(options);
 /*  EXPRESS */
 /** ******** */
 
-app.use((request, response, next) => {
-    response.header('Access-Control-Allow-Origin', '*');
-    // response.header('Access-Control-Allow-Credentials', true);
-    response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    response.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    next();
-});
-
+const express = require('express');
+const cors = require('cors');
+const app = express();
 app.use(cors());
 
 // On active le middleware pour parser le payload JSON
@@ -100,6 +90,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+const router = require('./router');
 app.use(router);
 
 module.exports = app;
