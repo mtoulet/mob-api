@@ -45,23 +45,23 @@ router.get('/api/profiles', userController.getAllProfiles);
  * @return {object} 401 - Unauthorized response
  * @example response - 200 - success: true, response example
  * {
- *      "id": 14,
- *      "firstname": "Hugo",
- *      "lastname": "Victor",
- *      "nickname": "Vic",
- *      "mail": "vichug@gmail.com",
- *      "password": "$2b$10$McwT7bdF1s3iEUYamndDXOKNduchPiMuhTzPPyAGqQz9vCORtdGDi",
- *      "trophies": null,
- *      "honor_point": 0,
- *      "team": null,
- *      "role": null,
- *      "created_at": "2022-09-28T13:59:10.857Z",
- *      "updated_at": "2022-09-28T13:59:10.857Z"
- * },
- * {
  *      "success": "true",
  *      "accessToken": "opajzepogajezpojapog",
- *      "refreshToken": "idqjsoizekdopqikzdoi"
+ *      "refreshToken": "idqjsoizekdopqikzdoi",
+ *      "foundUser": {
+ *          "id": 14,
+ *          "firstname": "Hugo",
+ *          "lastname": "Victor",
+ *          "nickname": "Vic",
+ *          "mail": "vichug@gmail.com",
+ *          "password": "$2b$10$McwT7bdF1s3iEUYamndDXOKNduchPiMuhTzPPyAGqQz9vCORtdGDi",
+ *          "trophies": null,
+ *          "honor_point": 0,
+ *          "team": null,
+ *          "role": null,
+ *          "created_at": "2022-09-28T13:59:10.857Z",
+ *          "updated_at": "2022-09-28T13:59:10.857Z"
+ *      }
  * }
  * @example response - 401 - error example
  * {
@@ -121,7 +121,7 @@ router.get('/api/me', authenticateToken, (req, res) => {
  * POST /api/refreshToken
  * @summary return new accessToken
  * @tags user
- * @param {object} request.body.required - refreshToken
+ * @security BearerAuth
  * @return {object} 200 - succes response - application/json
  * @example response - 200 - sucess response exemple
  * {
