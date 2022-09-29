@@ -18,7 +18,7 @@ class User {
     }
 
     /**
-     * Ajout d'un nouvel utilisateur en BDD
+     * Add a new user in the database
      * @param {Object} userTemp 
      * @returns {User}
      */
@@ -29,7 +29,7 @@ class User {
     }
 
     /**
-     * Récupération des informations d'un utilisateur via son email
+     * Recovery of user information via his mail
      * @param {String} mail 
      * @returns 
      */
@@ -38,13 +38,13 @@ class User {
         if (result?.rows.length > 0) {
             return new User(result.rows[0]);
         } else {
-            // erreur lors de la récupération
+            // error while recovering
             return;
         }
     }
 
     /**
-     * Vérification du mot de passe
+     * Verify the password
      * @param {String} passwordTemp 
      * @returns {Boolean}
      */
