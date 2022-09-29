@@ -84,17 +84,21 @@ expressJSDocSwagger(app)(options);
 /*  EXPRESS */
 /** ******** */
 
+app.use((request, response, next) => {
+    response.header('Access-Control-Allow-Origin', '*');
+    // response.header('Access-Control-Allow-Credentials', true);
+    response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    response.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
 
-app.use(cors({
-    origin: '*',
-    credentials: true,
-    optionSuccessStatus: 200
-}));
+app.use(cors());
 
 // On active le middleware pour parser le payload JSON
 app.use(express.json());
 // On active le middleware pour parser le payload urlencoded
 app.use(express.urlencoded({ extended: true }));
+
 
 app.use(router);
 
