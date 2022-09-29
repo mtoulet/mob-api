@@ -194,7 +194,7 @@ router.post('/api/refreshToken', (req, res) => {
  * DELETE /api/deleteUser
  * @summary return message 
  * @tags user
- * @param {object} request.body.required - password
+ * @param {Guest} request.body.required - user info
  * @return {object} 200 - succes response - application/json
  * @example response - 200 - sucess response exemple
  * {

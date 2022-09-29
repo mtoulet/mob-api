@@ -89,6 +89,13 @@ const userController = {
             const UserToDelete = await User.getUserByMail(
                 req.body.mail
             );
+            const checkPassword = await bcrypt.compare(req.body.password, foundUser.password);
+
+            if (!checkPassword) {
+                return res.status(401).json({
+                    error: "Mauvais couple email/mot de passe"
+                });
+            }
             await User.deleteProfile(UserToDelete.id)
             return res.json({message: 'votre compte à bien été supprimé'})
 
