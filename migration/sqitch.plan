@@ -1,0 +1,5 @@
+%syntax-version=1.0.0
+%project=projet-02-tournoi-e-sport-back
+
+1.init 2022-09-21T08:57:31Z spedata <mkarmensky@gmail.com> # initialization tables
+2.functions 2022-09-26T12:25:04Z Guillaume <g.dolle12@gmail.com> # Creation of SQL functions
