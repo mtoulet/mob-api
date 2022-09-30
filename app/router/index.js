@@ -65,6 +65,32 @@ const { authenticateToken, generateAccessToken } = require('../service/jwt');
 router.get('/api/profiles', userController.getAllProfiles);
 // #endregion
 
+// #region /api/profiles/:mail
+/**
+ * GET /api/profiles/:mail
+ * @summary return a user profile via his mail
+ * @security BearerAuth
+ * @tags user
+ * @param {Guest} request.params.required - mail info
+ * @return {User} 200 - User - application/json
+ * @example response - 200 - response example
+ * {
+ *      "id": 14,
+ *      "firstname": "Hugo",
+ *      "lastname": "Victor",
+ *      "nickname": "Vic",
+ *      "mail": "vichug@gmail.com",
+ *      "trophies": null,
+ *      "honor_point": 0,
+ *      "team": null,
+ *      "role": null,
+ *      "created_at": "2022-09-28T13:59:10.857Z",
+ *      "updated_at": "2022-09-28T13:59:10.857Z"
+ * }
+ */
+router.get('/api/profiles/:mail', userController.getProfile);
+// #endregion
+
 // #region /api/login
 /**
  * POST /api/login
@@ -86,7 +112,6 @@ router.get('/api/profiles', userController.getAllProfiles);
  *          "lastname": "Victor",
  *          "nickname": "Vic",
  *          "mail": "vichug@gmail.com",
- *          "password": "$2b$10$McwT7bdF1s3iEUYamndDXOKNduchPiMuhTzPPyAGqQz9vCORtdGDi",
  *          "trophies": null,
  *          "honor_point": 0,
  *          "team": null,
@@ -118,7 +143,6 @@ router.post('/api/login', userController.login);
  *      "lastname": "Quinzel",
  *      "nickname": "HarleyQuinn",
  *      "mail": "harleyquinn@gmail.com",
- *      "password": "joker12345"
  * }
  * @example response - 401 - error example
  * {
@@ -143,7 +167,6 @@ router.post('/api/register', userController.register);
  *      "lastname": "Quinzel",
  *      "nickname": "HarleyQuinn",
  *      "mail": "harleyquinn@gmail.com",
- *      "password": "joker12345"
  * }
  * @example response - 401 - error example
  * Unauthorized
@@ -189,6 +212,7 @@ router.post('/api/refreshToken', (req, res) => {
 });
 // #endregion
 
+// #region /api/deleteUser
 /**
  * DELETE /api/deleteUser
  * @summary return message 
@@ -202,6 +226,7 @@ router.post('/api/refreshToken', (req, res) => {
  */
 
 router.delete('/api/deleteUser', userController.deleteAccount);
+// #endregion
 
 // #region home page
 /**

@@ -69,7 +69,6 @@ expressJSDocSwagger(app)(options);
  * @property {string} lastname - The lastname
  * @property {string} nickname - The nickname
  * @property {string} mail - The email
- * @property {string} password - The password
  * @property {integer} trophies - Number of trophies
  * @property {integer} honor_point -  behavior score
  * @property {string} team - The team
