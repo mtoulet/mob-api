@@ -84,6 +84,20 @@ expressJSDocSwagger(app)(options);
  * @property {string} mail - The email
  * @property {string} password - The password
  */
+
+/**
+ * A tournament
+ * @typedef {object} Tournament
+ * @property {integer} id - the id
+ * @property {string} label - The label
+ * @property {string}  type - The type of tournament
+ * @property {string} date - The date
+ * @property {string}  game - The  game
+ * @property {string}  format - The  format
+ * @property {integer} moderator - The moderator
+ * @property {integer} user_id -  The user_id
+*/
+
 // #endregion
 
 module.exports = app;
