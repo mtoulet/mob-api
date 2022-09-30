@@ -21,6 +21,7 @@ const tournamentController = {
                 label: req.body.label,
                 type: req.body.type,
                 date: req.body.date,
+                game: req.body.game,
                 format: req.body.format,
                 moderator: req.body.moderator,
                 user_id: req.body.user_id,

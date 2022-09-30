@@ -284,7 +284,7 @@ router.get('/', (req, res) => {
  *          "date": "2022-09-28T12:04:51.931Z",
  *          "game": "street fighter 2",
  *          "format": "single elimination",
- *          "moderator": "george abitbol"
+ *          "moderator": "george abitbol",
  *          "user_id": "153"
  *          
  *      }
@@ -327,7 +327,7 @@ router.get('/', (req, res) => {
  *     "message": "You don't have permission to access this resource"
  * }
  */
-   router.post('/api/tournaments', tournamentController.getTournament);
+   router.get('/api/tournaments/:id', tournamentController.getTournament);
    // #endregion
 
 // #region Delete tournament
