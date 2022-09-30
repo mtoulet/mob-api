@@ -1,5 +1,6 @@
 const express = require('express');
 const userController = require('../controller/user');
+const tournamentController = require('../controller/tournament');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { authenticateToken, generateAccessToken } = require('../service/jwt');
@@ -217,7 +218,7 @@ router.get('/', (req, res) => {
 // #endregion
 
 
-
+// #region tournaments List
 /**
  * GET /api/tournaments
  * @summary This return all informations of all tournament with Json
@@ -267,6 +268,7 @@ router.get('/', (req, res) => {
  router.get('/api/tournaments', tournamentController.getAllTournaments);
  // #endregion
 
+// #region new tournament
  /**
  * POST /api/tournaments
  * @summary Creates a tournament and save it in the database
@@ -297,6 +299,7 @@ router.get('/', (req, res) => {
   router.post('/api/tournaments', tournamentController.addTournament);
   // #endregion
 
+// #region get tournament
   /**
  * GET /api/tournaments/:id
  * @summary This return all informations of the tournament by id with Json
@@ -326,6 +329,32 @@ router.get('/', (req, res) => {
  */
    router.post('/api/tournaments', tournamentController.getTournament);
    // #endregion
+
+// #region Delete tournament
+
+    /**
+ * DELETE /api/tournaments/:id
+ * @summary Delete Tournament with Id
+ * @tags tournament
+ * @security BasicAuth
+ * @return {Tournament} 200 - success response - application/json
+ * @example response - 200 - response example
+ * [
+ *      {
+ *          "message":"Le tournois à bien été supprimé"
+ *          
+ *      }
+ *     
+ * ]
+ * @return {Tournament} 403 - forbidden
+ * @example response - 403 - error example
+ * {
+ *     "message": "You don't have permission to access this resource"
+ * }
+ */
+     router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
+
+  // #endregion
 
 
 module.exports = router;

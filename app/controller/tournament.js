@@ -32,6 +32,28 @@ const tournamentController = {
             console.error(err);
         }
     },
+
+
+    // return info of tourrnament by id
+  async deleteTournament(req, res){
+      try{
+        const tournament = await Tournament.deleteTournament(req.params.id);
+        return res.json({message: 'le tournois à bien été supprimé'})
+
+      }catch(err) {
+        console.error(err);
+    }
+  },
+
+    // return a list of tournaments from DB 
+    async getTournament(req, res) {
+        try {
+            const tournament = await Tournament.getTournamentByID(req.params.id);
+            return res.json(tournament);
+        } catch (err) {
+            console.error(err);
+        }
+    },
 }
 
 module.exports = tournamentController;
