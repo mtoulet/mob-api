@@ -201,7 +201,7 @@ router.post('/api/refreshToken', (req, res) => {
  * }   
  */
 
-router.delete('/api/deleteUser', userController.deleteAccount);
+router.delete('/api/profiles/:mail/delete', userController.deleteProfile);
 
 // #region home page
 /**
