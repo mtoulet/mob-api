@@ -1,5 +1,6 @@
 const express = require('express');
 const userController = require('../controller/user');
+const tournamentController = require('../controller/tournament');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { authenticateToken, generateAccessToken } = require('../service/jwt');
@@ -240,4 +241,145 @@ router.get('/', (req, res) => {
     res.send("Hello there :)");
 });
 // #endregion
+
+
+// #region tournaments List
+/**
+ * GET /api/tournaments
+ * @summary This return all informations of all tournament with Json
+ * @tags tournament
+ * @security BasicAuth
+ * @return {array<Tournament>} 200 - success response - application/json
+ * @example response - 200 - response example
+ * [
+ *      {
+ *          "id": 1,
+ *          "label": "the Big One",
+ *          "type": "privé",
+ *          "date": "2022-09-28T12:04:51.931Z",
+ *          "game": "street fighter 2",
+ *          "format": "single elimination",
+ *          "moderator": "george abitbol"
+ *          "user_id": "153"
+ *          
+ *      },
+ *      {
+ *          id": 2,
+ *          "label": "final count down",
+ *          "type": "public",
+ *          "date": "2022-08-28T12:04:51.931Z",
+ *          "game": "multiversus",
+ *          "format": "single elimination",
+ *          "moderator": "europe"
+ *          "user_id": "321"
+ *      },
+ *      {
+ *          id": 3,
+ *          "label": "machine war barrel tournament",
+ *          "type": "privé",
+ *          "date": "2032-09-28T12:06:51.931Z",
+ *          "game": "League of legend",
+ *          "format": "single elimination",
+ *          "moderator": "faker"
+ *          "user_id": "113
+ *      }
+ * ]
+ * @return {array<Tournament>} 403 - forbidden
+ * @example response - 403 - error example
+ * {
+ *     "message": "You don't have permission to access this resource"
+ * }
+ */
+ router.get('/api/tournaments', tournamentController.getAllTournaments);
+ // #endregion
+
+// #region new tournament
+ /**
+ * POST /api/tournaments
+ * @summary Creates a tournament and save it in the database
+ * @tags tournament
+ * @security BasicAuth
+ * @return {Tournament} 200 - success response - application/json
+ * @example response - 200 - response example
+ * [
+ *      {
+ *          "id": 1,
+ *          "label": "the Big One",
+ *          "type": "privé",
+ *          "date": "2022-09-28T12:04:51.931Z",
+ *          "game": "street fighter 2",
+ *          "format": "single elimination",
+ *          "moderator": "george abitbol",
+ *          "user_id": "153"
+ *          
+ *      }
+ *     
+ * ]
+ * @return {Tournament} 403 - forbidden
+ * @example response - 403 - error example
+ * {
+ *     "message": "You don't have permission to access this resource"
+ * }
+ */
+  router.post('/api/tournaments', tournamentController.addTournament);
+  // #endregion
+
+// #region get tournament
+  /**
+ * GET /api/tournaments/:id
+ * @summary This return all informations of the tournament by id with Json
+ * @tags tournament
+ * @security BasicAuth
+ * @return {Tournament} 200 - success response - application/json
+ * @example response - 200 - response example
+ * [
+ *      {
+ *          "id": 1,
+ *          "label": "the Big One",
+ *          "type": "privé",
+ *          "date": "2022-09-28T12:04:51.931Z",
+ *          "game": "street fighter 2",
+ *          "format": "single elimination",
+ *          "moderator": "george abitbol"
+ *          "user_id": "153"
+ *          
+ *      }
+ *     
+ * ]
+ * @return {Tournament} 403 - forbidden
+ * @example response - 403 - error example
+ * {
+ *     "message": "You don't have permission to access this resource"
+ * }
+ */
+   router.get('/api/tournaments/:id', tournamentController.getTournament);
+   // #endregion
+
+// #region Delete tournament
+
+    /**
+ * DELETE /api/tournaments/:id
+ * @summary Delete Tournament with Id
+ * @tags tournament
+ * @security BasicAuth
+ * @return {Tournament} 200 - success response - application/json
+ * @example response - 200 - response example
+ * [
+ *      {
+ *          "message":"Le tournois à bien été supprimé"
+ *          
+ *      }
+ *     
+ * ]
+ * @return {Tournament} 403 - forbidden
+ * @example response - 403 - error example
+ * {
+ *     "message": "You don't have permission to access this resource"
+ * }
+ */
+     router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
+
+  // #endregion
+
+
 module.exports = router;
