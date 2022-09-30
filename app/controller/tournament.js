@@ -23,6 +23,7 @@ const tournamentController = {
                 date: req.body.date,
                 format: req.body.format,
                 moderator: req.body.moderator,
+                user_id: req.body.user_id,
 
             });
             res.json(newTournament)
