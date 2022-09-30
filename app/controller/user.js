@@ -33,7 +33,8 @@ const userController = {
             mail: req.body.mail,
             password: hashedPassword
         });
-
+        // delete the password of the newUser before returning the newUser
+        delete newUser.password;
         // return new user 
         res.json(newUser);
     },
@@ -50,6 +51,7 @@ const userController = {
             req.body.mail
         );
 
+        // if a user is not found, we return an error
         if (!foundUser) {
             return res.status(401).json({
                 error: 'Mauvais couple email/mot de passe'
@@ -57,6 +59,7 @@ const userController = {
         }
 
         // test password (https://www.npmjs.com/package/bcrypt)
+        // we compare the password entered in the req.body to check if it matches the password in the database
         const checkPassword = await bcrypt.compare(req.body.password, foundUser.password);
 
         if (!checkPassword) {
@@ -64,13 +67,16 @@ const userController = {
                 error: "Mauvais couple email/mot de passe"
             });
         }
+        
+        // delete the password of the foundUser before returning the foundUser
+        delete foundUser.password;
 
         // Response of the Json Web Token to the client
         const accessToken = generateAccessToken(foundUser);
         const refreshToken = generateRefreshToken(foundUser);
         res.json({success: true, accessToken, refreshToken, foundUser});
-
-
+        
+        
     },
     
     // return a list of users profils from DB 
@@ -92,16 +98,49 @@ const userController = {
             // test password (https://www.npmjs.com/package/bcrypt)
             const checkPassword = await bcrypt.compare(req.body.password, userToDelete.password);
 
+
+            // if it is not correct, return an error
             if (!checkPassword) {
                 return res.status(401).json({
                     error: "Mauvais couple email/mot de passe"
                 });
             }
+
             // Delete the profile via his id (SQL function)
             await User.deleteProfileById(userToDelete.id)
+
             return res.json({message: 'votre compte à bien été supprimé'})
 
-        }catch (err) {
+        } catch (err) {
+            console.error(err);
+        }
+    },
+    
+    // return a list of users profils from DB 
+    async getAllProfiles(req, res) {
+        try {
+            const profiles = await User.findAllProfiles();
+            // delete the password of every profiles before returning them
+            for (const profile of profiles) {
+                delete profile.password;
+            }
+            return res.json(profiles);
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    // Find a user profile
+    async getProfile(req, res) {
+        // we are using the parameter mail of the request
+        const mail = req.params.mail;
+        try {
+            // mail is the constant variable which defines the parameter mail of the request, used as an argument for the method in User model
+            const foundUser = await User.getUserByMail(mail);
+            // delete the password of the foundUser before returning the foundUser
+            delete foundUser.password;
+            return res.json(foundUser);
+        } catch (err) {
             console.error(err);
         }
     }
