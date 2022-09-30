@@ -267,5 +267,35 @@ router.get('/', (req, res) => {
  router.get('/api/tournaments', tournamentController.getAllTournaments);
  // #endregion
 
+ /**
+ * POST /api/tournaments
+ * @summary Creates a tournament and save it in the database
+ * @tags tournament
+ * @security BasicAuth
+ * @return {Tournament} 200 - success response - application/json
+ * @example response - 200 - response example
+ * [
+ *      {
+ *          "id": 1,
+ *          "label": "the Big One",
+ *          "type": "privé",
+ *          "date": "2022-09-28T12:04:51.931Z",
+ *          "game": "street fighter 2",
+ *          "format": "single elimination",
+ *          "moderator": "george abitbol"
+ *          "user_id": "153"
+ *          
+ *      }
+ *     
+ * ]
+ * @return {Tournament} 403 - forbidden
+ * @example response - 403 - error example
+ * {
+ *     "message": "You don't have permission to access this resource"
+ * }
+ */
+  router.post('/api/tournaments', tournamentController.addTournament);
+  // #endregion
+
 
 module.exports = router;

@@ -18,7 +18,7 @@ class Tournament {
      * @param {Object} tournamentTemp
      * @returns {tournament}
      */
-      static async create(tournamentTemp) {
+      static async addTournament(tournamentTemp) {
         const result = await client.query(`SELECT * FROM create_tournament ($1)`, [tournamentTemp]);
         const tournament = new Tournament(result.rows[0]);
         return tournament;
