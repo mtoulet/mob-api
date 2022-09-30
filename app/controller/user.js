@@ -79,15 +79,25 @@ const userController = {
         
     },
     
-    // delete user account
-    async deleteAccount(req, res) {
+    // return a list of users profils from DB 
+    async getAllProfiles(req, res) {
         try {
-            // we find the user we want to delete via his mail
-            const UserToDelete = await User.getUserByMail(
-                req.body.mail
-            );
-            // we compare the password entered in the req.body to check if it matches the password in the database
-            const checkPassword = await bcrypt.compare(req.body.password, foundUser.password);
+            const profiles = await User.findAllProfiles();
+            return res.json(profiles);
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    //delet user account
+    async deleteProfile(req, res) {
+        const mail = req.params.mail;
+        try {
+            // find user by mail
+            const userToDelete = await User.getUserByMail(mail);
+            // test password (https://www.npmjs.com/package/bcrypt)
+            const checkPassword = await bcrypt.compare(req.body.password, userToDelete.password);
+
 
             // if it is not correct, return an error
             if (!checkPassword) {
@@ -95,8 +105,10 @@ const userController = {
                     error: "Mauvais couple email/mot de passe"
                 });
             }
-            // delete the user via his id
-            await User.deleteProfile(UserToDelete.id)
+
+            // Delete the profile via his id (SQL function)
+            await User.deleteProfileById(userToDelete.id)
+
             return res.json({message: 'votre compte à bien été supprimé'})
 
         } catch (err) {
