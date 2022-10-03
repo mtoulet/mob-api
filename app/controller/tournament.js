@@ -68,8 +68,8 @@ const tournamentController = {
 
     async postUserToTournament(req, res){
         const data = {
-            tournament: req.params.tournament,
-            user: req.params.user
+            tournament_id: req.params.tournament,
+            user_id: req.params.user
         }
         try{
         const addUser = await Tournament.addUserToTournament(data)

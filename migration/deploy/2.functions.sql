@@ -67,7 +67,7 @@ CREATE OR REPLACE FUNCTION delete_tournament (json) RETURNS "tournament" AS $$
 $$ LANGUAGE SQL STRICT;
 
 CREATE OR REPLACE FUNCTION add_user_to_tournament (json) RETURNS "tournament_has_user" AS $$
-INSERT INTO tournament_has_user ( tournament_id, "user_id")
+INSERT INTO tournament_has_user ( "tournament_id", "user_id")
 VALUES (
     ($1->>'tournament_id')::int,   
     ($1->>'user_id')::int
