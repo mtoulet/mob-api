@@ -17,12 +17,7 @@ const userController = {
      * @return {User} newUser
      */
     async register(req, res) {
-        // confirm password strength
-        if (req.body.password.length < 8) {
-            res.status(401).json({
-                error: 'Votre Mot de passe doit contenir 8 caracteres minimum',
-            });
-        }
+        
         // hash the password (https://www.npmjs.com/package/bcrypt)
         const hashedPassword = await encrypt(req.body.password);
         // register new user

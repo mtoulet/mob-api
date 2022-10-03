@@ -4,6 +4,8 @@ const tournamentController = require('../controller/tournament');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { authenticateToken, generateAccessToken } = require('../service/jwt');
+const validationModule = require('../service/validation');
+const { UserSchema } = require('../service/schema');
 // #region /api/profiles
 // Route to get all user profiles stored in the database
 /**
@@ -147,10 +149,10 @@ router.post('/api/login', userController.login);
  * }
  * @example response - 401 - error example
  * {
- *      "error": "Votre Mot de passe doit contenir 8 caractères minimum"
+ *      "message": "Internal error, wrong body schema"
  * }
  */
-router.post('/api/register', userController.register);
+router.post('/api/register', validationModule.validateBody(UserSchema), userController.register);
 // #endregion
 
 // #region /api/me
@@ -225,7 +227,7 @@ router.post('/api/refreshToken', (req, res) => {
  *      "message":"vote compte à été supprimé avec succes"
  * }   
  */
-
+// #endregion
 router.delete('/api/profiles/:mail/delete', userController.deleteProfile);
 
 
