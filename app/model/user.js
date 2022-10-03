@@ -73,8 +73,8 @@ class User {
      * @returns {Json}
      */
     static async patchUser(patchInfo) {
-        const result = await client.query('SELECT * FROM update_user ($1))', [patchInfo]);
-        return result;
+        const result = await client.query('SELECT * FROM update_user ($1)', [patchInfo]);
+        return result.rows;
     }
 
 };

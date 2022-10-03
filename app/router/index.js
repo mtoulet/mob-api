@@ -199,7 +199,7 @@ router.get('/api/me', authenticateToken, (req, res) => {
  * Unauthorized
  */
 // #endregion
-router.patch('/api/profiles/edit', userController.patchProfil);
+router.patch('/api/profiles/edit', userController.patchProfile);
 
 
 // #region /api/refreshToken
@@ -428,6 +428,8 @@ router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
  */
 // #endregion
 router.patch('/api/tournaments/:id', tournamentController.patchTournament);
+
+router.post('/api/tournaments/:id/profile/:id', tournamentController.postUserToTournament)
 
 
 

@@ -57,12 +57,25 @@ const tournamentController = {
     },
 
     async patchTournament(req, res) {
-        const infoTournamentToModify = req.body
+       
         try{
-            const changeTournament = await  user.patchTournament(infoTournamentToModify)
-            return res.json(changeTournament)
+            const editedTournament = await Tournament.updateTournament(req.body)
+            return res.json(editedTournament)
         }catch(err){
                 console.error(err);
+        }
+    },
+
+    async postUserToTournament(req, res){
+        const data = {
+            tournament: req.params.tournament,
+            user: req.params.user
+        }
+        try{
+        const addUser = await Tournament.addUserToTournament(data)
+        return res.json(addUser)
+        } catch (err) {
+        console.error(err)
         }
     },
 }

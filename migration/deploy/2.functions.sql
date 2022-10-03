@@ -58,4 +58,12 @@ CREATE OR REPLACE FUNCTION delete_tournament (json) RETURNS "tournament" AS $$
     RETURNING *;
 $$ LANGUAGE SQL STRICT;
 
+CREATE OR REPLACE FUNCTION add_user_to_tournament (json) RETURNS "tournament" AS $$
+INSERT INTO tournament_has_user (user_id, encounter_id)
+VALUES (
+    $1->>('user_id')::int,
+    $1->>('encounter_id')::int,    
+) RETURNING *;
+$$ LANGUAGE SQL STRICT;
+
 COMMIT;

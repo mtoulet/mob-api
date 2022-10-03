@@ -147,10 +147,9 @@ const userController = {
 
     // Modify a user profile
     async patchProfile(req, res) {
-       const infoToModify = req.body
         try {
-            const changeProfil = await user.patchUser(infoToModify);
-            return res.json(changeProfil)           
+            const editedProfile = await User.patchUser(req.body);
+            return res.json(editedProfile)           
         } catch (err) {
             console.error(err);
         }

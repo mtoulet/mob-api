@@ -39,6 +39,11 @@ class Tournament {
         }
     }
 
+    static async addUserToTournament(userTournamentId) {
+        const result = await client.query('SELECT * FROM add_user_to_tournament($1)', [userTournamentId])
+    }
+
+
     /**
      * Recovery list of all tournament
      * @returns {Json} tournament
