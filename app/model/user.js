@@ -57,8 +57,23 @@ class User {
         return result.rows;
     }
 
+     /**
+     * suppressed profile by id
+     * @param {Integer} userId
+     * @returns {Boolean}
+     */
     static async deleteProfileById(userId) {
         const result = await client.query('DELETE FROM public."user" WHERE id=$1;', [userId]);
+        return result;
+    }
+
+     /**
+     * update profil user
+     * @param {Json} patchInfo
+     * @returns {Json}
+     */
+    static async patchUser(patchInfo) {
+        const result = await client.query('SELECT * FROM update_user ($1))', [patchInfo]);
         return result;
     }
 

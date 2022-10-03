@@ -143,6 +143,17 @@ const userController = {
         } catch (err) {
             console.error(err);
         }
+    },
+
+    // Modify a user profile
+    async patchProfile(req, res) {
+       const infoToModify = req.body
+        try {
+            const changeProfil = await user.patchUser(infoToModify);
+            return res.json(changeProfil)           
+        } catch (err) {
+            console.error(err);
+        }
     }
 };
 

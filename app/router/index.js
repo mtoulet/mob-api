@@ -4,6 +4,8 @@ const tournamentController = require('../controller/tournament');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { authenticateToken, generateAccessToken } = require('../service/jwt');
+
+
 // #region /api/profiles
 // Route to get all user profiles stored in the database
 /**
@@ -63,8 +65,8 @@ const { authenticateToken, generateAccessToken } = require('../service/jwt');
  *     "message": "You don't have permission to access this resource"
  * }
  */
-router.get('/api/profiles', userController.getAllProfiles);
 // #endregion
+router.get('/api/profiles', userController.getAllProfiles);
 
 // #region /api/profiles/:mail
 /**
@@ -89,8 +91,8 @@ router.get('/api/profiles', userController.getAllProfiles);
  *      "updated_at": "2022-09-28T13:59:10.857Z"
  * }
  */
-router.get('/api/profiles/:mail', userController.getProfile);
 // #endregion
+router.get('/api/profiles/:mail', userController.getProfile);
 
 // #region /api/login
 /**
@@ -126,8 +128,8 @@ router.get('/api/profiles/:mail', userController.getProfile);
  *      "error": "Mauvais couple email/mot de passe"
  * }
  */
-router.post('/api/login', userController.login);
 // #endregion
+router.post('/api/login', userController.login);
 
 // #region /api/register
 /**
@@ -150,8 +152,8 @@ router.post('/api/login', userController.login);
  *      "error": "Votre Mot de passe doit contenir 8 caractères minimum"
  * }
  */
-router.post('/api/register', userController.register);
 // #endregion
+router.post('/api/register', userController.register);
 
 // #region /api/me
 // Testing route for authentication
@@ -172,10 +174,33 @@ router.post('/api/register', userController.register);
  * @example response - 401 - error example
  * Unauthorized
  */
+// #endregion
 router.get('/api/me', authenticateToken, (req, res) => {
     res.send(req.user);
 });
+
+// #region /api/profiles/edit
+// Modify profil user
+/**
+ * GET /api/profiles/edit
+ * @summary modify profil user
+ * @security BearerAuth
+ * @tags user
+ * @return {object} 200 - success response - application/json
+ * @return {object} 401 - Unauthorized response
+ * @example response - 200 - response example
+ * {
+ *      "firstname": "Harleen",
+ *      "lastname": "Quinzel",
+ *      "nickname": "HarleyQuinn",
+ *      "mail": "harleyquinn@gmail.com",
+ * }
+ * @example response - 401 - error example
+ * Unauthorized
+ */
 // #endregion
+router.patch('/api/profiles/edit', userController.patchProfil);
+
 
 // #region /api/refreshToken
 // Refresh token route
@@ -226,10 +251,8 @@ router.post('/api/refreshToken', (req, res) => {
  * }   
  */
 
-router.delete('/api/profiles/:mail/delete', userController.deleteProfile);
-
-
 // #region home page
+router.delete('/api/profiles/:mail/delete', userController.deleteProfile);
 /**
  * GET /
  * @summary Home page test
@@ -241,6 +264,8 @@ router.get('/', (req, res) => {
     res.send("Hello there :)");
 });
 // #endregion
+
+
 
 
 // #region tournaments List
@@ -290,8 +315,8 @@ router.get('/', (req, res) => {
  *     "message": "You don't have permission to access this resource"
  * }
  */
- router.get('/api/tournaments', tournamentController.getAllTournaments);
- // #endregion
+// #endregion
+router.get('/api/tournaments', tournamentController.getAllTournaments);
 
 // #region new tournament
  /**
@@ -321,8 +346,8 @@ router.get('/', (req, res) => {
  *     "message": "You don't have permission to access this resource"
  * }
  */
-  router.post('/api/tournaments', tournamentController.addTournament);
-  // #endregion
+// #endregion
+router.post('/api/tournaments', tournamentController.addTournament);
 
 // #region get tournament
   /**
@@ -352,8 +377,8 @@ router.get('/', (req, res) => {
  *     "message": "You don't have permission to access this resource"
  * }
  */
-   router.get('/api/tournaments/:id', tournamentController.getTournament);
-   // #endregion
+// #endregion
+router.get('/api/tournaments/:id', tournamentController.getTournament);
 
 // #region Delete tournament
 
@@ -377,9 +402,9 @@ router.get('/', (req, res) => {
  *     "message": "You don't have permission to access this resource"
  * }
  */
-     router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
 
-  // #endregion
+// #endregion
+router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
 
 
 module.exports = router;
