@@ -69,7 +69,7 @@ class Tournament {
      */
     static async updateTournament(infoTournament) {
         const result = await client.query('SELECT * FROM update_tournament ($1)', [infoTournament]);
-        return result;
+        return result.rows;
     }
 
 }

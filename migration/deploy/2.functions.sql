@@ -15,7 +15,15 @@ $$ LANGUAGE SQL STRICT;
 
 CREATE OR REPLACE FUNCTION update_user(json) RETURNS "user" AS $$
     UPDATE "user" SET
-    nickname=$1->>'nickname',  
+    firstname=$1->>'firstname',
+    lastname=$1->>'lastname',
+    nickname=$1->>'nickname'  
+    WHERE id=($1->>'id')::int
+    RETURNING *;
+$$ LANGUAGE SQL STRICT;
+
+CREATE OR REPLACE FUNCTION update_pwd(json) RETURNS "user" AS $$
+    UPDATE "user" SET
     password=$1->>'password'
     WHERE id=($1->>'id')::int
     RETURNING *;
@@ -58,12 +66,13 @@ CREATE OR REPLACE FUNCTION delete_tournament (json) RETURNS "tournament" AS $$
     RETURNING *;
 $$ LANGUAGE SQL STRICT;
 
-CREATE OR REPLACE FUNCTION add_user_to_tournament (json) RETURNS "tournament" AS $$
-INSERT INTO tournament_has_user (user_id, encounter_id)
+CREATE OR REPLACE FUNCTION add_user_to_tournament (json) RETURNS "tournament_has_user" AS $$
+INSERT INTO tournament_has_user ( tournament_id, "user_id")
 VALUES (
-    $1->>('user_id')::int,
-    $1->>('encounter_id')::int,    
-) RETURNING *;
+    ($1->>'tournament_id')::int,   
+    ($1->>'user_id')::int
+)
+RETURNING *;
 $$ LANGUAGE SQL STRICT;
 
 COMMIT;

@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { request } = require('express');
 const debug = require('debug')('CONTROLLER');
 
 const {
@@ -148,9 +149,31 @@ const userController = {
     // Modify a user profile
     async patchProfile(req, res) {
         try {
-            const editedProfile = await User.patchUser(req.body);
-            return res.json(editedProfile)           
+            const editedProfile = await User.patchUser({
+                firstname : req.body.firstname,
+                lastname: req.body.lastname,
+                nickname: req.body.nickname,
+                id: req.body.id
+            });
+            return res.json(editedProfile);
         } catch (err) {
+            console.error(err);
+        }
+    },
+
+    async patchPwd(req, res) {
+        // get the id in params
+        const id = req.params.id;
+        try {
+            
+            const foundUser = await User.getUserById(id); // Find the user via his id
+            const checkedPassword = await bcrypt.compare(req.body.password, foundUser.password); // Check the current password with the one stored in the database
+            const hashedPassword = await encrypt(req.body.newPassword); // Hash the new password
+            await User.patchPwd({ // Store it in the database
+                password: hashedPassword
+            });
+            return res.json({message: "Votre mot de passe a bien été modifié"});
+        } catch(err) {
             console.error(err);
         }
     }

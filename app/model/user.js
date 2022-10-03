@@ -43,6 +43,21 @@ class User {
         }
     }
 
+      /**
+     * Recovery of user information via his mail
+     * @param {Integer} id
+     * @returns user
+     */
+       static async getUserById(id) {
+        const result = await client.query('SELECT * FROM public."user" WHERE id=$1', [id]);
+        if (result?.rows.length > 0) {
+            return new User(result.rows[0]);
+        } else {
+            // error while recovering
+            return;
+        }
+    }
+
     /**
      * Verify the password
      * @param {String} passwordTemp 
@@ -73,7 +88,13 @@ class User {
      * @returns {Json}
      */
     static async patchUser(patchInfo) {
-        const result = await client.query('SELECT * FROM update_user ($1)', [patchInfo]);
+        const result = await client.query('SELECT * FROM update_user ($1);', [patchInfo]);
+        
+        return result.rows;
+    }
+
+    static async patchPwd(pwd) {
+        const result = await client.query('SELECT * FROM update_pwd ($1);', [pwd]);
         return result.rows;
     }
 

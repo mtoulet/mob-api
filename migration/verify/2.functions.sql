@@ -13,7 +13,7 @@ SELECT id FROM create_user('{
 SELECT update_user('{
     "nickname": "BobbyM",
     "password": "azerty123",
-    "id": 1
+    "id": 3
 }');
 
 SELECT delete_user('{
@@ -31,7 +31,7 @@ SELECT create_tournament('{
     "game": "lol",
     "format": "premier elimination",
     "moderator": "BobbyM",
-    "user_id": "1"
+    "user_id": "5"
 }');
 SELECT update_tournament('{
     "label": "tournoi de ouf mais on change",
@@ -51,5 +51,11 @@ SELECT delete_tournament('{
     "format": "premier elimination",
     "moderator": "BobbyM",
     "user_id": "1"
+}');
+
+SELECT add_user_to_tournament('{
+    "tournament_id": 5,   
+    "user_id": 5
+    
 }');
 ROLLBACK;

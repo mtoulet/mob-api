@@ -182,7 +182,7 @@ router.get('/api/me', authenticateToken, (req, res) => {
 // #region /api/profiles/edit
 // Modify profil user
 /**
- * GET /api/profiles/edit
+ * PATCH /api/profiles/:id/edit
  * @summary modify profil user
  * @security BearerAuth
  * @tags user
@@ -190,18 +190,17 @@ router.get('/api/me', authenticateToken, (req, res) => {
  * @return {object} 401 - Unauthorized response
  * @example response - 200 - response example
  * {
- *      "firstname": "Harleen",
- *      "lastname": "Quinzel",
  *      "nickname": "HarleyQuinn",
- *      "mail": "harleyquinn@gmail.com",
+ *      "password"
+
  * }
  * @example response - 401 - error example
  * Unauthorized
  */
 // #endregion
-router.patch('/api/profiles/edit', userController.patchProfile);
+router.patch('/api/profiles/:id/edit', userController.patchProfile);
 
-
+router.patch('/api/profiles/:id/edit-pwd', userController.patchPwd);
 // #region /api/refreshToken
 // Refresh token route
 /**
