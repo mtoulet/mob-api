@@ -354,7 +354,7 @@ router.get('/', (req, res) => {
  *     "message": "You don't have permission to access this resource"
  * }
  */
-   router.get('/api/tournaments/:id', tournamentController.getTournament);
+   router.get('/api/tournaments/:id(\d+)', tournamentController.getTournament);
    // #endregion
 
 // #region Delete tournament
@@ -379,7 +379,7 @@ router.get('/', (req, res) => {
  *     "message": "You don't have permission to access this resource"
  * }
  */
-     router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
+     router.delete('/api/tournaments/:id(\d+)', tournamentController.deleteTournament);
 
   // #endregion
 
