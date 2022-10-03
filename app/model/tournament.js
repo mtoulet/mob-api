@@ -16,7 +16,7 @@ class Tournament {
      /**
      * Add a new tournament in the database
      * @param {Object} tournamentTemp
-     * @returns {tournament}
+     * @returns {Json} tournament
      */
       static async addTournament(tournamentTemp) {
         const result = await client.query(`SELECT * FROM create_tournament ($1)`, [tournamentTemp]);
@@ -27,7 +27,7 @@ class Tournament {
     /**
      * Recovery of tournament information via his id
      * @param {Integer} id 
-     * @returns {tournament}
+     * @returns {Json} tournament
      */
      static async getTournamentByID(tournamentId) {
         const result = await client.query('SELECT * FROM public."tournament" WHERE tournament.id=$1', [tournamentId]);
@@ -41,7 +41,7 @@ class Tournament {
 
     /**
      * Recovery list of all tournament
-     * @returns {tournament}
+     * @returns {Json} tournament
      */
     static async findAllTournaments() {
         const result = await client.query('SELECT * FROM public."tournament";');
@@ -54,6 +54,16 @@ class Tournament {
      */
     static async deleteTournament(TournamentId) {
         const result = await client.query('DELETE FROM public."tournament" WHERE id=$1;', [TournamentId]);
+        return result;
+    }
+
+    /**
+     * Recovery of tournament information via his id
+     * @param {Json} tournament
+     * @returns {Json} tournament
+     */
+    static async updateTournament(infoTournament) {
+        const result = await client.query('SELECT * FROM update_tournament ($1)', [infoTournament]);
         return result;
     }
 

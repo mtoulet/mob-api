@@ -55,6 +55,16 @@ const tournamentController = {
             console.error(err);
         }
     },
+
+    async patchTournament(req, res) {
+        const infoTournamentToModify = req.body
+        try{
+            const changeTournament = await  user.patchTournament(infoTournamentToModify)
+            return res.json(changeTournament)
+        }catch(err){
+                console.error(err);
+        }
+    },
 }
 
 module.exports = tournamentController;

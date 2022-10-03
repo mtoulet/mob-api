@@ -406,5 +406,29 @@ router.get('/api/tournaments/:id', tournamentController.getTournament);
 // #endregion
 router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
 
+// #region /api/tournaments/:id PATCH
+// Modify tournament
+/**
+ * PATCH/api/tournaments/{id}
+ * @summary modify tournament
+ * @security BearerAuth
+ * @tags tournament
+ * @return {object} 200 - success response - application/json
+ * @return {object} 401 - Unauthorized response
+ * @example response - 200 - response example
+ * {
+ *      "label": "gros tournois",
+ *      "type": "public",
+ *      "date": "2032-09-28T12:06:51.931Z",
+ *      "game": "LOL",
+ *      "format": "single elimination",
+ * }
+ * @example response - 401 - error example
+ * Unauthorized
+ */
+// #endregion
+router.patch('/api/tournaments/:id', tournamentController.patchTournament);
+
+
 
 module.exports = router;
