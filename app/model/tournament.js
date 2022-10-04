@@ -69,7 +69,12 @@ class Tournament {
      * @returns {Json} tournament
      */
     static async updateTournament(infoTournament) {
-        const result = await client.query('SELECT * FROM update_tournament ($1)', [infoTournament]);
+        const result = await client.query('SELECT * FROM update_tournament ($1);', [infoTournament]);
+        return result.rows;
+    }
+
+    static async getUsers(tournamentid){
+        const result = await client.query('SELECT "user_id" FROM tournament_has_user WHERE tournament_id=($1);', [tournamentid]);
         return result.rows;
     }
 

@@ -68,8 +68,8 @@ const tournamentController = {
 
     async postUserToTournament(req, res){
         const data = {
-            tournament_id: req.params.tournament,
-            user_id: req.params.user
+            tournament_id: req.body.tournament,
+            user_id: req.body.user
         }
         try{
         const addUser = await Tournament.addUserToTournament(data)
@@ -77,6 +77,17 @@ const tournamentController = {
         } catch (err) {
         console.error(err)
         }
+    },
+
+    async getUserTournamentList(req, res) {
+        try{
+            const userTournamentList = await Tournament.getUsers(req.params.id);
+            return res.json(userTournamentList);
+
+        }catch (err) {
+            console.error(err)
+            }
+
     },
 }
 

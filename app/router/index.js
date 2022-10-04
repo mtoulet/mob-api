@@ -428,7 +428,9 @@ router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
 // #endregion
 router.patch('/api/tournaments/:id', tournamentController.patchTournament);
 
-router.post('/api/tournaments/:id/profile/:id', tournamentController.postUserToTournament)
+router.post('/api/tournaments/:id/profiles/:id', tournamentController.postUserToTournament)
+
+router.get('/api/tournaments/:id/profiles/', tournamentController.getUserTournamentList)
 
 
 
