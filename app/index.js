@@ -93,7 +93,7 @@ expressJSDocSwagger(app)(options);
  * @property {string} date - The date
  * @property {string} game - The  game
  * @property {string} format - The  format
- * @property {string} moderator - The moderator
+ * @property {integer} max_player_count - The maximum number of players in the tournament
  * @property {integer} user_id -  The user_id
 */
 

@@ -28,6 +28,11 @@ class User {
         return user;
     }
 
+    static async findAllProfiles() {
+        const result = await client.query('SELECT * FROM public."user";');
+        return result.rows;
+    }
+
     /**
      * Recovery of user information via his mail
      * @param {String} mail 
@@ -48,7 +53,7 @@ class User {
      * @param {Integer} id
      * @returns user
      */
-       static async getUserById(id) {
+    static async getUserById(id) {
         const result = await client.query('SELECT * FROM public."user" WHERE id=$1', [id]);
         if (result?.rows.length > 0) {
             return new User(result.rows[0]);
@@ -56,30 +61,6 @@ class User {
             // error while recovering
             return;
         }
-    }
-
-    /**
-     * Verify the password
-     * @param {String} passwordTemp 
-     * @returns {Boolean}
-     */
-    checkPassword(passwordTemp) {
-        return this.password === passwordTemp;
-    }
-
-    static async findAllProfiles() {
-        const result = await client.query('SELECT * FROM public."user";');
-        return result.rows;
-    }
-
-     /**
-     * suppressed profile by id
-     * @param {Integer} userId
-     * @returns {Boolean}
-     */
-    static async deleteProfileById(userId) {
-        const result = await client.query('DELETE FROM public."user" WHERE id=$1;', [userId]);
-        return result;
     }
 
      /**
@@ -98,6 +79,15 @@ class User {
         return result.rows;
     }
 
+    /**
+     * suppressed profile by id
+     * @param {Integer} userId
+     * @returns {Boolean}
+     */
+     static async deleteProfileById(userId) {
+        const result = await client.query('DELETE FROM public."user" WHERE id = $1;', [userId]);
+        return result;
+    }
 };
 
 module.exports = User;

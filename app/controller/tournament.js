@@ -1,22 +1,11 @@
 const debug = require('debug')('CONTROLLER');
 
-const { required } = require('joi');
 const { Tournament } = require('../model');
 
 const tournamentController = {
 
-     // return a list of tournaments from DB 
-     async getAllTournaments(req, res) {
-        try {
-            const tournaments = await Tournament.findAllTournaments();
-            return res.json(tournaments);
-        } catch (err) {
-            console.error(err);
-        }
-    },
-
     // add new tournament in DB
-    async addTournament(req, res){
+    async addTournament(req, res) {
         try{
             const newTournament = await Tournament.addTournament({
                 label: req.body.label,
@@ -28,29 +17,27 @@ const tournamentController = {
                 user_id: req.body.user_id,
 
             });
-            res.json(newTournament)
+            res.json(newTournament);
             
         }catch (err) {
             console.error(err);
         }
     },
 
-
-    // return info of tournament by id
-  async deleteTournament(req, res){
-      try{
-        const tournament = await Tournament.deleteTournament(req.params.id);
-        return res.json({message: 'le tournois à bien été supprimé'})
-
-      }catch(err) {
-        console.error(err);
-    }
-  },
+    // return a list of tournaments from DB 
+    async getAllTournaments(req, res) {
+        try {
+            const tournaments = await Tournament.findAllTournaments();
+            return res.json(tournaments);
+        } catch (err) {
+            console.error(err);
+        }
+    },
 
     // return one tournament from DB 
     async getTournament(req, res) {
         try {
-            const tournament = await Tournament.getTournamentByID(req.params.id);
+            const tournament = await Tournament.getTournamentById(req.params.id);
             return res.json(tournament);
         } catch (err) {
             console.error(err);
@@ -58,15 +45,46 @@ const tournamentController = {
     },
 
     async patchTournament(req, res) {
+        const id = req.params.id;
         try{
-            const editedTournament = await Tournament.updateTournament(req.params.id)
-            return res.json(editedTournament)
-        }catch(err){
+            const editedTournament = await Tournament.updateTournament({
+                label: req.body.label,
+                type: req.body.type,
+                date: req.body.date,
+                game: req.body.game,
+                format: req.body.format,
+                max_player_count: req.body.max_player_count,
+                id: id
+            });
+            return res.json(editedTournament);
+        } catch(err){
                 console.error(err);
         }
     },
 
-    async postUserToTournament(req, res){
+    // return info of tournament by id
+    async deleteTournament(req, res) {
+        try{
+            const tournament = await Tournament.deleteTournament(req.params.id);
+            return res.json({message: 'le tournois à bien été supprimé'});
+
+        } catch(err) {
+        console.error(err);
+        }
+    },
+
+    async getUserTournamentList(req, res) {
+        try{
+            const userTournamentList = await Tournament.getUsers(req.params.id);
+            return res.json(userTournamentList);
+
+        } catch (err) {
+            console.error(err);
+            }
+
+    },
+
+    async postUserToTournament(req, res) {
         const tournamentId = req.params.id; // extract tournament ID from params
         const userId = req.body.user_id; // extract user ID from body
 
@@ -94,21 +112,10 @@ const tournamentController = {
         }
     },
 
-    async getUserTournamentList(req, res) {
-        try{
-            const userTournamentList = await Tournament.getUsers(req.params.id);
-            return res.json(userTournamentList);
-
-        } catch (err) {
-            console.error(err);
-            }
-
-    },
-
     async deleteUserFromTournament(req, res){
         const tournamentId = parseInt(req.params.tournament_id); // extract tournament ID from params
         const userId = parseInt(req.params.user_id); // extract user ID from body
-        try{
+        try {
             // Get all users ID from one tournament via his ID
             const userTournamentList = await Tournament.getUsers(tournamentId); 
             debug(userTournamentList);
@@ -124,10 +131,10 @@ const tournamentController = {
             // the user is being added to the tournament
             await Tournament.deleteUser(tournamentId, userId);
         
-            return res.json({message: 'l\'utilisateur à bien etait supprimé du tournoi'});
+            return res.json({message: 'L\'utilisateur a bien été supprimé du tournoi'});
         } catch (err) {
             console.error(err);
-    }
+        }
     },
 }
 
