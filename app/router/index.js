@@ -318,7 +318,7 @@ router.get('/', (req, res) => {
 router.get('/api/tournaments', tournamentController.getAllTournaments);
 
 // #region new tournament
- /**
+/**
  * POST /api/tournaments
  * @summary Creates a tournament and save it in the database
  * @tags tournament
@@ -349,7 +349,7 @@ router.get('/api/tournaments', tournamentController.getAllTournaments);
 router.post('/api/tournaments', tournamentController.addTournament);
 
 // #region get tournament
-  /**
+/**
  * GET /api/tournaments/:id
  * @summary This return all informations of the tournament by id with Json
  * @tags tournament
@@ -381,20 +381,16 @@ router.get('/api/tournaments/:id', tournamentController.getTournament);
 
 // #region Delete tournament
 
-    /**
+/**
  * DELETE /api/tournaments/:id
  * @summary Delete Tournament with Id
  * @tags tournament
  * @security BasicAuth
  * @return {Tournament} 200 - success response - application/json
- * @example response - 200 - response example
- * [
- *      {
- *          "message":"Le tournois à bien été supprimé"
- *          
- *      }
- *     
- * ]
+ * @example response - 200 - response example12
+ * {
+ *          "message":"Le tournois à bien été supprimé"      
+ * }
  * @return {Tournament} 403 - forbidden
  * @example response - 403 - error example
  * {
@@ -412,7 +408,7 @@ router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
  * @summary modify tournament
  * @security BearerAuth
  * @tags tournament
- * @return {object} 200 - success response - application/json
+ * @return {Tournament} 200 - success response - application/json
  * @return {object} 401 - Unauthorized response
  * @example response - 200 - response example
  * {
@@ -427,10 +423,58 @@ router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
  */
 // #endregion
 router.patch('/api/tournaments/:id', tournamentController.patchTournament);
+// #region post /api/tournaments/:id/profiles/
+/**
+ * POST /api/tournaments/:id/profiles/
+ * @summary register a user on a tournament
+ * @security BearerAuth
+ * @tags tournament
+ * @return {UserAddedToTournament} 200 - success response - application/json
+ * @return {object} 400 - Bad request
+ * @example response - 200 - response example
+ * {
+ *      "tournament_id": 1,
+ *      "user_id": 5
+ * }
+ * @example response - 400 - error example
+ * {
+ *      "error": "L'utilisateur d'id 1 est déjà inscrit au tournoi d'id 1"
+ * }
+ */
+// #endregion
+router.post('/api/tournaments/:id/profiles/', tournamentController.postUserToTournament)
 
-router.post('/api/tournaments/:id/profiles/:id', tournamentController.postUserToTournament)
-
+// #region get /api/tournaments/:id/profiles/ 
+// get list of all users in tournament
+/**
+ * GET /api/tournaments/{id}/profiles/
+ * @summary get list of all users in tournament
+ * @security BearerAuth
+ * @tags tournament
+ * @return {array<UserTournamentList>} 200 - success response - application/json
+ * @return {string} 401 - Unauthorized response
+ * @example response - 200 - response example
+ * [
+ *      {
+ *      "user_id": 1
+ *      },
+ *      {
+ *      "user_id": 2
+ *      },
+ *      {
+ *      "user_id": 3
+ *      }
+ * ]
+ * @example response - 401 - error example
+ * {
+ *      "Unauthorized"
+ * }
+ */
+// #endregion
 router.get('/api/tournaments/:id/profiles/', tournamentController.getUserTournamentList)
+
+
+router.delete('/api/tournaments/:id/profiles/:id/delete', tournamentController.deleteUserFromTournament)
 
 
 

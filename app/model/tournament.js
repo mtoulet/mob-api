@@ -41,7 +41,7 @@ class Tournament {
 
     static async addUserToTournament(userTournamentId) {
         const result = await client.query('SELECT * FROM add_user_to_tournament($1)', [userTournamentId])
-        return result.rows;
+        return result.rows[0];
     }
 
 
@@ -75,6 +75,11 @@ class Tournament {
 
     static async getUsers(tournamentid){
         const result = await client.query('SELECT "user_id" FROM tournament_has_user WHERE tournament_id=($1);', [tournamentid]);
+        return result.rows;
+    }
+
+    static async deleteUser(userTournamentId){
+        const result = await client.query('DELETE FROM tournament_has_user WHERE tournament_id=$1 AND user_id=$1',[userTournamentId]);
         return result.rows;
     }
 
