@@ -37,14 +37,14 @@ CREATE OR REPLACE FUNCTION delete_user(json) RETURNS "user" AS $$
 $$ LANGUAGE SQL STRICT;
 
 CREATE OR REPLACE FUNCTION create_tournament(json) RETURNS "tournament" AS $$
-INSERT INTO public.tournament (label, type, date, game, format, moderator, user_id)
+INSERT INTO public.tournament (label, type, date, game, format, max_player_count, user_id)
 VALUES (
     $1->>'label',
     $1->>'type',
     ($1->>'date')::timestamptz,
     $1->>'game',
     $1->>'format',
-    $1->>'moderator',
+    ($1->>'max_player_count')::integer,
     ($1->>'user_id')::integer
 ) RETURNING *;
 $$ LANGUAGE SQL STRICT;
@@ -55,7 +55,8 @@ CREATE OR REPLACE FUNCTION update_tournament(json) RETURNS "tournament" AS $$
     type=$1->>'type',
     date=($1->>'date')::timestamptz,
     game=$1->>'game',
-    format=$1->>'format'
+    format=$1->>'format',
+    max_player_count=($1->>'max_player_count')::int
     WHERE id=($1->>'id')::int
     RETURNING *;
 $$ LANGUAGE SQL STRICT;

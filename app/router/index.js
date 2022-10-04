@@ -442,7 +442,7 @@ router.patch('/api/tournaments/:id', tournamentController.patchTournament);
  * }
  */
 // #endregion
-router.post('/api/tournaments/:id/profiles/', tournamentController.postUserToTournament)
+router.post('/api/tournaments/:id/profiles/', tournamentController.postUserToTournament);
 
 // #region get /api/tournaments/:id/profiles/ 
 // get list of all users in tournament
@@ -474,7 +474,7 @@ router.post('/api/tournaments/:id/profiles/', tournamentController.postUserToTou
 router.get('/api/tournaments/:id/profiles/', tournamentController.getUserTournamentList)
 
 
-router.delete('/api/tournaments/:id/profiles/:id/delete', tournamentController.deleteUserFromTournament)
+router.delete('/api/tournaments/:tournament_id/profiles/:user_id/delete', tournamentController.deleteUserFromTournament)
 
 
 

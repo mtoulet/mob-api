@@ -1,4 +1,5 @@
-const client = require("../config/db")
+const client = require("../config/db");
+const debug = require('debug')('MODEL TOURNAMENT');
 
 class Tournament {
 
@@ -9,7 +10,7 @@ class Tournament {
         this.date = obj.date;
         this.game = obj.game;
         this.format = obj.format;
-        this.moderator = obj.moderator;
+        this.max_player_count = obj.max_player_count,
         this.user_id = obj.user_id;
     }
 
@@ -78,8 +79,9 @@ class Tournament {
         return result.rows;
     }
 
-    static async deleteUser(userTournamentId){
-        const result = await client.query('DELETE FROM tournament_has_user WHERE tournament_id=$1 AND user_id=$1',[userTournamentId]);
+    static async deleteUser(tournamentId, userId){
+        const result = await client.query('DELETE FROM tournament_has_user WHERE tournament_id=$1 AND user_id=$2',[tournamentId, userId]);
+
         return result.rows;
     }
 

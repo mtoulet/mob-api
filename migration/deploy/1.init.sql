@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS "tournament" (
     "date" date NOT NULL,
     game text NOT NULL,
     "format" text NOT NULL,
-    moderator text NOT NULL,
+    "max_player_count" integer NOT NULL,
     "user_id" integer NOT NULL REFERENCES "user"(id)
 );
 
