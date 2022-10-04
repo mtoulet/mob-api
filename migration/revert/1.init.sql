@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP TABLE IF EXISTS public."user", "tournament", "tournament_has_user", "encounter", "round", "user_has_encounter";
+DROP TABLE IF EXISTS "user_has_encounter", "tournament_has_user",  public."user", "tournament",  "encounter", "round";
 
 COMMIT;

@@ -40,7 +40,7 @@ const userController = {
     * @param {*} res 
     * @return {User}
     */
-    async login(req, res) {
+     async login(req, res) {
         // we are looking for the user with his email address
         const foundUser = await User.getUserByMail(
             req.body.mail
@@ -73,42 +73,34 @@ const userController = {
         
         
     },
-    
-    // return a list of users profils from DB 
-    async getAllProfiles(req, res) {
-        try {
-            const profiles = await User.findAllProfiles();
-            return res.json(profiles);
-        } catch (err) {
-            console.error(err);
+
+    /**
+     * @summary add a new user in the database
+     * @param {*} req 
+     * @param {*} res 
+     * @return {User} newUser
+     */
+    async register(req, res) {
+        // confirm password strength
+        if (req.body.password.length < 8) {
+            res.status(401).json({
+                error: 'Votre Mot de passe doit contenir 8 caracteres minimum',
+            });
         }
-    },
-
-    //delet user account
-    async deleteProfile(req, res) {
-        const mail = req.params.mail;
-        try {
-            // find user by mail
-            const userToDelete = await User.getUserByMail(mail);
-            // test password (https://www.npmjs.com/package/bcrypt)
-            const checkPassword = await bcrypt.compare(req.body.password, userToDelete.password);
-
-
-            // if it is not correct, return an error
-            if (!checkPassword) {
-                return res.status(401).json({
-                    error: "Mauvais couple email/mot de passe"
-                });
-            }
-
-            // Delete the profile via his id (SQL function)
-            await User.deleteProfileById(userToDelete.id)
-
-            return res.json({message: 'votre compte à bien été supprimé'})
-
-        } catch (err) {
-            console.error(err);
-        }
+        // hash the password (https://www.npmjs.com/package/bcrypt)
+        const hashedPassword = await encrypt(req.body.password);
+        // register new user
+        const newUser = await User.create({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            nickname: req.body.nickname,
+            mail: req.body.mail,
+            password: hashedPassword
+        });
+        // delete the password of the newUser before returning the newUser
+        delete newUser.password;
+        // return new user 
+        res.json(newUser);
     },
     
     // return a list of users profils from DB 
@@ -127,14 +119,75 @@ const userController = {
 
     // Find a user profile
     async getProfile(req, res) {
-        // we are using the parameter mail of the request
-        const mail = req.params.mail;
+        // we are using the parameter ID of the request
+        const id = req.params.id;
         try {
-            // mail is the constant variable which defines the parameter mail of the request, used as an argument for the method in User model
-            const foundUser = await User.getUserByMail(mail);
+            // id is the constant variable which defines the parameter id of the request, used as an argument for the method in User model
+            const foundUser = await User.getUserById(id);
             // delete the password of the foundUser before returning the foundUser
             delete foundUser.password;
             return res.json(foundUser);
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    // Modify a user profile
+    async patchProfile(req, res) {
+        const id = req.params.id;
+        try {
+            const editedProfile = await User.patchUser({
+                firstname : req.body.firstname,
+                lastname: req.body.lastname,
+                nickname: req.body.nickname,
+                id: id
+            });
+            return res.json(editedProfile);
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    async patchPwd(req, res) {
+        // get the id in params
+        const id = req.params.id;
+        try {
+            
+            const foundUser = await User.getUserById(id); // Find the user via his id
+            const checkedPassword = await bcrypt.compare(req.body.password, foundUser.password); // Check the current password with the one stored in the database
+            const hashedPassword = await encrypt(req.body.newPassword); // Hash the new password
+            await User.patchPwd({ // Store it in the database
+                password: hashedPassword
+            });
+            return res.json({message: "Votre mot de passe a bien été modifié"});
+        } catch(err) {
+            console.error(err);
+        }
+    },
+
+    //delet user account
+    async deleteProfile(req, res) {
+        const id = parseInt(req.params.id);
+        try {
+            // find user by id
+            const userToDelete = await User.getUserById(id);
+            // test password (https://www.npmjs.com/package/bcrypt)
+            const checkPassword = await bcrypt.compare(req.body.password, userToDelete.password);
+
+            console.log(checkPassword);
+            // if it is not correct, return an error
+            if (!checkPassword) {
+                return res.status(401).json({
+                    error: "Mauvais couple email/mot de passe"
+                });
+            }
+            console.log("COUCOU JE SUIS LE REQPARAMSID", id);
+            // Delete the profile via his id (SQL function)
+            await User.deleteProfileById(userToDelete.id);
+            console.log("COUCOU JE SUIS LE USERTODELETEID", userToDelete.id);
+
+            return res.json({message: 'votre compte à bien été supprimé'})
+
         } catch (err) {
             console.error(err);
         }

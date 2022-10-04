@@ -1,4 +1,5 @@
-const client = require("../config/db")
+const client = require("../config/db");
+const debug = require('debug')('MODEL TOURNAMENT');
 
 class Tournament {
 
@@ -9,14 +10,14 @@ class Tournament {
         this.date = obj.date;
         this.game = obj.game;
         this.format = obj.format;
-        this.moderator = obj.moderator;
+        this.max_player_count = obj.max_player_count,
         this.user_id = obj.user_id;
     }
 
      /**
      * Add a new tournament in the database
      * @param {Object} tournamentTemp
-     * @returns {tournament}
+     * @returns {Json} tournament
      */
       static async addTournament(tournamentTemp) {
         const result = await client.query(`SELECT * FROM create_tournament ($1)`, [tournamentTemp]);
@@ -25,11 +26,20 @@ class Tournament {
     }
 
     /**
+     * Recovery list of all tournament
+     * @returns {Json} tournament
+     */
+     static async findAllTournaments() {
+        const result = await client.query('SELECT * FROM public."tournament";');
+        return result.rows;
+    }
+
+    /**
      * Recovery of tournament information via his id
      * @param {Integer} id 
-     * @returns {tournament}
+     * @returns {Json} tournament
      */
-     static async getTournamentByID(tournamentId) {
+     static async getTournamentById(tournamentId) {
         const result = await client.query('SELECT * FROM public."tournament" WHERE tournament.id=$1', [tournamentId]);
         if (result?.rows.length > 0) {
             return new Tournament(result.rows[0]);
@@ -40,11 +50,12 @@ class Tournament {
     }
 
     /**
-     * Recovery list of all tournament
-     * @returns {tournament}
+     * Recovery of tournament information via his id
+     * @param {Json} tournament
+     * @returns {Json} tournament
      */
-    static async findAllTournaments() {
-        const result = await client.query('SELECT * FROM public."tournament";');
+     static async updateTournament(infoTournament) {
+        const result = await client.query('SELECT * FROM update_tournament ($1);', [infoTournament]);
         return result.rows;
     }
 
@@ -52,11 +63,26 @@ class Tournament {
      * Delete tournament with his id
      * @param {Integer} id 
      */
-    static async deleteTournament(TournamentId) {
-        const result = await client.query('DELETE FROM public."tournament" WHERE id=$1;', [TournamentId]);
+     static async deleteTournament(tournamentId) {
+        const result = await client.query('DELETE FROM public."tournament" WHERE id=$1;', [tournamentId]);
         return result;
     }
 
+    static async getUsers(tournamentId){
+        const result = await client.query('SELECT "user_id" FROM tournament_has_user WHERE tournament_id=($1);', [tournamentId]);
+        return result.rows;
+    }
+
+    static async addUserToTournament(userTournamentId) {
+        const result = await client.query('SELECT * FROM add_user_to_tournament($1)', [userTournamentId]);
+        return result.rows[0];
+    }
+
+    static async deleteUser(tournamentId, userId){
+        const result = await client.query('DELETE FROM tournament_has_user WHERE tournament_id=$1 AND user_id=$2',[tournamentId, userId]);
+
+        return result.rows;
+    }
 }
 
 module.exports = Tournament;

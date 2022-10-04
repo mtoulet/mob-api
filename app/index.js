@@ -89,14 +89,26 @@ expressJSDocSwagger(app)(options);
  * @typedef {object} Tournament
  * @property {integer} id - the id
  * @property {string} label - The label
- * @property {string}  type - The type of tournament
+ * @property {string} type - The type of tournament
  * @property {string} date - The date
- * @property {string}  game - The  game
- * @property {string}  format - The  format
- * @property {integer} moderator - The moderator
+ * @property {string} game - The  game
+ * @property {string} format - The  format
+ * @property {integer} max_player_count - The maximum number of players in the tournament
  * @property {integer} user_id -  The user_id
 */
 
+/**
+ * A tournament_has_user
+ * @typedef {object} UserTournamentList
+ * @property {integer} user_id - The id of the user
+ */
+
+/**
+ * A tournament_id with user_id
+ * @typedef {object} UserAddedToTournament
+ * @property {integer} tournament_id - The id of the tournament
+ * @property {integer} user_id - The id of the user
+ */
 // #endregion
 
 module.exports = app;

@@ -28,6 +28,11 @@ class User {
         return user;
     }
 
+    static async findAllProfiles() {
+        const result = await client.query('SELECT * FROM public."user";');
+        return result.rows;
+    }
+
     /**
      * Recovery of user information via his mail
      * @param {String} mail 
@@ -43,25 +48,46 @@ class User {
         }
     }
 
-    /**
-     * Verify the password
-     * @param {String} passwordTemp 
-     * @returns {Boolean}
+      /**
+     * Recovery of user information via his mail
+     * @param {Integer} id
+     * @returns user
      */
-    checkPassword(passwordTemp) {
-        return this.password === passwordTemp;
+    static async getUserById(id) {
+        const result = await client.query('SELECT * FROM public."user" WHERE id=$1', [id]);
+        if (result?.rows.length > 0) {
+            return new User(result.rows[0]);
+        } else {
+            // error while recovering
+            return;
+        }
     }
 
-    static async findAllProfiles() {
-        const result = await client.query('SELECT * FROM public."user";');
+     /**
+     * update profil user
+     * @param {Json} patchInfo
+     * @returns {Json}
+     */
+    static async patchUser(patchInfo) {
+        const result = await client.query('SELECT * FROM update_user ($1);', [patchInfo]);
+        
         return result.rows;
     }
 
-    static async deleteProfileById(userId) {
-        const result = await client.query('DELETE FROM public."user" WHERE id=$1;', [userId]);
-        return result;
+    static async patchPwd(pwd) {
+        const result = await client.query('SELECT * FROM update_pwd ($1);', [pwd]);
+        return result.rows;
     }
 
+    /**
+     * suppressed profile by id
+     * @param {Integer} userId
+     * @returns {Boolean}
+     */
+     static async deleteProfileById(userId) {
+        const result = await client.query('DELETE FROM public."user" WHERE id = $1;', [userId]);
+        return result;
+    }
 };
 
 module.exports = User;

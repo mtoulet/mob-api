@@ -12,17 +12,12 @@ SELECT id FROM create_user('{
 
 SELECT update_user('{
     "nickname": "BobbyM",
-    "password": "azerty123",
-    "id": 1
+    "lastname": "Marley",
+    "firstname": "bib",
+    "id": 3
 }');
 
-SELECT delete_user('{
-    "firstname": "Bob",
-    "lastname": "Marley",
-    "nickname": "BobbyM",
-    "mail": "bob@test.com",
-    "password": "azerty123"
-}');
+
 
 SELECT create_tournament('{
     "label": "tournoi de ouf",
@@ -30,8 +25,8 @@ SELECT create_tournament('{
     "date": "30/09/2022",
     "game": "lol",
     "format": "premier elimination",
-    "moderator": "BobbyM",
-    "user_id": "1"
+    "max_player_count": 12,
+    "user_id": "6"
 }');
 SELECT update_tournament('{
     "label": "tournoi de ouf mais on change",
@@ -39,8 +34,15 @@ SELECT update_tournament('{
     "date": "30/09/2022",
     "game": "lol",
     "format": "premier elimination",
-    "moderator": "BobbyM",
+    "max_player_count": 14,
     "user_id": "1"
+}');
+
+
+SELECT add_user_to_tournament('{
+    "tournament_id": 5,   
+    "user_id": 6
+    
 }');
 
 SELECT delete_tournament('{
@@ -49,7 +51,14 @@ SELECT delete_tournament('{
     "date": "30/09/2022",
     "game": "lol",
     "format": "premier elimination",
-    "moderator": "BobbyM",
+    "max_player_count": 14,
     "user_id": "1"
+}');
+SELECT delete_user('{
+    "firstname": "Bob",
+    "lastname": "Marley",
+    "nickname": "BobbyM",
+    "mail": "bob@test.com",
+    "password": "azerty123"
 }');
 ROLLBACK;
