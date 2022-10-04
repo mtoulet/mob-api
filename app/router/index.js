@@ -5,6 +5,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { authenticateToken, generateAccessToken } = require('../service/jwt');
 
+
 // #region home page
 /**
  * GET /
@@ -81,6 +82,10 @@ router.post('/api/login', userController.login);
  */
 // #endregion
 router.post('/api/register', userController.register);
+
+
+const validationModule = require('../service/validation');
+const { UserSchema } = require('../service/schema');
 
 // #region /api/profiles
 // Route to get all user profiles stored in the database
@@ -191,8 +196,59 @@ router.get('/api/profiles/:id', userController.getProfile);
  *          "honor_point": 0,
  *          "team": null,
  *          "role": null,
- *          "created_at": "2022-09-28T12:04:51.908Z",
- *          "updated_at": "2022-09-28T12:04:51.908Z"
+
+ *          "created_at": "2022-09-28T13:59:10.857Z",
+ *          "updated_at": "2022-09-28T13:59:10.857Z"
+ *      }
+ * }
+ * @example response - 401 - error example
+ * {
+ *      "error": "Mauvais couple email/mot de passe"
+ * }
+ */
+router.post('/api/login', userController.login);
+// #endregion
+
+// #region /api/register
+/**
+ * POST /api/register
+ * @summary Creates a user and save it in the database
+ * @security BasicAuth
+ * @tags user
+ * @param {newUser} request.body.required - user info
+ * @return {newUser} 200 - success response - application/json
+ * @return {object} 401 - Unauthorized response
+ * @example response - 200 - response example
+ * {
+ *      "firstname": "Harleen",
+ *      "lastname": "Quinzel",
+ *      "nickname": "HarleyQuinn",
+ *      "mail": "harleyquinn@gmail.com",
+ * }
+ * @example response - 401 - error example
+ * {
+ *      "message": "Internal error, wrong body schema"
+ * }
+ */
+router.post('/api/register', validationModule.validateBody(UserSchema), userController.register);
+// #endregion
+
+// #region /api/me
+// Testing route for authentication
+/**
+ * GET /api/me
+ * @summary Verify the accessToken of the user
+ * @security BearerAuth
+ * @tags user
+ * @return {object} 200 - success response - application/json
+ * @return {object} 401 - Unauthorized response
+ * @example response - 200 - response example
+ * {
+ *      "firstname": "Harleen",
+ *      "lastname": "Quinzel",
+ *      "nickname": "HarleyQuinn",
+ *      "mail": "harleyquinn@gmail.com",
+
  * }
  * @example response - 401 - error example
  * Unauthorized
@@ -218,7 +274,9 @@ router.patch('/api/profiles/:id/pwd', userController.patchPwd);
  * }   
  */
 // #endregion
+
 router.delete('/api/profiles/:id', userController.deleteProfile);
+
 
 
 //! --------------------------------------------------------------- TOURNAMENT --------------------------------------------------
@@ -356,8 +414,10 @@ router.get('/api/tournaments/:id', tournamentController.getTournament);
  * @example response - 401 - error example
  * Unauthorized
  */
+
 // #endregion
 router.patch('/api/tournaments/:id', tournamentController.patchTournament);
+
 
 // #region Delete tournament
 
@@ -407,8 +467,10 @@ router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
  *      "Unauthorized"
  * }
  */
+
 // #endregion
 router.get('/api/tournaments/:id/profiles/', tournamentController.getUserTournamentList);
+
 
 // #region post /api/tournaments/:id/profiles/
 /**
