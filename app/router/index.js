@@ -32,9 +32,8 @@ router.get('/', (req, res) => {
  * @tags user
  * @param {Guest} request.body.required - user info
  * @return {User} 200 - User - application/json
- * @return {object} 200 - accessToken, refreshToken - application/json
  * @return {object} 401 - Unauthorized response
- * @example response - 200 - success: true, response example
+ * @example response - 200 - success: true, response
  * {
  *      "success": "true",
  *      "accessToken": "opajzepogajezpojapog",
@@ -49,11 +48,12 @@ router.get('/', (req, res) => {
  *          "honor_point": 0,
  *          "team": null,
  *          "role": null,
+ *          "avatar": "image.com",
  *          "created_at": "2022-09-28T13:59:10.857Z",
  *          "updated_at": "2022-09-28T13:59:10.857Z"
  *      }
  * }
- * @example response - 401 - error example
+ * @example response - 401 - error
  * {
  *      "error": "Mauvais couple email/mot de passe"
  * }
@@ -69,17 +69,17 @@ router.post('/api/login', userController.login);
  * @tags user
  * @param {newUser} request.body.required - user info
  * @return {newUser} 200 - success response - application/json
- * @return {object} 401 - Unauthorized response
- * @example response - 200 - response example
+ * @return {object} 500 - Internal error
+ * @example response - 200 - response
  * {
  *      "firstname": "Harleen",
  *      "lastname": "Quinzel",
  *      "nickname": "HarleyQuinn",
  *      "mail": "harleyquinn@gmail.com",
  * }
- * @example response - 401 - error example
+ * @example response - 500 - internal error
  * {
- *      "message": "Internal error, wrong body schema"
+ *      "error": "Internal error, wrong body schema"
  * }
  */
 // #endregion
@@ -93,7 +93,8 @@ router.post('/api/register', validationModule.validateBody(UserSchema), userCont
  * @tags user
  * @security Admin
  * @return {array<User>} 200 - success response - application/json
- * @example response - 200 - response example
+ * @return {object} 403 - forbidden
+ * @example response - 200 - response
  * [
  *      {
  *          "id": 1,
@@ -106,6 +107,7 @@ router.post('/api/register', validationModule.validateBody(UserSchema), userCont
  *          "honor_point": 0,
  *          "team": null,
  *          "role": null,
+ *          "avatar": "image.com",
  *          "created_at": "2022-09-28T12:04:51.908Z",
  *          "updated_at": "2022-09-28T12:04:51.908Z"
  *      },
@@ -120,6 +122,7 @@ router.post('/api/register', validationModule.validateBody(UserSchema), userCont
  *          "honor_point": 0,
  *          "team": null,
  *          "role": null,
+ *          "avatar": "image.com",
  *          "created_at": "2022-09-28T12:04:51.931Z",
  *          "updated_at": "2022-09-28T12:04:51.931Z"
  *      },
@@ -134,14 +137,14 @@ router.post('/api/register', validationModule.validateBody(UserSchema), userCont
  *          "honor_point": 0,
  *          "team": null,
  *          "role": null,
+ *          "avatar": "image.com",
  *          "created_at": "2022-09-28T12:04:51.952Z",
  *          "updated_at": "2022-09-28T12:04:51.952Z"
  *      }
  * ]
- * @return {array<User>} 403 - forbidden
- * @example response - 403 - error example
+ * @example response - 403 - forbidden error
  * {
- *     "message": "You don't have permission to access this resource"
+ *     "error": "You don't have permission to access this resource"
  * }
  */
 // #endregion
@@ -153,9 +156,11 @@ router.get('/api/profiles', userController.getAllProfiles);
  * @summary return a user profile via his id
  * @security BearerAuth
  * @tags user
- * @param {Guest} request.params.required - id info
+ * @param {integer} request.params.required - id info
  * @return {User} 200 - User - application/json
- * @example response - 200 - response example
+ * @return {object} 401 - Unauthorized
+ * @return {object} 404 - not found error
+ * @example response - 200 - response
  * {
  *      "id": 14,
  *      "firstname": "Hugo",
@@ -166,25 +171,34 @@ router.get('/api/profiles', userController.getAllProfiles);
  *      "honor_point": 0,
  *      "team": null,
  *      "role": null,
+ *      "avatar": "image.com",
  *      "created_at": "2022-09-28T13:59:10.857Z",
  *      "updated_at": "2022-09-28T13:59:10.857Z"
+ * }
+ * @example response - 401 - Unauthorized error
+ * {
+ *      Unauthorized
+ * }
+ * @example 404 - not found error
+ * {
+ *      "error": "Utilisateur inexistant"
  * }
  */
 // #endregion
 router.get('/api/profiles/:id', authenticateToken, userController.getProfile);
 
 // #region /api/profiles/
-// Modify profil user
 /**
- * PATCH /api/profiles/:id/edit
- * @summary modify profil user
+ * PATCH /api/profiles/:id/
+ * @summary edit user profile
  * @security BearerAuth
  * @tags user
- * @return {object} 200 - success response - application/json
+ * @param {integer} request.params.required - id info
+ * @return {User} 200 - success response - application/json
  * @return {object} 401 - Unauthorized response
- * @example response - 200 - response example
+ * @example response - 200 - response
  * {
- *           "id": 1,
+ *          "id": 1,
  *          "lastname": "Simonis",
  *          "firstname": "Olin",
  *          "nickname": "Breana81",
@@ -194,35 +208,67 @@ router.get('/api/profiles/:id', authenticateToken, userController.getProfile);
  *          "honor_point": 0,
  *          "team": null,
  *          "role": null,
-
+ *          "avatar": "image.com",
  *          "created_at": "2022-09-28T13:59:10.857Z",
  *          "updated_at": "2022-09-28T13:59:10.857Z"
- *      }
  * }
- * @example response - 401 - error example
- * {
- *      "error": "Mauvais couple email/mot de passe"
- * }
+ * @example response - 401 - error
+ * Unauthorized
  */
 // #endregion
 router.patch('/api/profiles/:id', authenticateToken, userController.patchProfile);
 
-// #region /api/profiles/{id}/pwd
+// #region /api/profiles/:id/pwd
+/**
+ * PATCH /api/profiles/:id/pwd
+ * @summary edit the password of the connected user
+ * @security BearerAuth
+ * @tags user
+ * @param {integer} request.params.required - id info
+ * @param {object} request.body.required - old and new password info
+ * @return {object} 200 - success response - application/json
+ * @return {object} 400 - bad request
+ * @return {object} 401 - unauthorized
+ * @example response - 200 - success response
+ * {
+ *      "message": "Votre mot de passe a bien été modifié"
+ * }
+ * @example response - 400 - bad request same password
+ * {
+ *      "error": "Votre nouveau mot de passe est identique au précédent"
+ * }
+ * @example response - 400 - bad request invalid password
+ * {
+ *      "error": "Mot de passe invalide"
+ * }
+ * @example response - 401 - unauthorized
+ * Unauthorized
+ */
 // #endregion
 router.patch('/api/profiles/:id/pwd', authenticateToken, validationModule.validateBody(PasswordSchema), userController.patchPwd);
 
-// #region /api/deleteUser
+// #region /api/profiles/:id
 /**
- * DELETE /api/deleteUser
- * @summary return message 
+ * DELETE /api/profiles/:id
+ * @summary delete user profile
  * @tags user
- * @param {Guest} request.body.required - user info
- * @return {object} 200 - succes response - application/json
- * @example response - 200 - sucess response exemple
- 
+ * @param {integer} request.params.required - id info
+ * @param {object} request.body.required - password info
+ * @return {object} 200 - success response - application/json
+ * @return {object} 404 - not found error
+ * @return {object} 401 - unauthorized
+ * @example response - 200 - sucess response
  * {
- *      "message":"vote compte à été supprimé avec succes"
- * }   
+ *      "message": "Votre compte a bien été supprimé"
+ * }
+ * @example response - 404 - not found error
+ * {
+ *      "error": "Utilisateur inexistant"
+ * }
+ * @example response - 401 - unauthorized error
+ * {
+ *      "error": "Mauvais couple email/mot de passe"
+ * }
  */
 // #endregion
 router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfile);
@@ -236,41 +282,41 @@ router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfi
 /**
  * POST /api/tournaments
  * @summary Creates a tournament and save it in the database
- * @tags tournament
  * @security BasicAuth
+ * @tags tournament
+ * @param {object} request.body.required - tournament informations
  * @return {Tournament} 200 - success response - application/json
- * @example response - 200 - response example
- * [
- *      {
- *          "id": 1,
- *          "label": "the Big One",
- *          "type": "privé",
- *          "date": "2022-09-28T12:04:51.931Z",
- *          "game": "street fighter 2",
- *          "format": "single elimination",
- *          "moderator": "george abitbol",
- *          "user_id": "153"
- *          
- *      }
- *     
- * ]
- * @return {object} 403 - forbidden
- * @example response - 403 - error example
+ * @return {object} 401 - unauthorized
+ * @example response - 200 - response
  * {
- *     "message": "You don't have permission to access this resource"
+ *      "id": 1,
+ *      "label": "the Big One",
+ *      "type": "privé",
+ *      "date": "2022-09-28T12:04:51.931Z",
+ *      "game": "street fighter 2",
+ *      "format": "single elimination",
+ *      "max_player_count": 128,
+ *      "description": "lorem ipsum",
+ *      "image": "image.com",
+ *      "user_id": 153    
+ * }
+ * @example response - 401 - error
+ * {
+ *     Unauthorized
  * }
  */
 // #endregion
 router.post('/api/tournaments', authenticateToken, tournamentController.addTournament);
 
-// #region tournaments List
+// #region tournaments list
 /**
  * GET /api/tournaments
  * @summary This return all informations of all tournament with Json
  * @tags tournament
  * @security BasicAuth
  * @return {array<Tournament>} 200 - success response - application/json
- * @example response - 200 - response example
+ * @return {object} 403 - forbidden
+ * @example response - 200 - response
  * [
  *      {
  *          "id": 1,
@@ -279,8 +325,10 @@ router.post('/api/tournaments', authenticateToken, tournamentController.addTourn
  *          "date": "2022-09-28T12:04:51.931Z",
  *          "game": "street fighter 2",
  *          "format": "single elimination",
- *          "moderator": "george abitbol"
- *          "user_id": "153"
+ *          "max_player_count": 128,
+ *          "description": "lorem ipsum",
+ *          "image": "image.com",
+ *          "user_id": 153
  *          
  *      },
  *      {
@@ -290,8 +338,10 @@ router.post('/api/tournaments', authenticateToken, tournamentController.addTourn
  *          "date": "2022-08-28T12:04:51.931Z",
  *          "game": "multiversus",
  *          "format": "single elimination",
- *          "moderator": "europe"
- *          "user_id": "321"
+ *          "max_player_count": 128,
+ *          "description": "lorem ipsum",
+ *          "image": "image.com",
+ *          "user_id": 321
  *      },
  *      {
  *          id": 3,
@@ -300,14 +350,15 @@ router.post('/api/tournaments', authenticateToken, tournamentController.addTourn
  *          "date": "2032-09-28T12:06:51.931Z",
  *          "game": "League of legend",
  *          "format": "single elimination",
- *          "moderator": "faker"
- *          "user_id": "113
+ *          "max_player_count": 128,
+ *          "description": "lorem ipsum",
+ *          "image": "image.com",
+ *          "user_id": 113
  *      }
  * ]
- * @return {object} 403 - forbidden
- * @example response - 403 - error example
+ * @example response - 403 - error
  * {
- *     "message": "You don't have permission to access this resource"
+ *     "error": "You don't have permission to access this resource"
  * }
  */
 // #endregion
@@ -317,51 +368,56 @@ router.get('/api/tournaments', tournamentController.getAllTournaments);
 /**
  * GET /api/tournaments/:id
  * @summary This return all informations of the tournament by id with Json
- * @tags tournament
  * @security BasicAuth
+ * @tags tournament
+ * @param {integer} request.params.required - id info
  * @return {Tournament} 200 - success response - application/json
- * @example response - 200 - response example
- * [
- *      {
- *          "id": 1,
- *          "label": "the Big One",
- *          "type": "privé",
- *          "date": "2022-09-28T12:04:51.931Z",
- *          "game": "street fighter 2",
- *          "format": "single elimination",
- *          "moderator": "george abitbol"
- *          "user_id": "153"
- *          
- *      }
- *     
- * ]
- * @return {object} 403 - forbidden
- * @example response - 403 - error example
+ * @return {object} 404 - not found
+ * @example response - 200 - response
  * {
- *     "message": "You don't have permission to access this resource"
+ *      "id": 1,
+ *      "label": "the Big One",
+ *      "type": "privé",
+ *      "date": "2022-09-28T12:04:51.931Z",
+ *      "game": "street fighter 2",
+ *      "format": "single elimination",
+ *      "max_player_count": 128,
+ *      "description": "lorem ipsum",
+ *      "image": "image.com",
+ *      "user_id": 153
+ * }
+ * @example response - 404 - not found
+ * {
+ *     "error": "Tournoi inexistant"
  * }
  */
 // #endregion
 router.get('/api/tournaments/:id', tournamentController.getTournament);
 
-// #region /api/tournaments/:id PATCH
-// Modify tournament
+// #region /api/tournaments/:id
 /**
- * PATCH/api/tournaments/{id}
- * @summary modify tournament
+ * PATCH /api/tournaments/:id
+ * @summary allow to edit a tournament informations
  * @security BearerAuth
  * @tags tournament
+ * @param {integer} request.params.required - id info
+ * @param {object} request.body.required - info to edit
  * @return {Tournament} 200 - success response - application/json
  * @return {object} 401 - Unauthorized response
- * @example response - 200 - response example
+ * @example response - 200 - response
  * {
- *      "label": "gros tournois",
+ *      "id": 1,
+ *      "label": "gros tournoi",
  *      "type": "public",
  *      "date": "2032-09-28T12:06:51.931Z",
  *      "game": "LOL",
  *      "format": "single elimination",
+ *      "max_player_count": 128,
+ *      "description": "lorem ipsum",
+ *      "image": "image.com",
+ *      "user_id": 12
  * }
- * @example response - 401 - error example
+ * @example response - 401 - unauthorized error
  * Unauthorized
  */
 
@@ -369,50 +425,47 @@ router.get('/api/tournaments/:id', tournamentController.getTournament);
 router.patch('/api/tournaments/:id', authenticateToken, tournamentController.patchTournament);
 
 
-// #region Delete tournament
-
+// #region delete /api/tournaments/:id
 /**
  * DELETE /api/tournaments/:id
  * @summary Delete Tournament with Id
+ * @security BearerAuth
  * @tags tournament
- * @security BasicAuth
  * @return {Tournament} 200 - success response - application/json
- * @example response - 200 - response example12
+ * @return {object} 401 - unauthorized
+ * @example response - 200 - response12
  * {
- *          "message":"Le tournois à bien été supprimé"      
+ *      "message": "Le tournoi a bien été supprimé"      
  * }
- * @return {object} 403 - forbidden
- * @example response - 403 - error example
+ * @example response - 401 - unauthorized error
  * {
- *     "message": "You don't have permission to access this resource"
+ *      Unauthorized
  * }
  */
-
 // #endregion
 router.delete('/api/tournaments/:id', authenticateToken, tournamentController.deleteTournament);
 
 // #region get /api/tournaments/:id/profiles/ 
-// get list of all users in tournament
 /**
  * GET /api/tournaments/{id}/profiles/
- * @summary get list of all users in tournament
+ * @summary get a list of all users in tournament
  * @security BearerAuth
  * @tags tournament
  * @return {array<UserTournament>} 200 - success response - application/json
  * @return {string} 401 - Unauthorized response
- * @example response - 200 - response example
+ * @example response - 200 - response
  * [
  *      {
- *      "user_id": 1
+ *          "user_id": 1
  *      },
  *      {
- *      "user_id": 2
+ *          "user_id": 2
  *      },
  *      {
- *      "user_id": 3
+ *          "user_id": 3
  *      }
  * ]
- * @example response - 401 - error example
+ * @example response - 401 - error
  * {
  *      "Unauthorized"
  * }
@@ -430,12 +483,12 @@ router.get('/api/tournaments/:id/profiles/', authenticateToken, tournamentContro
  * @tags tournament
  * @return {UserAddedToTournament} 200 - success response - application/json
  * @return {object} 400 - Bad request
- * @example response - 200 - response example
+ * @example response - 200 - response
  * {
  *      "tournament_id": 1,
  *      "user_id": 5
  * }
- * @example response - 400 - error example
+ * @example response - 400 - bad request
  * {
  *      "error": "L'utilisateur d'id 5 est déjà inscrit au tournoi d'id 1"
  * }
@@ -445,15 +498,19 @@ router.post('/api/tournaments/:id/profiles/', authenticateToken, tournamentContr
 
 // #region delete /api/tournaments/:tournament_id/profiles/:user_id/
 /** 
-* DELETE /api/tournaments/:tournament_id/profiles/:user_id/
- * @summary suppressed a user from a tournament
+ * DELETE /api/tournaments/:tournament_id/profiles/:user_id/
+ * @summary delete a user from a tournament
  * @security BearerAuth
  * @tags tournament
- * @return {deleteUserFromTournament} 200 - success response - application/json
+ * @return {object} 200 - success response - application/json
  * @return {object} 400 - Bad request
- * @example response - 200 - response example
+ * @example response - 200 - response
  * {
- *   message: 'L\'utilisateur a bien été supprimé du tournoi'  
+ *      "message": "L'utilisateur a bien été supprimé du tournoi"  
+ * }
+ * @example response - 400 - bad request
+ * {
+ *      "error": "L'utilisateur d'id 5 n'est pas inscrit au tournoi d'id 2"
  * }
  */
 // #endregion
@@ -464,7 +521,6 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
 
 
 // #region /api/me
- // Testing route for authentication
  /**
   * GET /api/me
   * @summary Verify the accessToken of the user
@@ -472,14 +528,14 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
   * @tags user
   * @return {object} 200 - success response - application/json
   * @return {object} 401 - Unauthorized response
-  * @example response - 200 - response example
+  * @example response - 200 - response
   * {
   *      "firstname": "Harleen",
   *      "lastname": "Quinzel",
   *      "nickname": "HarleyQuinn",
   *      "mail": "harleyquinn@gmail.com",
   * }
-  * @example response - 401 - error example
+  * @example response - 401 - error
   * Unauthorized
   */
  // #endregion

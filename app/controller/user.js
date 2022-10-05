@@ -14,7 +14,7 @@ const userController = {
      * @summary add a new user in the database
      * @param {*} req 
      * @param {*} res 
-     * @return {User} newUser
+     * @return {User} the user which signed up
      */
     async register(req, res) {
         
@@ -38,7 +38,7 @@ const userController = {
     * @summary login the user with json accessToken and check mail and password
     * @param {*} req 
     * @param {*} res 
-    * @return {User}
+    * @return {User} the user which logged in and his accessToken + refreshToken
     */
      async login(req, res) {
         // we are looking for the user with his email address
@@ -74,8 +74,12 @@ const userController = {
         
     },
 
-    
-    // return a list of users profils from DB 
+    /**
+     * @summary return a list of users from database
+     * @param {*} req 
+     * @param {*} res 
+     * @return {Array<User>} an array of users
+     */
     async getAllProfiles(req, res) {
         try {
             const profiles = await User.findAllProfiles();
@@ -89,13 +93,23 @@ const userController = {
         }
     },
 
-    // Find a user profile
+    /**
+     * @summary return a user found by his id
+     * @param {*} req 
+     * @param {*} res 
+     * @return {User} a user profile
+     */
     async getProfile(req, res) {
         // we are using the parameter ID of the request
         const id = req.params.id;
         try {
             // id is the constant variable which defines the parameter id of the request, used as an argument for the method in User model
             const foundUser = await User.getUserById(id);
+            if (!foundUser) {
+                return res.status(404).json({
+                    error: "Utilisateur inexistant"
+                });
+            }
             // delete the password of the foundUser before returning the foundUser
             delete foundUser.password;
             return res.json(foundUser);
@@ -104,7 +118,12 @@ const userController = {
         }
     },
 
-    // Modify a user profile
+    /**
+     * @summary edit a user profile
+     * @param {*} req 
+     * @param {*} res
+     * @return {User} a user profile
+     */
     async patchProfile(req, res) {
         const id = req.params.id;
         try {
@@ -121,6 +140,12 @@ const userController = {
         }
     },
 
+    /**
+     * @summary edit the password of a user
+     * @param {*} req 
+     * @param {*} res 
+     * @returns {object} a message
+     */
     async patchPwd(req, res) {
         // get the id in params
         const id = req.params.id;
@@ -147,7 +172,12 @@ const userController = {
         }
     },
 
-    //delet user account
+    /**
+     * @summary delete a user account
+     * @param {*} req 
+     * @param {*} res 
+     * @return {object} a message
+     */
     async deleteProfile(req, res) {
         const id = parseInt(req.params.id);
         try {
@@ -171,7 +201,7 @@ const userController = {
             // Delete the profile via his id (SQL function)
             await User.deleteProfileById(userToDelete.id);
 
-            return res.json({message: 'votre compte à bien été supprimé'})
+            return res.json({message: "Votre compte a bien été supprimé"})
 
         } catch (err) {
             console.error(err);

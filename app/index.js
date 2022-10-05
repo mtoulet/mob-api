@@ -26,7 +26,7 @@ const options = {
         license: {
             name: "MIT"
         },
-        description: "This api is directly linked to the mob (multiplayer online bracket) application. It is used to make calls to our to create tournaments and new users",
+        description: `This api is directly linked to the mob (multiplayer online bracket) application. It is used to make calls to our database to create tournaments and new users  it's a school project that we realized at 5 in one month. do not hesitate to contact us if you have any ideas for improvement`,
         contact: {
         name: "API Support",
         email: "mob.api.contact@gmail.com"
@@ -73,6 +73,7 @@ expressJSDocSwagger(app)(options);
  * @property {integer} honor_point -  behavior score
  * @property {string} team - The team
  * @property {string} role - The role
+ * @property {string} avatar - The profile picture
  * @property {string} created_at - The timestamp with timezone when user profile was created
  * @property {string} updated_at - The timestamp with timezone when user profile is updated
 */
@@ -87,14 +88,16 @@ expressJSDocSwagger(app)(options);
 /**
  * A tournament
  * @typedef {object} Tournament
- * @property {integer} id - the id
- * @property {string} label - The label
+ * @property {integer} id - The id
+ * @property {string} label - The name of tournament
  * @property {string} type - The type of tournament
  * @property {string} date - The date
  * @property {string} game - The  game
  * @property {string} format - The  format
  * @property {integer} max_player_count - The maximum number of players in the tournament
- * @property {integer} user_id -  The user_id
+ * @property {string} description - Informations about this tournament
+ * @property {string} image - The picture of the tournament
+ * @property {integer} user_id -  The user_id of the user which created the tournament
 */
 
 /**

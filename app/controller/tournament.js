@@ -4,7 +4,12 @@ const { Tournament } = require('../model');
 
 const tournamentController = {
 
-    // add new tournament in DB
+    /**
+     * @summary Create a tournament and save it in database
+     * @param {*} req 
+     * @param {*} res 
+     * @returns {Tournament} the tournament which has just been created
+     */
     async addTournament(req, res) {
         try{
             const newTournament = await Tournament.addTournament({
@@ -19,14 +24,18 @@ const tournamentController = {
                 user_id: req.body.user_id,
 
             });
-            res.json(newTournament);
-            
+            res.json(newTournament);  
         }catch (err) {
             console.error(err);
         }
     },
 
-    // return a list of tournaments from DB 
+    /**
+     * @summary Get a list of every tournament saved in the database
+     * @param {*} req 
+     * @param {*} res 
+     * @returns {Array<Tournament>} Array of objects tournament
+     */
     async getAllTournaments(req, res) {
         try {
             const tournaments = await Tournament.findAllTournaments();
@@ -36,7 +45,12 @@ const tournamentController = {
         }
     },
 
-    // return one tournament from DB 
+    /**
+     * @summary Get one tournament saved in database
+     * @param {*} req 
+     * @param {*} res 
+     * @returns {Tournament} a tournament with all informations about it
+     */ 
     async getTournament(req, res) {
         try {
             const foundTournament = await Tournament.getTournamentById(req.params.id);
@@ -51,6 +65,12 @@ const tournamentController = {
         }
     },
 
+    /**
+     * @summary Allow to edit a tournament informations
+     * @param {*} req 
+     * @param {*} res 
+     * @returns {Tournament} Edited tournament
+     */
     async patchTournament(req, res) {
         const id = req.params.id;
         try{
@@ -67,11 +87,16 @@ const tournamentController = {
             });
             return res.json(editedTournament);
         } catch(err){
-                console.error(err);
+            console.error(err);
         }
     },
 
-    // return info of tournament by id
+    /**
+     * @summary Delete a tournament saved in database
+     * @param {*} req 
+     * @param {*} res 
+     * @returns {object} a message telling the tournament has been deleted successfully
+     */
     async deleteTournament(req, res) {
         try{
             const foundTournament = await Tournament.getTournamentById(req.params.id);
@@ -88,17 +113,29 @@ const tournamentController = {
         }
     },
 
+    /**
+     * @summary Get the list of all users enrolled in a tournament via their id
+     * @param {*} req 
+     * @param {*} res 
+     * @returns {Array<UserTournament>} an array of user_id objects
+     */
     async getUserTournamentList(req, res) {
-        try{
+        try {
             const userTournamentList = await Tournament.getUsers(req.params.id);
             return res.json(userTournamentList);
 
         } catch (err) {
             console.error(err);
-            }
+        }
 
     },
 
+    /**
+     * @summary Allow to enroll a user in a tournament
+     * @param {*} req 
+     * @param {*} res 
+     * @returns {UserAddedToTournament} An object with the tournamentId and the userId which has been added to the tournament
+     */
     async postUserToTournament(req, res) {
         const tournamentId = req.params.id; // extract tournament ID from params
         const userId = req.body.user_id; // extract user ID from body
@@ -127,6 +164,13 @@ const tournamentController = {
         }
     },
 
+    /**
+     * @summary Allow to delete a user which is enrolled in a tournament
+     * @param {*} req 
+     * @param {*} res 
+     * @returns {object} a message which says that the user has been deleted successfully
+     * @returns {object} a message which says that the user can't be deleted because he's not enrolled in this tournament
+     */
     async deleteUserFromTournament(req, res){
         const tournamentId = parseInt(req.params.tournament_id); // extract tournament ID from params
         const userId = parseInt(req.params.user_id); // extract user ID from body

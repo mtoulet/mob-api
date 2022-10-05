@@ -26,7 +26,7 @@ const randomService = require('../service/random');
                 nickname: faker.internet.userName(),
                 mail: faker.internet.email(),
                 password: hashedPassword,
-                avatar:faker.image.avatar(),
+                avatar:faker.image.avatar()
             } 
             // For each fake user you create, you're going to push them into the user array you declare above
             users.push(newUser);
@@ -64,7 +64,7 @@ setTimeout(async () => {
                 max_player_count: parseInt(faker.random.numeric(2)),
                 description: faker.lorem.paragraph(),
                 image: faker.image.sports(),
-                user_id: parseInt(faker.random.numeric()),
+                user_id: parseInt(faker.random.numeric())
             }
             // For each fake tournament you create, you're going to push them into the tournament array you declare above
             tournaments.push(newTournament);
