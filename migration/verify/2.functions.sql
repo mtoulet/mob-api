@@ -14,6 +14,7 @@ SELECT update_user('{
     "nickname": "BobbyM",
     "lastname": "Marley",
     "firstname": "bib",
+    "avatar": "image.com",
     "id": 3
 }');
 

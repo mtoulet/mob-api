@@ -17,7 +17,8 @@ CREATE OR REPLACE FUNCTION update_user(json) RETURNS "user" AS $$
     UPDATE "user" SET
     firstname=$1->>'firstname',
     lastname=$1->>'lastname',
-    nickname=$1->>'nickname'  
+    nickname=$1->>'nickname',
+    avatar=$1->>'avatar'   
     WHERE id=($1->>'id')::int
     RETURNING *;
 $$ LANGUAGE SQL STRICT;

@@ -112,6 +112,7 @@ const userController = {
                 firstname : req.body.firstname,
                 lastname: req.body.lastname,
                 nickname: req.body.nickname,
+                avatar: req.body.avatar,
                 id: id
             });
             return res.json(editedProfile);

@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS "user" (
     "password" text NOT NULL,
     trophies integer,
     honor_point integer DEFAULT 0,
+    avatar text,
     team text,
     "role" text,
     created_at timestamptz DEFAULT CURRENT_TIMESTAMP,

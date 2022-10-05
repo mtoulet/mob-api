@@ -13,6 +13,7 @@ class User {
         this.honor_point = obj.honor_point;
         this.team = obj.team;
         this.role = obj.role;
+        this.avatar = obj.avatar;
         this.created_at = obj.created_at;
         this.updated_at = obj.updated_at;
     }

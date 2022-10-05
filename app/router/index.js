@@ -254,7 +254,7 @@ router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfi
  *      }
  *     
  * ]
- * @return {Tournament} 403 - forbidden
+ * @return {object} 403 - forbidden
  * @example response - 403 - error example
  * {
  *     "message": "You don't have permission to access this resource"
@@ -304,7 +304,7 @@ router.post('/api/tournaments', authenticateToken, tournamentController.addTourn
  *          "user_id": "113
  *      }
  * ]
- * @return {array<Tournament>} 403 - forbidden
+ * @return {object} 403 - forbidden
  * @example response - 403 - error example
  * {
  *     "message": "You don't have permission to access this resource"
@@ -335,7 +335,7 @@ router.get('/api/tournaments', tournamentController.getAllTournaments);
  *      }
  *     
  * ]
- * @return {Tournament} 403 - forbidden
+ * @return {object} 403 - forbidden
  * @example response - 403 - error example
  * {
  *     "message": "You don't have permission to access this resource"
@@ -381,7 +381,7 @@ router.patch('/api/tournaments/:id', authenticateToken, tournamentController.pat
  * {
  *          "message":"Le tournois à bien été supprimé"      
  * }
- * @return {Tournament} 403 - forbidden
+ * @return {object} 403 - forbidden
  * @example response - 403 - error example
  * {
  *     "message": "You don't have permission to access this resource"
@@ -398,7 +398,7 @@ router.delete('/api/tournaments/:id', authenticateToken, tournamentController.de
  * @summary get list of all users in tournament
  * @security BearerAuth
  * @tags tournament
- * @return {array<UserTournamentList>} 200 - success response - application/json
+ * @return {array<UserTournament>} 200 - success response - application/json
  * @return {string} 401 - Unauthorized response
  * @example response - 200 - response example
  * [
@@ -437,7 +437,7 @@ router.get('/api/tournaments/:id/profiles/', authenticateToken, tournamentContro
  * }
  * @example response - 400 - error example
  * {
- *      "error": "L'utilisateur d'id 1 est déjà inscrit au tournoi d'id 1"
+ *      "error": "L'utilisateur d'id 5 est déjà inscrit au tournoi d'id 1"
  * }
  */
 // #endregion

@@ -99,7 +99,7 @@ expressJSDocSwagger(app)(options);
 
 /**
  * A tournament_has_user
- * @typedef {object} UserTournamentList
+ * @typedef {object} UserTournament
  * @property {integer} user_id - The id of the user
  */
 
