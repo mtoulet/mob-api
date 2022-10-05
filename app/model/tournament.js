@@ -11,6 +11,8 @@ class Tournament {
         this.game = obj.game;
         this.format = obj.format;
         this.max_player_count = obj.max_player_count,
+        this.description = obj.description;
+        this.image = obj.image;
         this.user_id = obj.user_id;
     }
 

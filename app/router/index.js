@@ -4,6 +4,8 @@ const tournamentController = require('../controller/tournament');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { authenticateToken, generateAccessToken } = require('../service/jwt');
+const validationModule = require('../service/validation');
+const { UserSchema, PasswordSchema } = require('../service/schema');
 
 
 // #region home page
@@ -77,15 +79,11 @@ router.post('/api/login', userController.login);
  * }
  * @example response - 401 - error example
  * {
- *      "error": "Votre Mot de passe doit contenir 8 caractères minimum"
+ *      "message": "Internal error, wrong body schema"
  * }
  */
 // #endregion
-router.post('/api/register', userController.register);
-
-
-const validationModule = require('../service/validation');
-const { UserSchema } = require('../service/schema');
+router.post('/api/register', validationModule.validateBody(UserSchema), userController.register);
 
 // #region /api/profiles
 // Route to get all user profiles stored in the database
@@ -173,7 +171,7 @@ router.get('/api/profiles', userController.getAllProfiles);
  * }
  */
 // #endregion
-router.get('/api/profiles/:id', userController.getProfile);
+router.get('/api/profiles/:id', authenticateToken, userController.getProfile);
 
 // #region /api/profiles/
 // Modify profil user
@@ -206,59 +204,12 @@ router.get('/api/profiles/:id', userController.getProfile);
  *      "error": "Mauvais couple email/mot de passe"
  * }
  */
-router.post('/api/login', userController.login);
 // #endregion
-
-// #region /api/register
-/**
- * POST /api/register
- * @summary Creates a user and save it in the database
- * @security BasicAuth
- * @tags user
- * @param {newUser} request.body.required - user info
- * @return {newUser} 200 - success response - application/json
- * @return {object} 401 - Unauthorized response
- * @example response - 200 - response example
- * {
- *      "firstname": "Harleen",
- *      "lastname": "Quinzel",
- *      "nickname": "HarleyQuinn",
- *      "mail": "harleyquinn@gmail.com",
- * }
- * @example response - 401 - error example
- * {
- *      "message": "Internal error, wrong body schema"
- * }
- */
-router.post('/api/register', validationModule.validateBody(UserSchema), userController.register);
-// #endregion
-
-// #region /api/me
-// Testing route for authentication
-/**
- * GET /api/me
- * @summary Verify the accessToken of the user
- * @security BearerAuth
- * @tags user
- * @return {object} 200 - success response - application/json
- * @return {object} 401 - Unauthorized response
- * @example response - 200 - response example
- * {
- *      "firstname": "Harleen",
- *      "lastname": "Quinzel",
- *      "nickname": "HarleyQuinn",
- *      "mail": "harleyquinn@gmail.com",
-
- * }
- * @example response - 401 - error example
- * Unauthorized
- */
-// #endregion
-router.patch('/api/profiles/:id', userController.patchProfile);
+router.patch('/api/profiles/:id', authenticateToken, userController.patchProfile);
 
 // #region /api/profiles/{id}/pwd
 // #endregion
-router.patch('/api/profiles/:id/pwd', userController.patchPwd);
+router.patch('/api/profiles/:id/pwd', authenticateToken, validationModule.validateBody(PasswordSchema), userController.patchPwd);
 
 // #region /api/deleteUser
 /**
@@ -274,8 +225,7 @@ router.patch('/api/profiles/:id/pwd', userController.patchPwd);
  * }   
  */
 // #endregion
-
-router.delete('/api/profiles/:id', userController.deleteProfile);
+router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfile);
 
 
 
@@ -304,14 +254,14 @@ router.delete('/api/profiles/:id', userController.deleteProfile);
  *      }
  *     
  * ]
- * @return {Tournament} 403 - forbidden
+ * @return {object} 403 - forbidden
  * @example response - 403 - error example
  * {
  *     "message": "You don't have permission to access this resource"
  * }
  */
 // #endregion
-router.post('/api/tournaments', tournamentController.addTournament);
+router.post('/api/tournaments', authenticateToken, tournamentController.addTournament);
 
 // #region tournaments List
 /**
@@ -354,7 +304,7 @@ router.post('/api/tournaments', tournamentController.addTournament);
  *          "user_id": "113
  *      }
  * ]
- * @return {array<Tournament>} 403 - forbidden
+ * @return {object} 403 - forbidden
  * @example response - 403 - error example
  * {
  *     "message": "You don't have permission to access this resource"
@@ -385,7 +335,7 @@ router.get('/api/tournaments', tournamentController.getAllTournaments);
  *      }
  *     
  * ]
- * @return {Tournament} 403 - forbidden
+ * @return {object} 403 - forbidden
  * @example response - 403 - error example
  * {
  *     "message": "You don't have permission to access this resource"
@@ -416,7 +366,7 @@ router.get('/api/tournaments/:id', tournamentController.getTournament);
  */
 
 // #endregion
-router.patch('/api/tournaments/:id', tournamentController.patchTournament);
+router.patch('/api/tournaments/:id', authenticateToken, tournamentController.patchTournament);
 
 
 // #region Delete tournament
@@ -431,7 +381,7 @@ router.patch('/api/tournaments/:id', tournamentController.patchTournament);
  * {
  *          "message":"Le tournois à bien été supprimé"      
  * }
- * @return {Tournament} 403 - forbidden
+ * @return {object} 403 - forbidden
  * @example response - 403 - error example
  * {
  *     "message": "You don't have permission to access this resource"
@@ -439,7 +389,7 @@ router.patch('/api/tournaments/:id', tournamentController.patchTournament);
  */
 
 // #endregion
-router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
+router.delete('/api/tournaments/:id', authenticateToken, tournamentController.deleteTournament);
 
 // #region get /api/tournaments/:id/profiles/ 
 // get list of all users in tournament
@@ -448,7 +398,7 @@ router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
  * @summary get list of all users in tournament
  * @security BearerAuth
  * @tags tournament
- * @return {array<UserTournamentList>} 200 - success response - application/json
+ * @return {array<UserTournament>} 200 - success response - application/json
  * @return {string} 401 - Unauthorized response
  * @example response - 200 - response example
  * [
@@ -469,7 +419,7 @@ router.delete('/api/tournaments/:id', tournamentController.deleteTournament);
  */
 
 // #endregion
-router.get('/api/tournaments/:id/profiles/', tournamentController.getUserTournamentList);
+router.get('/api/tournaments/:id/profiles/', authenticateToken, tournamentController.getUserTournamentList);
 
 
 // #region post /api/tournaments/:id/profiles/
@@ -487,11 +437,11 @@ router.get('/api/tournaments/:id/profiles/', tournamentController.getUserTournam
  * }
  * @example response - 400 - error example
  * {
- *      "error": "L'utilisateur d'id 1 est déjà inscrit au tournoi d'id 1"
+ *      "error": "L'utilisateur d'id 5 est déjà inscrit au tournoi d'id 1"
  * }
  */
 // #endregion
-router.post('/api/tournaments/:id/profiles/', tournamentController.postUserToTournament);
+router.post('/api/tournaments/:id/profiles/', authenticateToken, tournamentController.postUserToTournament);
 
 // #region delete /api/tournaments/:tournament_id/profiles/:user_id/
 /** 
@@ -507,7 +457,7 @@ router.post('/api/tournaments/:id/profiles/', tournamentController.postUserToTou
  * }
  */
 // #endregion
-router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', tournamentController.deleteUserFromTournament);
+router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticateToken, tournamentController.deleteUserFromTournament);
 
 
 //! --------------------------------------------------------------- JWT --------------------------------------------------
