@@ -14,6 +14,8 @@ const tournamentController = {
                 game: req.body.game,
                 format: req.body.format,
                 max_player_count: req.body.max_player_count,
+                description: req.body.description,
+                image: req.body.image,
                 user_id: req.body.user_id,
 
             });
@@ -37,8 +39,13 @@ const tournamentController = {
     // return one tournament from DB 
     async getTournament(req, res) {
         try {
-            const tournament = await Tournament.getTournamentById(req.params.id);
-            return res.json(tournament);
+            const foundTournament = await Tournament.getTournamentById(req.params.id);
+            if (!foundTournament) {
+                return res.status(404).json({
+                    error: "Tournoi inexistant"
+                });
+            }
+            return res.json(foundTournament);
         } catch (err) {
             console.error(err);
         }
@@ -54,6 +61,8 @@ const tournamentController = {
                 game: req.body.game,
                 format: req.body.format,
                 max_player_count: req.body.max_player_count,
+                description: req.body.description,
+                image: req.body.image,
                 id: id
             });
             return res.json(editedTournament);
@@ -65,11 +74,17 @@ const tournamentController = {
     // return info of tournament by id
     async deleteTournament(req, res) {
         try{
-            const tournament = await Tournament.deleteTournament(req.params.id);
-            return res.json({message: 'le tournois à bien été supprimé'});
+            const foundTournament = await Tournament.getTournamentById(req.params.id);
+            if (!foundTournament) {
+                return res.status(404).json({
+                    error: "Ce tournoi n'existe pas"
+                });
+            }
+            await Tournament.deleteTournament(foundTournament.id);
+            return res.json({ message: 'Le tournoi a bien été supprimé' });
 
         } catch(err) {
-        console.error(err);
+            console.error(err);
         }
     },
 

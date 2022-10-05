@@ -22,15 +22,17 @@ CREATE TABLE IF NOT EXISTS "tournament" (
     label text NOT NULL,
     "type" text NOT NULL,
     "date" date NOT NULL,
-    game text NOT NULL,
+    "game" text NOT NULL,
     "format" text NOT NULL,
     "max_player_count" integer NOT NULL,
+    "description" text NOT NULL,
+    "image" text,
     "user_id" integer NOT NULL REFERENCES "user"(id)
 );
 
 CREATE TABLE IF NOT EXISTS tournament_has_user (
-    tournament_id integer NOT NULL REFERENCES "tournament"(id),
-    "user_id" integer NOT NULL REFERENCES "user"(id)
+    tournament_id integer NOT NULL REFERENCES "tournament"(id) ON DELETE CASCADE,
+    "user_id" integer NOT NULL REFERENCES "user"(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS encounter (
@@ -40,19 +42,19 @@ CREATE TABLE IF NOT EXISTS encounter (
     "date" date NOT NULL,
     winner_score integer DEFAULT 0,
     loser_score integer DEFAULT 0,
-    tournament_id integer NOT NULL REFERENCES "tournament"(id)
+    tournament_id integer NOT NULL REFERENCES "tournament"(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "round" (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     winner text,
     loser text,
-    encounter_id integer NOT NULL REFERENCES "encounter"(id)
+    encounter_id integer NOT NULL REFERENCES "encounter"(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS user_has_encounter (
-    "user_id" integer NOT NULL REFERENCES "user"(id),
-    "encounter_id" integer NOT NULL REFERENCES "encounter"(id)
+    "user_id" integer NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
+    "encounter_id" integer NOT NULL REFERENCES "encounter"(id) ON DELETE CASCADE
 );
 
 COMMIT;

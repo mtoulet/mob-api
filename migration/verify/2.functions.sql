@@ -26,6 +26,8 @@ SELECT create_tournament('{
     "game": "lol",
     "format": "premier elimination",
     "max_player_count": 12,
+    "description": "best tournois ever c''est certain",
+    "image": "image.com",
     "user_id": "6"
 }');
 SELECT update_tournament('{
@@ -35,6 +37,8 @@ SELECT update_tournament('{
     "game": "lol",
     "format": "premier elimination",
     "max_player_count": 14,
+    "description": "best tournois ever c''est certain",
+    "image": "image.com",
     "user_id": "1"
 }');
 
@@ -52,6 +56,8 @@ SELECT delete_tournament('{
     "game": "lol",
     "format": "premier elimination",
     "max_player_count": 14,
+    "description": "best tournois ever c''est certain",
+    "image": "image.com",
     "user_id": "1"
 }');
 SELECT delete_user('{
