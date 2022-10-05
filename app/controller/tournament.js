@@ -77,7 +77,7 @@ const tournamentController = {
             const foundTournament = await Tournament.getTournamentById(req.params.id);
             if (!foundTournament) {
                 return res.status(404).json({
-                    error: "Ce tournoi n'existe pas"
+                    error: "Tournoi inexistant"
                 });
             }
             await Tournament.deleteTournament(foundTournament.id);

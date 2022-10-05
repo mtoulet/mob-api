@@ -136,10 +136,10 @@ const userController = {
                     });
                     return res.json({message: "Votre mot de passe a bien été modifié"});
                 } else {
-                    throw new Error("Votre nouveau mot de passe est identique au précédent");
+                    return res.status(400).json({ error: "Votre nouveau mot de passe est identique au précédent"});
                 }
             } else {
-                throw new Error("Mot de passe invalide");
+                return res.status(400).json({ error: "Mot de passe invalide" });
             }
         } catch(err) {
             console.error(err);
