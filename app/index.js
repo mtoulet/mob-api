@@ -86,6 +86,12 @@ expressJSDocSwagger(app)(options);
  */
 
 /**
+ * A password
+ * @typedef {object} Password
+ * @property {string} password - The password
+ */
+
+/**
  * A tournament
  * @typedef {object} Tournament
  * @property {integer} id - The id
@@ -111,6 +117,12 @@ expressJSDocSwagger(app)(options);
  * @typedef {object} UserAddedToTournament
  * @property {integer} tournament_id - The id of the tournament
  * @property {integer} user_id - The id of the user
+ */
+
+/**
+ * Error 404
+ * @typedef {object} Error404
+ * @property {string} error - the error
  */
 // #endregion
 

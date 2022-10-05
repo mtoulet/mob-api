@@ -75,7 +75,7 @@ router.post('/api/login', userController.login);
  *      "firstname": "Harleen",
  *      "lastname": "Quinzel",
  *      "nickname": "HarleyQuinn",
- *      "mail": "harleyquinn@gmail.com",
+ *      "mail": "harleyquinn@gmail.com"
  * }
  * @example response - 500 - internal error
  * {
@@ -90,8 +90,8 @@ router.post('/api/register', validationModule.validateBody(UserSchema), userCont
 /**
  * GET /api/profiles
  * @summary This return all informations of all users with Json
- * @tags user
  * @security Admin
+ * @tags user
  * @return {array<User>} 200 - success response - application/json
  * @return {object} 403 - forbidden
  * @example response - 200 - response
@@ -176,10 +176,8 @@ router.get('/api/profiles', userController.getAllProfiles);
  *      "updated_at": "2022-09-28T13:59:10.857Z"
  * }
  * @example response - 401 - Unauthorized error
- * {
- *      Unauthorized
- * }
- * @example 404 - not found error
+ * Unauthorized
+ * @example response - 404 - not found error
  * {
  *      "error": "Utilisateur inexistant"
  * }
@@ -253,7 +251,7 @@ router.patch('/api/profiles/:id/pwd', authenticateToken, validationModule.valida
  * @summary delete user profile
  * @tags user
  * @param {integer} request.params.required - id info
- * @param {object} request.body.required - password info
+ * @param {PasswordSchema} request.body.required - password info
  * @return {object} 200 - success response - application/json
  * @return {object} 404 - not found error
  * @return {object} 401 - unauthorized
@@ -284,7 +282,7 @@ router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfi
  * @summary Creates a tournament and save it in the database
  * @security BasicAuth
  * @tags tournament
- * @param {object} request.body.required - tournament informations
+ * @param {Tournament} request.body.required - tournament informations
  * @return {Tournament} 200 - success response - application/json
  * @return {object} 401 - unauthorized
  * @example response - 200 - response
@@ -301,9 +299,7 @@ router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfi
  *      "user_id": 153    
  * }
  * @example response - 401 - error
- * {
- *     Unauthorized
- * }
+ * Unauthorized
  */
 // #endregion
 router.post('/api/tournaments', authenticateToken, tournamentController.addTournament);
@@ -312,49 +308,49 @@ router.post('/api/tournaments', authenticateToken, tournamentController.addTourn
 /**
  * GET /api/tournaments
  * @summary This return all informations of all tournament with Json
- * @tags tournament
  * @security BasicAuth
+ * @tags tournament
  * @return {array<Tournament>} 200 - success response - application/json
  * @return {object} 403 - forbidden
  * @example response - 200 - response
  * [
- *      {
- *          "id": 1,
- *          "label": "the Big One",
- *          "type": "privé",
- *          "date": "2022-09-28T12:04:51.931Z",
- *          "game": "street fighter 2",
- *          "format": "single elimination",
- *          "max_player_count": 128,
- *          "description": "lorem ipsum",
- *          "image": "image.com",
- *          "user_id": 153
+ *  {
+ *      "id": 1,
+ *      "label": "the Big One",
+ *      "type": "privé",
+ *      "date": "2022-09-28T12:04:51.931Z",
+ *      "game": "street fighter 2",
+ *      "format": "single elimination",
+ *      "max_player_count": 128,
+ *      "description": "lorem ipsum",
+ *      "image": "image.com",
+ *      "user_id": 153
  *          
- *      },
- *      {
- *          id": 2,
- *          "label": "final count down",
- *          "type": "public",
- *          "date": "2022-08-28T12:04:51.931Z",
- *          "game": "multiversus",
- *          "format": "single elimination",
- *          "max_player_count": 128,
- *          "description": "lorem ipsum",
- *          "image": "image.com",
- *          "user_id": 321
- *      },
- *      {
- *          id": 3,
- *          "label": "machine war barrel tournament",
- *          "type": "privé",
- *          "date": "2032-09-28T12:06:51.931Z",
- *          "game": "League of legend",
- *          "format": "single elimination",
- *          "max_player_count": 128,
- *          "description": "lorem ipsum",
- *          "image": "image.com",
- *          "user_id": 113
- *      }
+ *  },
+ *  {
+ *      "id": 2,
+ *      "label": "final count down",
+ *      "type": "public",
+ *      "date": "2022-08-28T12:04:51.931Z",
+ *      "game": "multiversus",
+ *      "format": "single elimination",
+ *      "max_player_count": 128,
+ *      "description": "lorem ipsum",
+ *      "image": "image.com",
+ *      "user_id": 321
+ *  },
+ *  {
+ *      "id": 3,
+ *      "label": "machine war barrel tournament",
+ *      "type": "privé",
+ *      "date": "2032-09-28T12:06:51.931Z",
+ *      "game": "League of legend",
+ *      "format": "single elimination",
+ *      "max_player_count": 128,
+ *      "description": "lorem ipsum",
+ *      "image": "image.com",
+ *      "user_id": 113
+ *  }
  * ]
  * @example response - 403 - error
  * {
@@ -401,7 +397,7 @@ router.get('/api/tournaments/:id', tournamentController.getTournament);
  * @security BearerAuth
  * @tags tournament
  * @param {integer} request.params.required - id info
- * @param {object} request.body.required - info to edit
+ * @param {Tournament} request.body.required - info to edit
  * @return {Tournament} 200 - success response - application/json
  * @return {object} 401 - Unauthorized response
  * @example response - 200 - response
@@ -438,9 +434,7 @@ router.patch('/api/tournaments/:id', authenticateToken, tournamentController.pat
  *      "message": "Le tournoi a bien été supprimé"      
  * }
  * @example response - 401 - unauthorized error
- * {
- *      Unauthorized
- * }
+ * Unauthorized
  */
 // #endregion
 router.delete('/api/tournaments/:id', authenticateToken, tournamentController.deleteTournament);
@@ -466,9 +460,7 @@ router.delete('/api/tournaments/:id', authenticateToken, tournamentController.de
  *      }
  * ]
  * @example response - 401 - error
- * {
- *      "Unauthorized"
- * }
+ * Unauthorized
  */
 
 // #endregion
@@ -533,7 +525,7 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
   *      "firstname": "Harleen",
   *      "lastname": "Quinzel",
   *      "nickname": "HarleyQuinn",
-  *      "mail": "harleyquinn@gmail.com",
+  *      "mail": "harleyquinn@gmail.com"
   * }
   * @example response - 401 - error
   * Unauthorized
