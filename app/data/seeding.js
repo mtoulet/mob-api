@@ -27,7 +27,7 @@ const randomService = require('../service/random');
                 mail: faker.internet.email(),
                 password: hashedPassword,
                 avatar:faker.image.avatar(),
-            }
+            } 
             // For each fake user you create, you're going to push them into the user array you declare above
             users.push(newUser);
         }
