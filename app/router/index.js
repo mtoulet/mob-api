@@ -251,7 +251,7 @@ router.patch('/api/profiles/:id/pwd', authenticateToken, validationModule.valida
  * @summary delete user profile
  * @tags user
  * @param {integer} request.params.required - id info
- * @param {PasswordSchema} request.body.required - password info
+ * @param {Password} request.body.required - password info
  * @return {object} 200 - success response - application/json
  * @return {object} 404 - not found error
  * @return {object} 401 - unauthorized
@@ -441,7 +441,7 @@ router.delete('/api/tournaments/:id', authenticateToken, tournamentController.de
 
 // #region get /api/tournaments/:id/profiles/ 
 /**
- * GET /api/tournaments/{id}/profiles/
+ * GET /api/tournaments/:id/profiles/
  * @summary get a list of all users in tournament
  * @security BearerAuth
  * @tags tournament
