@@ -81,7 +81,33 @@ VALUES (
 RETURNING *;
 $$ LANGUAGE SQL STRICT;
 
+CREATE OR REPLACE FUNCTION create_encounter (json) RETURNS encounter AS $$
+INSERT INTO encounter ("date", tournament_id)
+VALUES (
+    ($1->>'date')::timestamptz,
+    ($1->>'tournament_id')::int
+)
+RETURNING *;
+$$ LANGUAGE SQL STRICT;
 
+CREATE OR REPLACE FUNCTION update_encounter (json) RETURNS encounter AS $$
+UPDATE encounter SET
+    winner=$1->>'winner',
+    loser=$1->>'loser',
+    "date"=($1->>'date')::timestamptz,
+    winner_score=($1->>'winner_score')::int,
+    loser_score=($1->>'loser_score')::int
+    WHERE id = ($1->>'id')::int
+    RETURNING *;
+$$ LANGUAGE SQL STRICT;
 
+CREATE OR REPLACE FUNCTION add_user_to_encounter (json) RETURNS "user_has_encounter" AS $$
+INSERT INTO user_has_encounter ("user_id", "encounter_id")
+VALUES (
+    ($1->>'user_id')::int,
+    ($1->>'encounter_id')::int 
+)
+RETURNING *;
+$$ LANGUAGE SQL STRICT;
 
 COMMIT;

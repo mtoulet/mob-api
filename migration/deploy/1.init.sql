@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS "tournament" (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     label text NOT NULL,
     "type" text NOT NULL,
-    "date" date NOT NULL,
+    "date" timestamptz NOT NULL,
     "game" text NOT NULL,
     "format" text NOT NULL,
     "max_player_count" integer NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS encounter (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     winner text DEFAULT NULL,
     loser text DEFAULT NULL,
-    "date" date NOT NULL,
+    "date" timestamptz NOT NULL,
     winner_score integer DEFAULT 0,
     loser_score integer DEFAULT 0,
     tournament_id integer NOT NULL REFERENCES "tournament"(id) ON DELETE CASCADE

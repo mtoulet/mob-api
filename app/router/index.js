@@ -1,11 +1,13 @@
 const express = require('express');
 const userController = require('../controller/user');
 const tournamentController = require('../controller/tournament');
+const encounterController = require('../controller/encounter');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { authenticateToken, generateAccessToken } = require('../service/jwt');
 const validationModule = require('../service/validation');
 const { UserSchema, PasswordSchema } = require('../service/schema');
+const { Encounter } = require('../model');
 
 
 // #region home page
@@ -302,7 +304,7 @@ router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfi
  * Unauthorized
  */
 // #endregion
-router.post('/api/tournaments', authenticateToken, tournamentController.addTournament);
+router.post('/api/tournaments', /*authenticateToken,*/ tournamentController.addTournament);
 
 // #region tournaments list
 /**
@@ -420,7 +422,6 @@ router.get('/api/tournaments/:id', tournamentController.getTournament);
 // #endregion
 router.patch('/api/tournaments/:id', authenticateToken, tournamentController.patchTournament);
 
-
 // #region delete /api/tournaments/:id
 /**
  * DELETE /api/tournaments/:id
@@ -466,7 +467,6 @@ router.delete('/api/tournaments/:id', authenticateToken, tournamentController.de
 // #endregion
 router.get('/api/tournaments/:id/profiles/', authenticateToken, tournamentController.getUserTournamentList);
 
-
 // #region post /api/tournaments/:id/profiles/
 /**
  * POST /api/tournaments/:id/profiles/
@@ -507,6 +507,109 @@ router.post('/api/tournaments/:id/profiles/', authenticateToken, tournamentContr
  */
 // #endregion
 router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticateToken, tournamentController.deleteUserFromTournament);
+
+//! --------------------------------------------------------------- ENCOUNTER --------------------------------------------------
+
+// #region new encounter
+/**
+ * POST /api/encounters
+ * @summary Creates a encounter and save it in the database
+ * @security BasicAuth
+ * @tags encounter
+ * @param {Encounter} request.body.required - encounter informations
+ * @return {Encounter} 200 - success response - application/json
+ * @return {object} 401 - unauthorized
+ * @example response - 200 - response
+ * {
+ *        "id": 2,
+*         "winner": null,
+*         "loser": null,
+*         "date": "2022-08-28T12:04:51.931Z",
+*         "winner_score": 0,
+*         "loser_score": 0,
+*         "tournament_id": 1   
+ * }
+ * @example response - 401 - error
+ * Unauthorized
+ */
+// #endregion
+router.post('/api/encounters',/*authenticateToken,*/ encounterController.addEncounter);
+
+// #region get encounter
+/**
+ * GET /api/encounters/:id
+ * @summary This return all informations of the enounter by id with Json
+ * @security BasicAuth
+ * @tags encounter
+ * @param {integer} request.params.required - id info
+ * @return {Encounter} 200 - success response - application/json
+ * @return {object} 404 - not found
+ * @example response - 200 - response
+ * {
+ *          "id": 2,
+ *          "winner": null,
+ *          "loser": null,
+ *          "date": "2022-08-28T12:04:51.931Z",
+ *          "winner_score": 0,
+ *          "loser_score": 0,
+ *          "tournament_id": 1
+ * }
+ * @example response - 404 - not found
+ * {
+ *     "error": "Tournoi inexistant"
+ * }
+ */
+// #endregion
+router.get('/api/encounters/:id', /*authenticateToken,*/ encounterController.getEncounter);
+
+//  #region /api/encounters/:id
+/**
+ * PATCH /api/encounters/:id
+ * @summary allow to edit a encounter informations
+ * @security BearerAuth
+ * @tags encounter
+ * @param {integer} request.params.required - id info
+ * @param {Encounter} request.body.required - info to edit
+ * @return {Encounter} 200 - success response - application/json
+ * @return {object} 401 - Unauthorized response
+ * @example response - 200 - response
+ * {
+ *           "id": 2,
+ *           "winner": "albator",
+ *           "loser": "guillaumeDolle",
+ *           "date": "2022-08-28T12:04:51.931Z",
+ *           "winner_score": 5,
+ *           "loser_score": 4,
+ *           "tournament_id": 1
+ * }
+ * @example response - 401 - unauthorized error
+ * Unauthorized
+ */
+
+// #endregion
+router.patch('/api/encounters/:id', /*authenticateToken,*/ encounterController.patchEncounter);
+
+// #region post /api/encouters/:id/profiles/
+/**
+ * POST /api/encounters/:id/profiles/
+ * @summary add user on a encounters
+ * @security BearerAuth
+ * @tags en
+ * @return {UserAddedToEncounters} 200 - success response - application/json
+ * @return {object} 400 - Bad request
+ * @example response - 200 - response
+ * {
+ *      "encounter_id": 1,
+ *      "user_id": 5
+ * }
+ * @example response - 400 - bad request
+ * {
+ *      "error": "L'utilisateur d'id 5 est déjà inscrit à la rencontre d'id 1"
+ * }
+ */
+// #endregion
+router.post('/api/encounters/:id/profiles', /*authenticateToken,*/ encounterController.postUserToEncounter);
+
 
 
 //! --------------------------------------------------------------- JWT --------------------------------------------------

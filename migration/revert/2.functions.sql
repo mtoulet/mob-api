@@ -11,7 +11,7 @@ DROP FUNCTION create_tournament(json);
 DROP FUNCTION update_tournament(json);
 DROP FUNCTION delete_tournament(json);
 DROP FUNCTION add_user_to_tournament(json);
-
-
-
+DROP FUNCTION add_user_to_encounter(json);
+DROP FUNCTION update_encounter(json);
+DROP FUNCTION create_encounter (json);
 COMMIT;

@@ -20,7 +20,7 @@ const tournamentController = {
                 format: req.body.format,
                 max_player_count: req.body.max_player_count,
                 description: req.body.description,
-                image: req.body.image,
+                image: "https://i.imgur.com/XWdPSTS.png",
                 user_id: req.body.user_id,
 
             });
