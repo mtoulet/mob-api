@@ -273,7 +273,10 @@ router.patch('/api/profiles/:id/pwd', authenticateToken, validationModule.valida
 // #endregion
 router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfile);
 
+// #region /api/profiles/:id/honor
 
+// #endregion
+router.post('/api/profiles/:id/honor', authenticateToken, userController.addHonorPointToUser);
 
 //! --------------------------------------------------------------- TOURNAMENT --------------------------------------------------
 
