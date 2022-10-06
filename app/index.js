@@ -124,6 +124,19 @@ expressJSDocSwagger(app)(options);
  * @typedef {object} Error404
  * @property {string} error - the error
  */
+
+/**
+ * A encounter
+ * @typedef {object} encounter
+ * @property {integer} id - The id of the encounter
+ * @property {string} winner - The nickname of the winner
+ * @property {string} loser - The nickname of the loser
+ * @property {date} date - The date of encounter
+ * @property {integer} winner_score - The score of the winner
+ * @property {integer} loser_score - The score of the loser
+ * @property {integer} tournament_id - the id of associated tournament  
+ */
+
 // #endregion
 
 module.exports = app;

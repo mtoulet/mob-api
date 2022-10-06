@@ -63,7 +63,7 @@ setTimeout(async () => {
                 format: randomService.getRandomElementInList(tournamentFormat),
                 max_player_count: parseInt(faker.random.numeric(2)),
                 description: faker.lorem.paragraph(),
-                image: faker.image.sports(),
+                image: "https://i.imgur.com/XWdPSTS.png",
                 user_id: parseInt(faker.random.numeric())
             }
             // For each fake tournament you create, you're going to push them into the tournament array you declare above
