@@ -154,13 +154,13 @@ router.get('/api/profiles', userController.getAllProfiles);
 
 // #region /api/profiles/:id
 /**
- * GET /api/profiles/:id
+ * GET /api/profiles/{id}
  * @summary return a user profile via his id
  * @security BearerAuth
  * @tags user
- * @param {integer} request.params.required - id info
+ * @param {number} id - id info
  * @return {User} 200 - User - application/json
- * @return {object} 401 - Unauthorized
+ * @return {string} 401 - Unauthorized
  * @return {object} 404 - not found error
  * @example response - 200 - response
  * {
@@ -189,13 +189,13 @@ router.get('/api/profiles/:id', authenticateToken, userController.getProfile);
 
 // #region /api/profiles/
 /**
- * PATCH /api/profiles/:id/
+ * PATCH /api/profiles/{:id}/
  * @summary edit user profile
  * @security BearerAuth
  * @tags user
- * @param {integer} request.params.required - id info
+ * @param {integer} req.params.id.required - id info
  * @return {User} 200 - success response - application/json
- * @return {object} 401 - Unauthorized response
+ * @return {string} 401 - Unauthorized response
  * @example response - 200 - response
  * {
  *          "id": 1,
@@ -224,11 +224,11 @@ router.patch('/api/profiles/:id', authenticateToken, userController.patchProfile
  * @summary edit the password of the connected user
  * @security BearerAuth
  * @tags user
- * @param {integer} request.params.required - id info
- * @param {object} request.body.required - old and new password info
+ * @param {integer} request.params.id - id info
+ * @param {NewPassword} request.body.required - old and new password info
  * @return {object} 200 - success response - application/json
  * @return {object} 400 - bad request
- * @return {object} 401 - unauthorized
+ * @return {string} 401 - unauthorized
  * @example response - 200 - success response
  * {
  *      "message": "Votre mot de passe a bien été modifié"
@@ -286,7 +286,7 @@ router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfi
  * @tags tournament
  * @param {Tournament} request.body.required - tournament informations
  * @return {Tournament} 200 - success response - application/json
- * @return {object} 401 - unauthorized
+ * @return {string} 401 - unauthorized
  * @example response - 200 - response
  * {
  *      "id": 1,
@@ -304,7 +304,7 @@ router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfi
  * Unauthorized
  */
 // #endregion
-router.post('/api/tournaments', /*authenticateToken,*/ tournamentController.addTournament);
+router.post('/api/tournaments', authenticateToken, tournamentController.addTournament);
 
 // #region tournaments list
 /**
@@ -401,7 +401,7 @@ router.get('/api/tournaments/:id', tournamentController.getTournament);
  * @param {integer} request.params.required - id info
  * @param {Tournament} request.body.required - info to edit
  * @return {Tournament} 200 - success response - application/json
- * @return {object} 401 - Unauthorized response
+ * @return {string} 401 - Unauthorized response
  * @example response - 200 - response
  * {
  *      "id": 1,
@@ -429,7 +429,7 @@ router.patch('/api/tournaments/:id', authenticateToken, tournamentController.pat
  * @security BearerAuth
  * @tags tournament
  * @return {Tournament} 200 - success response - application/json
- * @return {object} 401 - unauthorized
+ * @return {string} 401 - unauthorized
  * @example response - 200 - response12
  * {
  *      "message": "Le tournoi a bien été supprimé"      
@@ -518,7 +518,7 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
  * @tags encounter
  * @param {Encounter} request.body.required - encounter informations
  * @return {Encounter} 200 - success response - application/json
- * @return {object} 401 - unauthorized
+ * @return {string} 401 - unauthorized
  * @example response - 200 - response
  * {
  *        "id": 2,
@@ -533,7 +533,7 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
  * Unauthorized
  */
 // #endregion
-router.post('/api/encounters',/*authenticateToken,*/ encounterController.addEncounter);
+router.post('/api/encounters',authenticateToken, encounterController.addEncounter);
 
 // #region get encounter
 /**
@@ -560,7 +560,7 @@ router.post('/api/encounters',/*authenticateToken,*/ encounterController.addEnco
  * }
  */
 // #endregion
-router.get('/api/encounters/:id', /*authenticateToken,*/ encounterController.getEncounter);
+router.get('/api/encounters/:id', authenticateToken,encounterController.getEncounter);
 
 //  #region /api/encounters/:id
 /**
@@ -571,7 +571,7 @@ router.get('/api/encounters/:id', /*authenticateToken,*/ encounterController.get
  * @param {integer} request.params.required - id info
  * @param {Encounter} request.body.required - info to edit
  * @return {Encounter} 200 - success response - application/json
- * @return {object} 401 - Unauthorized response
+ * @return {string} 401 - Unauthorized response
  * @example response - 200 - response
  * {
  *           "id": 2,
@@ -587,14 +587,14 @@ router.get('/api/encounters/:id', /*authenticateToken,*/ encounterController.get
  */
 
 // #endregion
-router.patch('/api/encounters/:id', /*authenticateToken,*/ encounterController.patchEncounter);
+router.patch('/api/encounters/:id', authenticateToken, encounterController.patchEncounter);
 
 // #region post /api/encouters/:id/profiles/
 /**
  * POST /api/encounters/:id/profiles/
  * @summary add user on a encounters
  * @security BearerAuth
- * @tags en
+ * @tags encounter
  * @return {UserAddedToEncounters} 200 - success response - application/json
  * @return {object} 400 - Bad request
  * @example response - 200 - response
@@ -608,7 +608,7 @@ router.patch('/api/encounters/:id', /*authenticateToken,*/ encounterController.p
  * }
  */
 // #endregion
-router.post('/api/encounters/:id/profiles', /*authenticateToken,*/ encounterController.postUserToEncounter);
+router.post('/api/encounters/:id/profiles', authenticateToken, encounterController.postUserToEncounter);
 
 
 
@@ -622,7 +622,7 @@ router.post('/api/encounters/:id/profiles', /*authenticateToken,*/ encounterCont
   * @security BearerAuth
   * @tags user
   * @return {object} 200 - success response - application/json
-  * @return {object} 401 - Unauthorized response
+  * @return {string} 401 - Unauthorized response
   * @example response - 200 - response
   * {
   *      "firstname": "Harleen",

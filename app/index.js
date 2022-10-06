@@ -92,6 +92,13 @@ expressJSDocSwagger(app)(options);
  */
 
 /**
+ * A new Password
+ * @typedef {object} NewPassword
+ * @property {string} password - The old password
+ * @property {string} newPassword - The new password
+ */
+
+/**
  * A tournament
  * @typedef {object} Tournament
  * @property {integer} id - The id
@@ -127,7 +134,7 @@ expressJSDocSwagger(app)(options);
 
 /**
  * A encounter
- * @typedef {object} encounter
+ * @typedef {object} Encounter
  * @property {integer} id - The id of the encounter
  * @property {string} winner - The nickname of the winner
  * @property {string} loser - The nickname of the loser
@@ -135,6 +142,19 @@ expressJSDocSwagger(app)(options);
  * @property {integer} winner_score - The score of the winner
  * @property {integer} loser_score - The score of the loser
  * @property {integer} tournament_id - the id of associated tournament  
+ */
+
+/**
+ * A user_id with encounter_id
+ * @typedef {object} UserAddedToEncounters
+ * @property {integer} user_id - the id of user
+ * @property {integer} encounter_id - The id of encounter
+ */
+
+/**
+ * A encounter_has_user
+ * @typedef {object} UserEncounter
+ * @property {integer} user_id - The id of the user
  */
 
 // #endregion
