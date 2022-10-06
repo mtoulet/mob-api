@@ -92,9 +92,11 @@ class User {
     }
 
     static async addOneHonorPoint(userId) {
-        const result = await client.query('UPDATE public."user" SET public."user".honor_point += 1 WHERE id = $1;', [userId]);
-        debug(result);
-        return result;
+        return await client.query('UPDATE public."user" SET honor_point = honor_point + 1 WHERE id = $1;', [userId]);
+    }
+
+    static async removeOneHonorPoint(userId) {
+        return await client.query('UPDATE public."user" SET honor_point = honor_point - 1 WHERE id = $1;', [userId]);
     }
 };
 
