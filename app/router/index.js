@@ -513,6 +513,27 @@ router.post('/api/tournaments/:id/profiles/', authenticateToken, tournamentContr
 // #endregion
 router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticateToken, tournamentController.deleteUserFromTournament);
 
+// #region get /api/tournaments/profiles/:user_id/
+/** 
+ * GET/api/tournaments/profiles/{user_id}/
+ * @summary get list of tournament by user_id
+ * @security BearerAuth
+ * @tags tournament
+ * @param {integer} user_id.path.required - user_id info
+ * @return {object} 200 - success response - application/json
+ * @return {object} 400 - Bad request
+ * @example response - 200 - response
+ * {
+ *      tournaments_id : 2  
+ * }
+ * @example response - 400 - bad request
+ * {
+ *      "error": "L'utilisateur n'a ni créé et ne s'est ni inscrit à un tournoi"
+ * }
+ */
+// #endregion
+router.get('api/tournaments/profiles/:id', authenticateToken, tournamentController.getListTournamentOfUser);
+
 //! --------------------------------------------------------------- ENCOUNTER --------------------------------------------------
 
 // #region new encounter

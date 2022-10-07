@@ -195,6 +195,24 @@ const tournamentController = {
             console.error(err);
         }
     },
-}
+
+
+
+    /**
+     * @summary Get the list of all tournament with the user id
+     * @param {*} req 
+     * @param {*} res 
+     * //@returns {Array<UserTournament>} an array of user_id objects
+     */
+    async getListTournamentOfUser(req,res){
+        const userId= req.body.user_id
+        try{
+            const listTournamentOfUser = await Tournament.getUserTournament(userId);
+            return res.json(listTournamentOfUser);
+        }catch (err) {
+            console.error(err);
+    }
+    },
+}    
 
 module.exports = tournamentController;

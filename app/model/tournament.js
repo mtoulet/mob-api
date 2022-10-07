@@ -85,6 +85,11 @@ class Tournament {
 
         return result.rows;
     }
+
+    static async getUserTournament(userId){
+        const result = await client.query('SELECT * FROM tournament, tournament_Has_user WHERE tournament.user_id=$1 OR tournament_has_user.user_id=$1;',[userId]);
+        return result.rows
+    }
 }
 
 module.exports = Tournament;
