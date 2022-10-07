@@ -14,10 +14,6 @@ app.use(express.urlencoded({ extended: true }));
 const router = require('./router');
 app.use(router);
 
-// 404 middleware
-app.get('*', function(req, res){
-    res.status(404).send('NOT FOUND');
-});
 // #endregion
 
 // #region swagger
