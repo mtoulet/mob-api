@@ -532,7 +532,7 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
  * }
  */
 // #endregion
-router.get('api/tournaments/profiles/:id', authenticateToken, tournamentController.getListTournamentOfUser);
+router.get('/api/tournaments/profiles/:user_id/', authenticateToken, tournamentController.getListTournamentOfUser);
 
 //! --------------------------------------------------------------- ENCOUNTER --------------------------------------------------
 

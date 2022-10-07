@@ -87,7 +87,10 @@ class Tournament {
     }
 
     static async getUserTournament(userId){
-        const result = await client.query('SELECT * FROM tournament, tournament_Has_user WHERE tournament.user_id=$1 OR tournament_has_user.user_id=$1;',[userId]);
+        //selectionner tous les tournois que l'utilisateur a créé et tous les tournois auquel in participe.
+        const result = await client.query('SELECT * FROM tournament JOIN tournament_has_user ON tournament.id = tournament_has_user.tournament_id WHERE tournament.user_id=$1;',[userId]);
+       
+        debug(result.rows)
         return result.rows
     }
 }

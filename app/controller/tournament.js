@@ -205,9 +205,10 @@ const tournamentController = {
      * //@returns {Array<UserTournament>} an array of user_id objects
      */
     async getListTournamentOfUser(req,res){
-        const userId= req.body.user_id
+        const userId= req.params.user_id
         try{
             const listTournamentOfUser = await Tournament.getUserTournament(userId);
+            debug(listTournamentOfUser)
             return res.json(listTournamentOfUser);
         }catch (err) {
             console.error(err);
