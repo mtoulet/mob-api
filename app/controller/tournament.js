@@ -177,10 +177,8 @@ const tournamentController = {
         try {
             // Get all users ID from one tournament via his ID
             const userTournamentList = await Tournament.getUsers(tournamentId); 
-            debug(userTournamentList);
             // Check if the userID is in the list of all users ID in the tournament ID
             const existingUserInTournament = userTournamentList.find(({user_id}) => user_id === userId);
-            debug(existingUserInTournament);
 
             // If the user is not already registered on the tournament we send an error
             if(!existingUserInTournament) {

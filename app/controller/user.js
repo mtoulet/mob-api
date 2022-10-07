@@ -187,7 +187,7 @@ const userController = {
             if (!userToDelete) {
                 return res.status(404).json({
                     error: "Utilisateur inexistant"
-                })
+                });
             }
             // test password (https://www.npmjs.com/package/bcrypt)
             const checkPassword = await bcrypt.compare(req.body.password, userToDelete.password);
@@ -204,6 +204,38 @@ const userController = {
             return res.json({message: "Votre compte a bien été supprimé"})
 
         } catch (err) {
+            console.error(err);
+        }
+    },
+
+    async addHonorPointToUser(req, res) {
+        const id = req.params.id;
+        try {
+            const foundUser = await User.getUserById(id);
+            if (!foundUser) {
+                return res.status(404).json({
+                    error: "Utilisateur inexistant"
+                });
+            }
+            await User.addOneHonorPoint(foundUser.id);
+            return res.json({message: "Vous avez honoré cet utilisateur"});
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    async removeHonorPointToUser (req, res) {
+        const id = req.params.id;
+        try {
+            const foundUser = await User.getUserById(id);
+            if (!foundUser) {
+                return res.status(404).json({
+                    error: "Utilisateur inexistant"
+                });
+            }
+            await User.removeOneHonorPoint(foundUser.id);
+            return res.json({message: "Vous avez deshonoré cet utilisateur"});
+        } catch(err) {
             console.error(err);
         }
     }
