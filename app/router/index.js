@@ -723,17 +723,4 @@ router.post('/api/encounters/:id/profiles', authenticateToken, encounterControll
     });
 });
 
-// #region home page
-/**
- * GET /
- * @summary Home page test
- * @security BasicAuth
- * @tags test
- * @return {string} 200 - success response
- */
-router.get('/', (req, res) => {
-    res.send("Hello there :)");
-});
-// #endregion
-
 module.exports = router;
