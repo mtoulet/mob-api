@@ -92,7 +92,7 @@ router.post('/api/register', validationModule.validateBody(UserSchema), userCont
 /**
  * GET /api/profiles
  * @summary This return all informations of all users with Json
- * @security Admin
+ * @security BasicAuth
  * @tags user
  * @return {array<User>} 200 - success response - application/json
  * @return {object} 403 - forbidden
@@ -158,7 +158,7 @@ router.get('/api/profiles', userController.getAllProfiles);
  * @summary return a user profile via his id
  * @security BearerAuth
  * @tags user
- * @param {integer} id.path.required - id info
+ * @param {integer} id.path.required - user id info
  * @return {User} 200 - User - application/json
  * @return {string} 401 - Unauthorized
  * @return {object} 404 - not found error
@@ -193,7 +193,7 @@ router.get('/api/profiles/:id', authenticateToken, userController.getProfile);
  * @summary edit user profile
  * @security BearerAuth
  * @tags user
- * @param {integer} id.path.required - id info
+ * @param {integer} id.path.required - user id info
  * @return {User} 200 - success response - application/json
  * @return {string} 401 - Unauthorized response
  * @example response - 200 - response
@@ -224,7 +224,7 @@ router.patch('/api/profiles/:id', authenticateToken, userController.patchProfile
  * @summary edit the password of the connected user
  * @security BearerAuth
  * @tags user
- * @param {integer} id.path.required - id info
+ * @param {integer} id.path.required - user id info
  * @param {NewPassword} request.body.required - old and new password info
  * @return {object} 200 - success response - application/json
  * @return {object} 400 - bad request
@@ -251,13 +251,14 @@ router.patch('/api/profiles/:id/pwd', authenticateToken, validationModule.valida
 /**
  * DELETE /api/profiles/{id}
  * @summary delete user profile
+ * @security BearerAuth
  * @tags user
- * @param {integer} id.path.required - id info
+ * @param {integer} id.path.required - user id info
  * @param {Password} request.body.required - password info
  * @return {object} 200 - success response - application/json
  * @return {object} 404 - not found error
  * @return {object} 401 - unauthorized
- * @example response - 200 - sucess response
+ * @example response - 200 - success response
  * {
  *      "message": "Votre compte a bien été supprimé"
  * }
@@ -274,11 +275,44 @@ router.patch('/api/profiles/:id/pwd', authenticateToken, validationModule.valida
 router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfile);
 
 // #region /api/profiles/:id/add-honor
-
+/**
+ * POST /api/profiles/{id}/add-honor
+ * @summary A user can upvote another user to give him +1 honor point
+ * @security BearerAuth
+ * @tags user
+ * @param {integer} id.path.required - user id info
+ * @return {object} 200 - success response - application/json
+ * @return {object} 404 - not found
+ * @example response - 200 - success response
+ * {
+ *      "message": "Vous avez honoré cet utilisateur"
+ * }
+ * @example response - 404 - not found error
+ * {
+ *      "error": "Utilisateur inexistant"
+ * }
+ */
 // #endregion
 router.post('/api/profiles/:id/add-honor', authenticateToken, userController.addHonorPointToUser);
 
 // #region /api/profiles/:id/remove-honor
+/**
+ * POST /api/profiles/{id}/remove-honor
+ * @summary A user can downvote another user to reduce his honor points by 1
+ * @security BearerAuth
+ * @tags user
+ * @param {integer} id.path.required - user id info
+ * @return {object} 200 - success response - application/json
+ * @return {object} 404 - not found
+ * @example response - 200 - success response
+ * {
+ *      "message": "Vous avez deshonoré cet utilisateur"
+ * }
+ * @example response - 404 - not found error
+ * {
+ *      "error": "Utilisateur inexistant"
+ * }
+ */
 // #endregion
 router.post('/api/profiles/:id/remove-honor', authenticateToken, userController.removeHonorPointToUser);
 
@@ -289,10 +323,10 @@ router.post('/api/profiles/:id/remove-honor', authenticateToken, userController.
 /**
  * POST /api/tournaments
  * @summary Creates a tournament and save it in the database
- * @security BasicAuth
+ * @security BearerAuth
  * @tags tournament
- * @param {Tournament} request.body.required - tournament informations
- * @return {Tournament} 200 - success response - application/json
+ * @param {TournamentSent} request.body.required - tournament informations
+ * @return {TournamentReturned} 200 - success response - application/json
  * @return {string} 401 - unauthorized
  * @example response - 200 - response
  * {
@@ -319,7 +353,7 @@ router.post('/api/tournaments', authenticateToken, tournamentController.addTourn
  * @summary This return all informations of all tournament with Json
  * @security BasicAuth
  * @tags tournament
- * @return {array<Tournament>} 200 - success response - application/json
+ * @return {array<TournamentReturned>} 200 - success response - application/json
  * @return {object} 403 - forbidden
  * @example response - 200 - response
  * [
@@ -375,8 +409,8 @@ router.get('/api/tournaments', tournamentController.getAllTournaments);
  * @summary This return all informations of the tournament by id with Json
  * @security BasicAuth
  * @tags tournament
- * @param {integer} id.path.required - id info
- * @return {Tournament} 200 - success response - application/json
+ * @param {integer} id.path.required - tournament id info
+ * @return {TournamentReturned} 200 - success response - application/json
  * @return {object} 404 - not found
  * @example response - 200 - response
  * {
@@ -405,9 +439,9 @@ router.get('/api/tournaments/:id', tournamentController.getTournament);
  * @summary allow to edit a tournament informations
  * @security BearerAuth
  * @tags tournament
- * @param {integer} id.path.required - id info
- * @param {Tournament} request.body.required - info to edit
- * @return {Tournament} 200 - success response - application/json
+ * @param {integer} id.path.required - tournament id info
+ * @param {TournamentSent} request.body.required - info to edit
+ * @return {TournamentReturned} 200 - success response - application/json
  * @return {string} 401 - Unauthorized response
  * @example response - 200 - response
  * {
@@ -435,8 +469,8 @@ router.patch('/api/tournaments/:id', authenticateToken, tournamentController.pat
  * @summary Delete Tournament with Id
  * @security BearerAuth
  * @tags tournament
- * @param {integer} id.path.required - id info
- * @return {Tournament} 200 - success response - application/json
+ * @param {integer} id.path.required - tournament id info
+ * @return {TournamentReturned} 200 - success response - application/json
  * @return {string} 401 - unauthorized
  * @example response - 200 - response12
  * {
@@ -454,7 +488,7 @@ router.delete('/api/tournaments/:id', authenticateToken, tournamentController.de
  * @summary get a list of all users in tournament
  * @security BearerAuth
  * @tags tournament
- * @param {integer} id.path.required - id info
+ * @param {integer} id.path.required - tournament id info
  * @return {array<UserTournament>} 200 - success response - application/json
  * @return {string} 401 - Unauthorized response
  * @example response - 200 - response
@@ -482,7 +516,8 @@ router.get('/api/tournaments/:id/profiles/', authenticateToken, tournamentContro
  * @summary add user on a tournament
  * @security BearerAuth
  * @tags tournament
- * @param {integer} id.path.required - id info
+ * @param {integer} id.path.required - tournament id info
+ * @param {object} request.body.required - user id info
  * @return {UserAddedToTournament} 200 - success response - application/json
  * @return {object} 400 - Bad request
  * @example response - 200 - response
@@ -526,7 +561,7 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
 /**
  * POST /api/encounters
  * @summary Creates an encounter and save it in the database
- * @security BasicAuth
+ * @security BearerAuth
  * @tags encounter
  * @param {Encounter} request.body.required - encounter informations
  * @return {Encounter} 200 - success response - application/json
@@ -551,9 +586,9 @@ router.post('/api/encounters',authenticateToken, encounterController.addEncounte
 /**
  * GET /api/encounters/{id}
  * @summary This return all informations of the enounter by id with Json
- * @security BasicAuth
+ * @security BearerAuth
  * @tags encounter
- * @param {integer} id.path.required - id info
+ * @param {integer} id.path.required - encounter id info
  * @return {Encounter} 200 - success response - application/json
  * @return {object} 404 - not found
  * @example response - 200 - response
@@ -580,7 +615,7 @@ router.get('/api/encounters/:id', authenticateToken,encounterController.getEncou
  * @summary allow to edit a encounter informations
  * @security BearerAuth
  * @tags encounter
- * @param {integer} id.path.required - id info
+ * @param {integer} id.path.required - encounter id info
  * @param {Encounter} request.body.required - info to edit
  * @return {Encounter} 200 - success response - application/json
  * @return {string} 401 - Unauthorized response
@@ -607,7 +642,8 @@ router.patch('/api/encounters/:id', authenticateToken, encounterController.patch
  * @summary add user on a encounters
  * @security BearerAuth
  * @tags encounter
- * @param {integer} id.path.required - id info
+ * @param {integer} id.path.required - encounter id info
+ * @param {integer} request.body.required - user id info
  * @return {UserAddedToEncounters} 200 - success response - application/json
  * @return {object} 400 - Bad request
  * @example response - 200 - response

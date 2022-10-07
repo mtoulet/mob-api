@@ -82,7 +82,7 @@ class User {
     }
 
     /**
-     * suppressed profile by id
+     * delete profile by id
      * @param {Integer} userId
      * @returns {Boolean}
      */

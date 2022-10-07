@@ -218,7 +218,6 @@ const userController = {
                 });
             }
             await User.addOneHonorPoint(foundUser.id);
-            debug(foundUser.honor_point);
             return res.json({message: "Vous avez honoré cet utilisateur"});
         } catch (err) {
             console.error(err);
@@ -235,7 +234,6 @@ const userController = {
                 });
             }
             await User.removeOneHonorPoint(foundUser.id);
-            debug(foundUser.honor_point);
             return res.json({message: "Vous avez deshonoré cet utilisateur"});
         } catch(err) {
             console.error(err);
