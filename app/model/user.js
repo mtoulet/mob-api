@@ -95,9 +95,11 @@ class User {
         return await client.query('UPDATE public."user" SET honor_point = honor_point + 1 WHERE id = $1;', [userId]);
     }
 
+
     static async removeOneHonorPoint(userId) {
         return await client.query('UPDATE public."user" SET honor_point = honor_point - 1 WHERE id = $1;', [userId]);
     }
+
 };
 
 module.exports = User;

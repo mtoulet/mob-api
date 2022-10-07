@@ -150,7 +150,6 @@ const userController = {
         // get the id in params
         const id = req.params.id;
         try {
-            
             const foundUser = await User.getUserById(id); // Find the user via his id
             const checkedPassword = await bcrypt.compare(req.body.password, foundUser.password); // Check the current password with the one stored in the database
             if (checkedPassword) { // If above is true and the newPassword is different than the previous one
@@ -198,6 +197,7 @@ const userController = {
                     error: "Mauvais couple email/mot de passe"
                 });
             }
+
             // Delete the profile via his id (SQL function)
             await User.deleteProfileById(userToDelete.id);
 
