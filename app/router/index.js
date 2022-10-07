@@ -711,7 +711,7 @@ router.post('/api/encounters/:id/profiles', authenticateToken, encounterControll
     }
     
     // If it's found we verify it by passing the token, the secret key and a function called to send either an error or the collected data
-    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    jwt.verify(token, `${process.env.REFRESH_TOKEN_SECRET}`, (err, user) => {
         if (err) {
             return res.sendStatus(401);
         }
