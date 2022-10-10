@@ -555,6 +555,46 @@ router.post('/api/tournaments/:id/profiles/', authenticateToken, tournamentContr
 // #endregion
 router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticateToken, tournamentController.deleteUserFromTournament);
 
+// #region get /api/tournaments/profiles/:id/
+/** 
+ * GET/api/tournaments/profiles/{id}/
+ * @summary get list of tournament by user_id
+ * @security BearerAuth
+ * @tags tournament
+ * @param {integer} id.path.required - user_id info
+ * @return {array<TournamentByUserId>} 200 - success response - application/json
+ * @return {object} 404 - not found
+ * @example response - 200 - response
+ * [
+ *      {
+ *          "label": "Get Down Tonight",
+ *          "id": 1,
+ *          "user_id": 2
+ *      },
+ *      {
+ *          "label": "White Rabbit",
+ *          "id": 2,
+ *          "user_id": 8
+ *      },
+ *      {
+ *          "label": "Rags to Riches",
+ *          "id": 3,
+ *          "user_id": 3
+ *      },
+ *      {
+ *          "label": "10 tournament",
+ *          "id": 6,
+ *          "user_id": 11
+ *      }
+ * ]
+ * @example response - 404 - not found
+ * {
+ *      "error": "L'utilisateur n'a crée aucun tournoi et n'est inscrit à aucun d'entre eux"
+ * }
+ */
+// #endregion
+router.get('/api/tournaments/profiles/:user_id/', authenticateToken, tournamentController.getTournamentListByUserId);
+
 //! --------------------------------------------------------------- ENCOUNTER --------------------------------------------------
 
 // #region new encounter
@@ -653,7 +693,7 @@ router.patch('/api/encounters/:id', authenticateToken, encounterController.patch
  * }
  * @example response - 400 - bad request
  * {
- *      "error": "L'utilisateur d'id 5 est déjà inscrit à la rencontre d'id 1"
+ *      "error": `l'utilisateur ne participe à et/ou n'a créé aucun tournoi`
  * }
  */
 // #endregion

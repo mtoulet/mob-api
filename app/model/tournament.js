@@ -85,6 +85,12 @@ class Tournament {
 
         return result.rows;
     }
+
+    static async getTournaments(userId){
+        // Get a list of tournaments which are created by this user_id or tournaments he's enrolled in
+        const result = await client.query('SELECT tournament.label, tournament.id, tournament.user_id FROM tournament_has_user JOIN public.user ON public.user.id = tournament_has_user.user_id FULL JOIN tournament ON tournament.id = tournament_has_user.tournament_id  WHERE tournament.user_id = $1 OR tournament_has_user.user_id = $1 GROUP BY tournament.label, tournament.id, tournament.user_id;', [userId]);
+        return result.rows;
+    }
 }
 
 module.exports = Tournament;
