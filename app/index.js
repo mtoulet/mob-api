@@ -80,6 +80,15 @@ expressJSDocSwagger(app)(options);
 */
 
 /**
+ * An edited user
+ * @typedef {object} EditedUser
+ * @property {string} firstname - The firstname to edit
+ * @property {string} lastname - The lastname to edit
+ * @property {string} nickname - The nickname
+ * @property {string} avatar - The profile picture
+ */
+
+/**
  * A User who wants to login
  * @typedef {object} Guest
  * @property {string} mail - The email
@@ -156,8 +165,15 @@ expressJSDocSwagger(app)(options);
  */
 
 /**
- * A encounter
- * @typedef {object} Encounter
+ * An encounter sent
+ * @typedef {object} EncounterSent
+ * @property {string} date - The date of encounter
+ * @property {integer} tournament_id - the id of associated tournament  
+ */
+
+/**
+ * An encounter returned
+ * @typedef {object} EncounterReturned
  * @property {integer} id - The id of the encounter
  * @property {string} winner - The nickname of the winner
  * @property {string} loser - The nickname of the loser
@@ -165,6 +181,16 @@ expressJSDocSwagger(app)(options);
  * @property {integer} winner_score - The score of the winner
  * @property {integer} loser_score - The score of the loser
  * @property {integer} tournament_id - the id of associated tournament  
+ */
+
+/**
+ * An encounter edited
+ * @typedef {object} EncounterEdited
+ * @property {string} winner - The nickname of the winner
+ * @property {string} loser - The nickname of the loser
+ * @property {string} date - The date of encounter
+ * @property {integer} winner_score - The score of the winner
+ * @property {integer} loser_score - The score of the loser  
  */
 
 /**

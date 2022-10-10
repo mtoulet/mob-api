@@ -204,7 +204,7 @@ const tournamentController = {
      * @returns {Array<TournamentByUserId>} an array of objects
      */
     async getTournamentListByUserId(req,res){
-        const userId = req.params.user_id;
+        const userId = req.params.id;
         try { 
             const tournamentList = await Tournament.getTournaments(userId);
             if(!tournamentList){

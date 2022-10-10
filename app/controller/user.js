@@ -238,6 +238,23 @@ const userController = {
         } catch(err) {
             console.error(err);
         }
+    },
+
+    async addTrophiesToTuser (req, res) {
+        const id = req.params.id;
+        try {
+            const foundUser = await User.getUserById(id);
+            if (!foundUser) {
+                return res.status(404).json({
+                    error: "Utilisateur inexistant"
+                });
+            }
+            await User.addOneTrophy(foundUser.id);
+            return res.json({message: `L'utilisateur d'id ${foundUser.id} a gagné un trophée`});
+
+        } catch (err) {
+            console.error(err);
+        }
     }
 };
 
