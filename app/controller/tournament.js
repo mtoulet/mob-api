@@ -177,6 +177,7 @@ const tournamentController = {
         try {
             // Get all users ID from one tournament via his ID
             const userTournamentList = await Tournament.getUsers(tournamentId); 
+
             // Check if the userID is in the list of all users ID in the tournament ID
             const existingUserInTournament = userTournamentList.find(({user_id}) => user_id === userId);
 
@@ -193,6 +194,27 @@ const tournamentController = {
             console.error(err);
         }
     },
-}
+
+
+
+    /**
+     * @summary Get the list of all tournaments with the user id
+     * @param {*} req 
+     * @param {*} res 
+     * @returns {Array<TournamentByUserId>} an array of objects
+     */
+    async getTournamentListByUserId(req,res){
+        const userId = req.params.user_id;
+        try { 
+            const tournamentList = await Tournament.getTournaments(userId);
+            if(!tournamentList){
+                res.status(404).json({error: `L'utilisateur n'a crée aucun tournoi et n'est inscrit à aucun d'entre eux`});
+            }
+            return res.json(tournamentList);
+        } catch (err) {
+            console.error(err);
+        }
+    },
+}    
 
 module.exports = tournamentController;
