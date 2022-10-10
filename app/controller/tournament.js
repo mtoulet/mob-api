@@ -177,10 +177,9 @@ const tournamentController = {
         try {
             // Get all users ID from one tournament via his ID
             const userTournamentList = await Tournament.getUsers(tournamentId); 
-            debug(userTournamentList);
+
             // Check if the userID is in the list of all users ID in the tournament ID
             const existingUserInTournament = userTournamentList.find(({user_id}) => user_id === userId);
-            debug(existingUserInTournament);
 
             // If the user is not already registered on the tournament we send an error
             if(!existingUserInTournament) {
@@ -199,20 +198,22 @@ const tournamentController = {
 
 
     /**
-     * @summary Get the list of all tournament with the user id
+     * @summary Get the list of all tournaments with the user id
      * @param {*} req 
      * @param {*} res 
-     * //@returns {Array<UserTournament>} an array of user_id objects
+     * @returns {Array<TournamentByUserId>} an array of objects
      */
-    async getListTournamentOfUser(req,res){
-        const userId= req.params.user_id
-        try{
-            const listTournamentOfUser = await Tournament.getUserTournament(userId);
-            debug(listTournamentOfUser)
-            return res.json(listTournamentOfUser);
-        }catch (err) {
+    async getTournamentListByUserId(req,res){
+        const userId = req.params.user_id;
+        try { 
+            const tournamentList = await Tournament.getTournaments(userId);
+            if(!tournamentList){
+                res.status(404).json({error: `L'utilisateur n'a crée aucun tournoi et n'est inscrit à aucun d'entre eux`});
+            }
+            return res.json(tournamentList);
+        } catch (err) {
             console.error(err);
-    }
+        }
     },
 }    
 

@@ -127,6 +127,14 @@ expressJSDocSwagger(app)(options);
  */
 
 /**
+ * A tournament with his label, id, and moderator (user_id)
+ * @typedef {object} TournamentByUserId
+ * @property {string} label - The label of the tournament
+ * @property {integer} id - The id of the tournament
+ * @property {integer} user_id - the id of the user who created the tournament
+ */
+
+/**
  * Error 404
  * @typedef {object} Error404
  * @property {string} error - the error
