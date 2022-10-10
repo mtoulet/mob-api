@@ -150,7 +150,6 @@ const userController = {
         // get the id in params
         const id = req.params.id;
         try {
-            
             const foundUser = await User.getUserById(id); // Find the user via his id
             const checkedPassword = await bcrypt.compare(req.body.password, foundUser.password); // Check the current password with the one stored in the database
             if (checkedPassword) { // If above is true and the newPassword is different than the previous one
@@ -187,7 +186,7 @@ const userController = {
             if (!userToDelete) {
                 return res.status(404).json({
                     error: "Utilisateur inexistant"
-                })
+                });
             }
             // test password (https://www.npmjs.com/package/bcrypt)
             const checkPassword = await bcrypt.compare(req.body.password, userToDelete.password);
@@ -198,12 +197,45 @@ const userController = {
                     error: "Mauvais couple email/mot de passe"
                 });
             }
+
             // Delete the profile via his id (SQL function)
             await User.deleteProfileById(userToDelete.id);
 
             return res.json({message: "Votre compte a bien été supprimé"})
 
         } catch (err) {
+            console.error(err);
+        }
+    },
+
+    async addHonorPointToUser(req, res) {
+        const id = req.params.id;
+        try {
+            const foundUser = await User.getUserById(id);
+            if (!foundUser) {
+                return res.status(404).json({
+                    error: "Utilisateur inexistant"
+                });
+            }
+            await User.addOneHonorPoint(foundUser.id);
+            return res.json({message: "Vous avez honoré cet utilisateur"});
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    async removeHonorPointToUser (req, res) {
+        const id = req.params.id;
+        try {
+            const foundUser = await User.getUserById(id);
+            if (!foundUser) {
+                return res.status(404).json({
+                    error: "Utilisateur inexistant"
+                });
+            }
+            await User.removeOneHonorPoint(foundUser.id);
+            return res.json({message: "Vous avez deshonoré cet utilisateur"});
+        } catch(err) {
             console.error(err);
         }
     }

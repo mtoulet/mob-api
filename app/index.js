@@ -13,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const router = require('./router');
 app.use(router);
+
 // #endregion
 
 // #region swagger
@@ -99,8 +100,22 @@ expressJSDocSwagger(app)(options);
  */
 
 /**
- * A tournament
- * @typedef {object} Tournament
+ * A tournament sent
+ * @typedef {object} TournamentSent
+ * @property {string} label - The name of tournament
+ * @property {string} type - The type of tournament
+ * @property {string} date - The date
+ * @property {string} game - The  game
+ * @property {string} format - The  format
+ * @property {integer} max_player_count - The maximum number of players in the tournament
+ * @property {string} description - Informations about this tournament
+ * @property {string} image - The picture of the tournament
+ * @property {integer} user_id -  The user_id of the user which created the tournament
+*/
+
+/**
+ * A returned tournament
+ * @typedef {object} TournamentReturned
  * @property {integer} id - The id
  * @property {string} label - The name of tournament
  * @property {string} type - The type of tournament
@@ -146,7 +161,7 @@ expressJSDocSwagger(app)(options);
  * @property {integer} id - The id of the encounter
  * @property {string} winner - The nickname of the winner
  * @property {string} loser - The nickname of the loser
- * @property {date} date - The date of encounter
+ * @property {string} date - The date of encounter
  * @property {integer} winner_score - The score of the winner
  * @property {integer} loser_score - The score of the loser
  * @property {integer} tournament_id - the id of associated tournament  

@@ -1,4 +1,5 @@
-const client = require("../config/db")
+const client = require("../config/db");
+const debug = require('debug')('USER MODEL');
 
 class User {
 
@@ -81,14 +82,24 @@ class User {
     }
 
     /**
-     * suppressed profile by id
+     * delete profile by id
      * @param {Integer} userId
      * @returns {Boolean}
      */
-     static async deleteProfileById(userId) {
+    static async deleteProfileById(userId) {
         const result = await client.query('DELETE FROM public."user" WHERE id = $1;', [userId]);
         return result;
     }
+
+    static async addOneHonorPoint(userId) {
+        return await client.query('UPDATE public."user" SET honor_point = honor_point + 1 WHERE id = $1;', [userId]);
+    }
+
+
+    static async removeOneHonorPoint(userId) {
+        return await client.query('UPDATE public."user" SET honor_point = honor_point - 1 WHERE id = $1;', [userId]);
+    }
+
 };
 
 module.exports = User;
