@@ -316,6 +316,28 @@ router.post('/api/profiles/:id/add-honor', authenticateToken, userController.add
 // #endregion
 router.post('/api/profiles/:id/remove-honor', authenticateToken, userController.removeHonorPointToUser);
 
+// #region /api/profiles/:id/add-trophies
+/**
+ * POST /api/profiles/{id}/add-trophies
+ * @summary A winner of a tournament win a trophy (in bdd)
+ * @security BearerAuth
+ * @tags user
+ * @param {integer} id.path.required - user id info
+ * @return {object} 200 - success response - application/json
+ * @return {object} 404 - not found
+ * @example response - 200 - success response
+ * {
+ *      "message": "L'utilisateur d'id 5 a gagné un trophée"
+ * }
+ * @example response - 404 - not found error
+ * {
+ *      "error": "Utilisateur inexistant"
+ * }
+ */
+// #endregion
+router.post('/api/profiles/:id/add-trophies', authenticateToken, userController.addTrophiesToTuser)
+
+
 //! --------------------------------------------------------------- TOURNAMENT --------------------------------------------------
 
 
