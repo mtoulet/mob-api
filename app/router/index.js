@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken');
 const { authenticateToken, generateAccessToken } = require('../service/jwt');
 const validationModule = require('../service/validation');
 const { UserSchema, PasswordSchema } = require('../service/schema');
-const { Encounter } = require('../model');
 
 
 // #region home page
