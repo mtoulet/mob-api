@@ -8,6 +8,7 @@ const { Client } = require("pg");
 //         rejectUnauthorized: false
 //     }
 // });
+ 
 
 //  Connection à la bdd locale (PgAdmin) 
  const client = new Client(process.env.PG_URL);
