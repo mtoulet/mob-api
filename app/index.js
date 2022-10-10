@@ -80,6 +80,15 @@ expressJSDocSwagger(app)(options);
 */
 
 /**
+ * An edited user
+ * @typedef {object} EditedUser
+ * @property {string} firstname - The firstname to edit
+ * @property {string} lastname - The lastname to edit
+ * @property {string} nickname - The nickname
+ * @property {string} avatar - The profile picture
+ */
+
+/**
  * A User who wants to login
  * @typedef {object} Guest
  * @property {string} mail - The email

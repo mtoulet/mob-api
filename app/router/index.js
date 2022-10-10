@@ -194,6 +194,7 @@ router.get('/api/profiles/:id', authenticateToken, userController.getProfile);
  * @security BearerAuth
  * @tags user
  * @param {integer} id.path.required - user id info
+ * @param {EditedUser} request.body.required - user info to edit
  * @return {User} 200 - success response - application/json
  * @return {string} 401 - Unauthorized response
  * @example response - 200 - response
