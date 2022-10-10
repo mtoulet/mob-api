@@ -557,7 +557,7 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
 
 // #region get /api/tournaments/profiles/:id/
 /** 
- * GET/api/tournaments/profiles/{id}/
+ * GET /api/tournaments/profiles/{id}/
  * @summary get list of tournament by user_id
  * @security BearerAuth
  * @tags tournament
