@@ -101,6 +101,29 @@ const encounterController = {
         } catch (err) {
             console.error(err);
         }
+    },
+
+
+     /**
+     * @summary Allow to get a list of encounter by tournament id
+     * @param {*} req 
+     * @param {*} res 
+     * @returns {Encounter} An object with the list of enounter by tournament id 
+     */
+    async getEncountersListByTournamentId(req, res){
+            const id = req.params.id;
+        try {
+            const foundEncountersListByTournamentId = await Encounter.getEncounterById(id);
+            if (!foundEncountersListByTournamentId) {
+                return res.status(404).json({
+                    error: "Rencontre inexistante"
+                });
+            }
+            return res.json(foundEncountersListByTournamentId);
+
+        }catch (err) {
+            console.error(err);
+        }
     }
 
 }

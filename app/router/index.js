@@ -722,6 +722,34 @@ router.patch('/api/encounters/:id', authenticateToken, encounterController.patch
 // #endregion
 router.post('/api/encounters/:id/profiles', authenticateToken, encounterController.postUserToEncounter);
 
+// #region get encounter
+/**
+ * GET /api/tournaments/{id}/encounters/
+ * @summary This return list of all encounter of tounament with id
+ * @security BearerAuth
+ * @tags encounter
+ * @param {integer} id.path.required - encounter id info
+ * @return {EncounterReturned} 200 - success response - application/json
+ * @return {object} 404 - not found
+ * @example response - 200 - response
+ * {
+ *          "id": 2,
+ *          "winner": null,
+ *          "loser": null,
+ *          "date": "2022-08-28T12:04:51.931Z",
+ *          "winner_score": 0,
+ *          "loser_score": 0,
+ *          "tournament_id": 1
+ * }
+ * @example response - 404 - not found
+ * {
+ *     "error": "Tournoi inexistant"
+ * }
+ */
+// #endregion
+router.get('/api/tournaments/:id/encouters', authenticateToken, encounterController.getEncountersListByTournamentId);
+
+
 
 
 //! --------------------------------------------------------------- JWT --------------------------------------------------
