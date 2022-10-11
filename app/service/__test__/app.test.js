@@ -3,8 +3,6 @@ const app = require('../../index');
 const client = require('../../config/db');
 const { generateAccessToken } = require('../jwt');
 
-//! ------------- USER ROUTES ----------------
-
 describe('Test the user path', () => {
     beforeAll(() => {
         client.connect();
@@ -15,6 +13,8 @@ describe('Test the user path', () => {
     });
 
     const token = generateAccessToken();
+
+    //! ------------- USER ROUTES ----------------
 
     it('should response the GET method', async () => {
         const res = await request(app).get('/');
@@ -170,6 +170,88 @@ describe('Test the user path', () => {
     it('should response the DELETE method', async () => {
         const res = await request(app)
             .delete('/api/tournaments/32')
+            .set('Authorization', 'Bearer ' + token);
+        expect(res.status).toEqual(200);
+    });
+
+    it('should response the GET method', async () => {
+        const res = await request(app)
+            .get('/api/tournaments/3/profiles')
+            .set('Authorization', 'Bearer ' + token);
+        expect(res.status).toEqual(200);
+    });
+
+    it('should response the POST method', async () => {
+        const res = await request(app)
+            .post('/api/tournaments/3/profiles')
+            .set('Authorization', 'Bearer ' + token)
+            .send({
+                user_id: 13
+            })
+        expect(res.status).toEqual(200);
+    });
+
+    it('should response the DELETE method', async () => {
+        const res = await request(app)
+            .delete('/api/tournaments/3/profiles/13')
+            .set('Authorization', 'Bearer ' + token);
+        expect(res.status).toEqual(200);
+    });
+
+    it('should response the GET method', async () => {
+        const res = await request(app)
+            .get('/api/tournaments/profiles/11')
+            .set('Authorization', 'Bearer ' + token);
+        expect(res.status).toEqual(200);
+    });
+
+    //! --------------- ENCOUNTER ROUTES ------------------
+
+    it('should response the POST method', async () => {
+        const res = await request(app)
+            .post('/api/encounters')
+            .set('Authorization', 'Bearer ' + token)
+            .send({
+                date: "2022-12-30T15:30:30.333Z",
+                tournament_id: 4
+            });
+        expect(res.status).toEqual(200);
+    });
+
+    it('should response the GET method', async () => {
+            const res = await request(app)
+                .get('/api/encounters/1')
+                .set('Authorization', 'Bearer ' + token);
+            expect(res.status).toEqual(200);
+    });
+
+    it('should response the PATCH method', async () => {
+        const res = await request(app)
+            .patch('/api/encounters/1')
+            .set('Authorization', 'Bearer ' + token)
+            .send({
+                winner: "Guillaume DOLLE",
+                loser: "Matthieu TOULET",
+                date: "2022-12-30T15:33:33.333Z",
+                winner_score: 3,
+                loser_score: 2
+            });
+        expect(res.status).toEqual(200);
+    });
+
+    it('should response the POST method', async () => {
+        const res = await request(app)
+            .post('/api/encounters/1/profiles')
+            .set('Authorization', 'Bearer ' + token)
+            .send({
+                user_id: 13
+            });
+        expect(res.status).toEqual(200);
+    });
+
+    it('should response the GET method', async () => {
+        const res = await request(app)
+            .get('/api/encounters/1')
             .set('Authorization', 'Bearer ' + token);
         expect(res.status).toEqual(200);
     });
