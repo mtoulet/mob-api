@@ -14,12 +14,12 @@ const client = new Client({
 // const client = new Client(process.env.PG_URL);
 
 // For testing purpose, this code below is commented
-// client.connect(err => {
-//     if (err) {
-//         console.error('connection error', err.stack);
-//     } else {
-//         console.log('connected');
-//     }
-// });
+client.connect(err => {
+    if (err) {
+        console.error('connection error', err.stack);
+    } else {
+        console.log('connected');
+    }
+});
 
 module.exports = client;
