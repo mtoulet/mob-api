@@ -107,7 +107,6 @@ const tournamentController = {
             }
             await Tournament.deleteTournament(foundTournament.id);
             return res.json({ message: 'Le tournoi a bien été supprimé' });
-
         } catch(err) {
             console.error(err);
         }

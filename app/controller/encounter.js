@@ -17,7 +17,6 @@ const encounterController = {
             const newEncounter = await Encounter.addEncounter({
                 date: req.body.date,
                 tournament_id: req.body.tournament_id,
-
             });
             res.json(newEncounter);
         } catch (err) {

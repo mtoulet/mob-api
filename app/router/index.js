@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken');
 const { authenticateToken, generateAccessToken } = require('../service/jwt');
 const validationModule = require('../service/validation');
 const { UserSchema, PasswordSchema } = require('../service/schema');
-const { Encounter } = require('../model');
 
 
 // #region home page
@@ -509,7 +508,7 @@ router.delete('/api/tournaments/:id', authenticateToken, tournamentController.de
 /**
  * GET /api/tournaments/{id}/profiles/
  * @summary get a list of all users in tournament
- * @security BearerAuth  :
+ * @security BearerAuth
  * @tags tournament
  * @param {integer} id.path.required - tournament id info
  * @return {array<UserTournament>} 200 - success response - application/json
