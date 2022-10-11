@@ -48,8 +48,8 @@ const userController = {
 
         // if a user is not found, we return an error
         if (!foundUser) {
-            return res.status(401).json({
-                error: 'Mauvais couple email/mot de passe'
+            return res.status(404).json({
+                error: 'Utilisateur inexistant'
             });
         }
 

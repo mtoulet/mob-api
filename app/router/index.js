@@ -508,7 +508,7 @@ router.delete('/api/tournaments/:id', authenticateToken, tournamentController.de
 /**
  * GET /api/tournaments/{id}/profiles/
  * @summary get a list of all users in tournament
- * @security BearerAuth  :
+ * @security BearerAuth
  * @tags tournament
  * @param {integer} id.path.required - tournament id info
  * @return {array<UserTournament>} 200 - success response - application/json
