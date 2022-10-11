@@ -69,6 +69,15 @@ class Encounter {
         const result = await client.query('SELECT * FROM add_user_to_encounter ($1)', [userEncounterId]);
         return result.rows[0];
     }
+    
+    /**
+     * get list of encounter by tournament Id
+     * @param {integer} tournamentId
+     * @returns {Array} encounters
+     */
+    static async getEncountersListByTournamentId(id){
+        const result = await client.query('SELECT * FROM encounter WHERE encounter.tournament_id=$1', [id]);
+    }
 
 
 
