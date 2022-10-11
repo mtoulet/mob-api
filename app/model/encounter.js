@@ -77,6 +77,7 @@ class Encounter {
      */
     static async getEncountersListByTournamentId(id){
         const result = await client.query('SELECT * FROM encounter WHERE encounter.tournament_id=$1', [id]);
+        return result.rows;
     }
 
 

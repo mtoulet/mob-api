@@ -1,7 +1,8 @@
 const debug = require('debug')('CONTROLLER');
 
 const {
-    Encounter
+    Encounter,
+    Tournament
 } = require('../model');
 
 const encounterController = {
@@ -23,7 +24,6 @@ const encounterController = {
             console.error(err);
         }
     },
-
 
     /**
      * @summary Get one encounter saved in database
@@ -102,7 +102,6 @@ const encounterController = {
         }
     },
 
-
      /**
      * @summary Allow to get a list of encounter by tournament id
      * @param {*} req 
@@ -110,17 +109,17 @@ const encounterController = {
      * @returns {Encounter} An object with the list of enounter by tournament id 
      */
     async getEncountersListByTournamentId(req, res){
-            const id = req.params.id;
+        const tournamentId = req.params.id;
         try {
-            const foundEncountersListByTournamentId = await Encounter.getEncounterById(id);
-            if (!foundEncountersListByTournamentId) {
+            const foundTournament = await Tournament.getTournamentById(tournamentId);
+            if (!foundTournament) {
                 return res.status(404).json({
-                    error: "Rencontre inexistante"
+                    error: "Tournoi inexistant"
                 });
             }
-            return res.json(foundEncountersListByTournamentId);
-
-        }catch (err) {
+            const encountersList = await Encounter.getEncountersListByTournamentId(tournamentId);
+            return res.json(encountersList);
+        } catch (err) {
             console.error(err);
         }
     }

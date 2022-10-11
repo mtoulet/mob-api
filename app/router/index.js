@@ -698,7 +698,7 @@ router.get('/api/encounters/:id', authenticateToken,encounterController.getEncou
 // #endregion
 router.patch('/api/encounters/:id', authenticateToken, encounterController.patchEncounter);
 
-// #region post /api/encouters/:id/profiles/
+// #region post /api/encounters/:id/profiles/
 /**
  * POST /api/encounters/{id}/profiles/
  * @summary add a user to an encounter
@@ -721,17 +721,18 @@ router.patch('/api/encounters/:id', authenticateToken, encounterController.patch
 // #endregion
 router.post('/api/encounters/:id/profiles', authenticateToken, encounterController.postUserToEncounter);
 
-// #region get encounter
+// #region get /api/encounters/tournaments/:id
 /**
- * GET /api/tournaments/{id}/encounters/
- * @summary This return list of all encounter of tounament with id
+ * GET /api/encounters/tournaments/{id}
+ * @summary This returns an encounters list from a tournament via its id
  * @security BearerAuth
  * @tags encounter
- * @param {integer} id.path.required - encounter id info
- * @return {EncounterReturned} 200 - success response - application/json
+ * @param {integer} id.path.required - tournament id info
+ * @return {Array<EncounterReturned>} 200 - success response - application/json
  * @return {object} 404 - not found
  * @example response - 200 - response
- * {
+ * [
+ *      {
  *          "id": 2,
  *          "winner": null,
  *          "loser": null,
@@ -739,14 +740,51 @@ router.post('/api/encounters/:id/profiles', authenticateToken, encounterControll
  *          "winner_score": 0,
  *          "loser_score": 0,
  *          "tournament_id": 1
- * }
+ *      },
+ *      {
+ *          "id": 3,
+ *          "winner": null,
+ *          "loser": null,
+ *          "date": "2022-08-28T12:04:51.931Z",
+ *          "winner_score": 0,
+ *          "loser_score": 0,
+ *          "tournament_id": 1
+ *      },
+ *      {
+ *          "id": 4,
+ *          "winner": null,
+ *          "loser": null,
+ *          "date": "2022-08-28T12:04:51.931Z",
+ *          "winner_score": 0,
+ *          "loser_score": 0,
+ *          "tournament_id": 1
+ *      },
+ *      {
+ *          "id": 5,
+ *          "winner": null,
+ *          "loser": null,
+ *          "date": "2022-08-28T12:04:51.931Z",
+ *          "winner_score": 0,
+ *          "loser_score": 0,
+ *          "tournament_id": 1
+ *      },
+ *      {
+ *          "id": 6,
+ *          "winner": null,
+ *          "loser": null,
+ *          "date": "2022-08-28T12:04:51.931Z",
+ *          "winner_score": 0,
+ *          "loser_score": 0,
+ *          "tournament_id": 1
+ *      }
+ * ]
  * @example response - 404 - not found
  * {
  *     "error": "Tournoi inexistant"
  * }
  */
 // #endregion
-router.get('/api/tournaments/:id/encouters', authenticateToken, encounterController.getEncountersListByTournamentId);
+router.get('/api/encounters/tournaments/:id', authenticateToken, encounterController.getEncountersListByTournamentId);
 
 
 
