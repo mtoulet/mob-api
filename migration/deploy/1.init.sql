@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS "user" (
     nickname text NOT NULL,
     mail text NOT NULL UNIQUE,
     "password" text NOT NULL,
-    trophies integer DEFAULT 0,
+    trophies integer NOT NULL DEFAULT 0,
     honor_point integer DEFAULT 0,
     avatar text,
     team text,
