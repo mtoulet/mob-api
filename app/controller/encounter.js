@@ -29,10 +29,10 @@ const encounterController = {
      * @summary Get one encounter saved in database
      * @param {*} req 
      * @param {*} res 
-     * @returns {Encounter} a encounter with all informations about it
+     * @returns {Encounter} an encounter with all informations about it
      */ 
     async getEncounter(req, res) {
-        const id = req.params.id;
+        const id = parseInt(req.params.id);
         try {
             const foundEncounter = await Encounter.getEncounterById(id);
             if (!foundEncounter) {
@@ -53,8 +53,12 @@ const encounterController = {
      * @returns {Encounter} Edited encounter
      */
     async patchEncounter(req, res) {
-        const id = req.params.id;
+        const id = parseInt(req.params.id);
         try {
+            const foundEncounter = await Encounter.getEncounterById(id);
+            if (!foundEncounter) {
+                return res.status(404).json({ error: "Rencontre inexistante" });
+            }
             const editedEncounter = await Encounter.updateEncounter({
                 winner: req.body.winner,
                 loser: req.body.loser,
@@ -78,10 +82,14 @@ const encounterController = {
      * @returns {UserAddedToEnounter} An object with the enounterId and the userId which has been added to the encounter
      */
     async postUserToEncounter(req, res) {
-        const encounterId = req.params.id;
-        const userId = req.body.user_id;
+        const encounterId = parseInt(req.params.id);
+        const userId = parseInt(req.body.user_id);
 
         try {
+            const foundEncounter = await Encounter.getEncounterById(encounterId);
+            if (!foundEncounter) {
+                return res.status(404).json({ error: "Rencontre inexistante" });
+            }
             // Get all users ID from one encounter via his ID
             const userEncounterList = await Encounter.getUsers(encounterId);
             // Check if the userID is in the list of all users ID in the encounter ID
@@ -109,7 +117,7 @@ const encounterController = {
      * @returns {Encounter} An object with the list of enounter by tournament id 
      */
     async getEncountersListByTournamentId(req, res){
-        const tournamentId = req.params.id;
+        const tournamentId = parseInt(req.params.id);
         try {
             const foundTournament = await Tournament.getTournamentById(tournamentId);
             if (!foundTournament) {
@@ -117,7 +125,7 @@ const encounterController = {
                     error: "Tournoi inexistant"
                 });
             }
-            const encountersList = await Encounter.getEncountersListByTournamentId(tournamentId);
+            const encountersList = await Encounter.getEncountersListByTournamentId(foundTournament.id);
             return res.json(encountersList);
         } catch (err) {
             console.error(err);

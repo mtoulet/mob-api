@@ -12,30 +12,6 @@ const { generateAccessToken, generateRefreshToken } = require('../service/jwt');
 const userController = {
 
     /**
-     * @summary add a new user in the database
-     * @param {*} req 
-     * @param {*} res 
-     * @return {User} the user which signed up
-     */
-    async register(req, res) {
-        
-        // hash the password (https://www.npmjs.com/package/bcrypt)
-        const hashedPassword = await encrypt(req.body.password);
-        // register new user
-        const newUser = await User.create({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            nickname: req.body.nickname,
-            mail: req.body.mail,
-            password: hashedPassword
-        });
-        // delete the password of the newUser before returning the newUser
-        delete newUser.password;
-        // return new user 
-        res.json(newUser);
-    },
-
-    /**
     * @summary login the user with json accessToken and check mail and password
     * @param {*} req 
     * @param {*} res 
@@ -71,8 +47,30 @@ const userController = {
         const accessToken = generateAccessToken(foundUser);
         const refreshToken = generateRefreshToken(foundUser);
         res.json({success: true, accessToken, refreshToken, foundUser});
+    },
+
+    /**
+     * @summary add a new user in the database
+     * @param {*} req 
+     * @param {*} res 
+     * @return {User} the user which signed up
+     */
+     async register(req, res) {
         
-        
+        // hash the password (https://www.npmjs.com/package/bcrypt)
+        const hashedPassword = await encrypt(req.body.password);
+        // register new user
+        const newUser = await User.create({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            nickname: req.body.nickname,
+            mail: req.body.mail,
+            password: hashedPassword
+        });
+        // delete the password of the newUser before returning the newUser
+        delete newUser.password;
+        // return new user 
+        res.json(newUser);
     },
 
     /**
@@ -179,7 +177,7 @@ const userController = {
      * @return {object} a message
      */
     async deleteProfile(req, res) {
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         try {
             // find user by id
             const userToDelete = await User.getUserById(id);
@@ -195,14 +193,14 @@ const userController = {
             // if it is not correct, return an error
             if (!checkPassword) {
                 return res.status(401).json({
-                    error: "Mauvais couple email/mot de passe"
+                    error: "Mauvais mot de passe"
                 });
             }
 
             // Delete the profile via his id (SQL function)
             await User.deleteProfileById(userToDelete.id);
 
-            return res.json({message: "Votre compte a bien été supprimé"})
+            return res.json({message: "Votre compte a bien été supprimé"});
 
         } catch (err) {
             console.error(err);
