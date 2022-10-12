@@ -335,7 +335,9 @@ router.post('/api/profiles/:id/remove-honor', authenticateToken, userController.
  * }
  */
 // #endregion
-router.post('/api/profiles/:id/add-trophies', authenticateToken, userController.addTrophiesToTuser)
+router.post('/api/profiles/:id/add-trophies', authenticateToken, userController.addTrophiesToTuser);
+
+router.get('/api/profiles/tournament/:id/encounters', userController.getUserListInEncounterByTournamentId)
 
 
 //! --------------------------------------------------------------- TOURNAMENT --------------------------------------------------
