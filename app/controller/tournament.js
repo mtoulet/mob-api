@@ -153,9 +153,12 @@ const tournamentController = {
             }
             // get the list of users from the tournament
             const userTournamentList = await Tournament.getUsers(id);
-            if (userTournamentList.length < 1) {
-                return res.status(204).json({ message: "Aucun utilisateur n'est encore inscrit à ce tournoi" });
-            }
+
+            // if (userTournamentList.length < 1) {
+            //     return res.status(204).json({ message: "Aucun utilisateur n'est encore inscrit à ce tournoi" });
+            // }
+            // See in future versions
+
             return res.json(userTournamentList);
         } catch (err) {
             console.error(err);
