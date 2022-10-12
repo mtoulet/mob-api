@@ -2,7 +2,6 @@ require('dotenv').config();
 const { Client } = require("pg");
 
 // Connection à la bdd distante (heroku)
-
 const client = new Client({
     connectionString:process.env.DATABASE_URL,
     ssl: {
