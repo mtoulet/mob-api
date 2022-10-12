@@ -86,9 +86,15 @@ class Tournament {
         return result.rows;
     }
 
-    static async getTournaments(userId){
+    static async getTournamentsByUsers(userId){
         // Get a list of tournaments which are created by this user_id or tournaments he's enrolled in
-        const result = await client.query('SELECT tournament.label, tournament.id, tournament.user_id FROM tournament_has_user JOIN public.user ON public.user.id = tournament_has_user.user_id FULL JOIN tournament ON tournament.id = tournament_has_user.tournament_id  WHERE tournament.user_id = $1 OR tournament_has_user.user_id = $1 GROUP BY tournament.label, tournament.id, tournament.user_id;', [userId]);
+        const result = await client.query('SELECT tournament.label, tournament.type, tournament.date, tournament.game, tournament.format, tournament.Max_player_count, tournament.description, tournament.image, tournament.id, tournament.user_id FROM tournament_has_user JOIN public.user ON public.user.id = tournament_has_user.user_id FULL JOIN tournament ON tournament.id = tournament_has_user.tournament_id WHERE tournament.user_id = $1 OR tournament_has_user.user_id = $1 GROUP BY tournament.label, tournament.id, tournament.user_id;', [userId]);
+        return result.rows;
+    }
+
+    static async getUsersInEncounterInTournament(tournamentId){
+        // Get a list of tournaments which are created by this user_id or tournaments he's enrolled in
+        const result = await client.query('SELECT user_has_encounter.user_id, user_has_encounter.encounter_id, tournament_has_user.tournament_id FROM user_has_encounter JOIN tournament_has_user ON tournament_has_user.user_id = user_has_encounter.user_id WHERE tournament_has_user.tournament_id = $1', [tournamentId]);
         return result.rows;
     }
 }

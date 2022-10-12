@@ -2,7 +2,8 @@ const bcrypt = require('bcrypt');
 const debug = require('debug')('CONTROLLER');
 
 const {
-    User
+    User,
+    Tournament
 } = require('../model');
 
 const encrypt = require('../service/bcrypt');
@@ -252,6 +253,23 @@ const userController = {
 
         } catch (err) {
             console.error(err);
+        }
+    },
+
+    async getUserListInEncounterByTournamentId (req, res){
+        const id= req.params.id;
+        try{
+            const foundTournament = await Tournament.getTournamentById(id);
+            if (!foundTournament) {
+                return res.status(404).json({
+                    error: "Tournoi inexistant"
+                });
+            }
+            const list = await User.getUserListInEncounterByTournamentId(id);
+            return res.json(list)
+
+        }catch (err){
+            console.error(err)
         }
     }
 };

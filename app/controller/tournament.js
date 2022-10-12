@@ -254,12 +254,14 @@ const tournamentController = {
      */
     async getTournamentListByUserId(req,res){
         const userId = req.params.id;
+
         try {
             const foundUser = await User.getUserById(userId);
             if (!foundUser) {
                 return res.status(404).json({ error: "Utilisateur inexistant" });
             }
             const tournamentList = await Tournament.getTournaments(foundUser.id);
+
             if(!tournamentList){
                 return res.status(204).json({ error: "L'utilisateur n'a créé aucun tournoi et n'est inscrit à aucun d'entre eux" });
             }
@@ -268,6 +270,16 @@ const tournamentController = {
             console.error(err);
         }
     },
+
+    async getListOfUserInEncounterByTournamentId(req, res){
+        const tournamentId = req.params.id;
+        try{
+            const listOfUserInEncounter = await Tournament.getUsersInEncounterInTournament(tournamentId)
+            return res.json(listOfUserInEncounter)
+        }catch (err) {
+            console.error(err);
+        }
+    }
 }    
 
 module.exports = tournamentController;
