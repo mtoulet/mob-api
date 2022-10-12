@@ -218,7 +218,7 @@ const tournamentController = {
     async getListOfUserInEncounterByTournamentId(req, res){
         const tournamentId = req.params.id;
         try{
-            const listOfUserInEncounter = await Tournament.getUsersInEncounterInTournamnet(tournamentId)
+            const listOfUserInEncounter = await Tournament.getUsersInEncounterInTournament(tournamentId)
             return res.json(listOfUserInEncounter)
         }catch (err) {
             console.error(err);

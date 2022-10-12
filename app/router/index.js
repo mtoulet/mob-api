@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const { authenticateToken, generateAccessToken } = require('../service/jwt');
 const validationModule = require('../service/validation');
 const { UserSchema, PasswordSchema } = require('../service/schema');
+const { removeHonorPointToUser } = require('../controller/user');
 
 
 // #region home page
@@ -337,7 +338,35 @@ router.post('/api/profiles/:id/remove-honor', authenticateToken, userController.
 // #endregion
 router.post('/api/profiles/:id/add-trophies', authenticateToken, userController.addTrophiesToTuser);
 
-router.get('/api/profiles/tournament/:id/encounters', userController.getUserListInEncounterByTournamentId)
+// #region /api/profiles/:id/tournament/encounters
+/**
+ * POST /api/profiles/{id}/tournament/encounters
+ * @summary A list of tournament where user is moderator or player
+ * @security BearerAuth
+ * @tags user
+ * @param {integer} id.path.required - user id info
+ * @return {object} 200 - success response - application/json
+ * @return {object} 404 - not found
+ * @example response - 200 - success response
+ * {
+ *      "id": 1,
+ *      "label": "the Big One",
+ *      "type": "privé",
+ *      "date": "2022-09-28T12:04:51.931Z",
+ *      "game": "street fighter 2",
+ *      "format": "single elimination",
+ *      "max_player_count": 128,
+ *      "description": "lorem ipsum",
+ *      "image": "image.com",
+ *      "user_id": 153
+ * }
+ * @example response - 404 - not found error
+ * {
+ *      "error": "Utilisateur inexistant"
+ * }
+ */
+// #endregion
+router.get('/api/profiles/:id/tournament/encounters', userController.getUserListInEncounterByTournamentId)
 
 
 //! --------------------------------------------------------------- TOURNAMENT --------------------------------------------------
@@ -618,6 +647,46 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
  */
 // #endregion
 router.get('/api/tournaments/profiles/:id/', authenticateToken, tournamentController.getTournamentListByUserId);
+
+// #region get /api/tournaments/:id/encounters/profiles/
+/** 
+ * GET /api/tournaments/{id}/encounters/profiles/
+ * @summary get list of user in encounters in tournament by tournament id
+ * @security BasicAuth
+ * @tags tournament
+ * @param {integer} id.path.required - tournament id info
+ * @return {array<TournamentWithEncounterWithUser>} 200 - success response - application/json
+ * @return {object} 404 - not found
+ * @example response - 200 - response
+ * [
+ *      {
+ *          "user_id": 10,
+ *          "encounter_id": 1,
+ *          "tournament_id": 2
+ *      },
+ *      {
+ *          "user_id": 5,
+ *          "encounter_id": 2,
+ *          "tournament_id": 8
+ *      },
+ *      {
+ *          "user_id": "1,
+ *          "encounter_id": 3,
+ *          "tournament_id": 3
+ *      },
+ *      {
+ *          "user_id": 2,
+ *          "encounter_id": 6,
+ *          "tournament_id": 11
+ *      }
+ * ]
+ * @example response - 404 - not found
+ * {
+ *      "error": "aucuns tournois n'a ete t'ouvé "
+ * }
+ */
+// #endregion
+router.get('/api/tournaments/:id/encounters/profiles', tournamentController.getListOfUserInEncounterByTournamentId)
 
 //! --------------------------------------------------------------- ENCOUNTER --------------------------------------------------
 

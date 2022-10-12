@@ -93,6 +93,7 @@ class Tournament {
     }
 
     static async getUsersInEncounterInTournament(tournamentId){
+        // Get a list of tournaments which are created by this user_id or tournaments he's enrolled in
         const result = await client.query('SELECT user_has_encounter.user_id, user_has_encounter.encounter_id, tournament_has_user.tournament_id FROM user_has_encounter JOIN tournament_has_user ON tournament_has_user.user_id = user_has_encounter.user_id WHERE tournament_has_user.tournament_id = $1', [tournamentId]);
         return result.rows;
     }
