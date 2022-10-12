@@ -126,13 +126,13 @@ const tournamentController = {
                     error: "Tournoi inexistant"
                 });
             }
-            if (parseInt(foundTournament.user_id) === parseInt(req.body.user_id)) {
+            //if (parseInt(foundTournament.user_id) === parseInt(req.body.user_id)) {
                 await Tournament.deleteTournament(foundTournament.id);
             return res.json({ message: 'Le tournoi a bien été supprimé' });
                
-            }else{
+            //}else{
                 return res.status(403).json({ error: "Vous n'avez pas les droits nécessaires pour effectuer cette action" });
-            }
+            //}
         } catch(err) {
             console.error(err);
         }
