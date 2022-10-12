@@ -184,7 +184,7 @@ router.get('/api/profiles', userController.getAllProfiles);
  * }
  */
 // #endregion
-router.get('/api/profiles/:id', authenticateToken, userController.getProfile);
+router.get('/api/profiles/:id(\d+)', authenticateToken, userController.getProfile);
 
 // #region /api/profiles/
 /**
@@ -216,7 +216,7 @@ router.get('/api/profiles/:id', authenticateToken, userController.getProfile);
  * Unauthorized
  */
 // #endregion
-router.patch('/api/profiles/:id', authenticateToken, userController.patchProfile);
+router.patch('/api/profiles/:id(\d+)', authenticateToken, userController.patchProfile);
 
 // #region /api/profiles/:id/pwd
 /**
@@ -245,7 +245,7 @@ router.patch('/api/profiles/:id', authenticateToken, userController.patchProfile
  * Unauthorized
  */
 // #endregion
-router.patch('/api/profiles/:id/pwd', authenticateToken, validationModule.validateBody(PasswordSchema), userController.patchPwd);
+router.patch('/api/profiles/:id(\d+)/pwd', authenticateToken, validationModule.validateBody(PasswordSchema), userController.patchPwd);
 
 // #region /api/profiles/:id/
 /**
@@ -272,7 +272,7 @@ router.patch('/api/profiles/:id/pwd', authenticateToken, validationModule.valida
  * }
  */
 // #endregion
-router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfile);
+router.delete('/api/profiles/:id(\d+)', authenticateToken, userController.deleteProfile);
 
 // #region /api/profiles/:id/add-honor
 /**
@@ -293,7 +293,7 @@ router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfi
  * }
  */
 // #endregion
-router.post('/api/profiles/:id/add-honor', authenticateToken, userController.addHonorPointToUser);
+router.post('/api/profiles/:id(\d+)/add-honor', authenticateToken, userController.addHonorPointToUser);
 
 // #region /api/profiles/:id/remove-honor
 /**
@@ -314,7 +314,7 @@ router.post('/api/profiles/:id/add-honor', authenticateToken, userController.add
  * }
  */
 // #endregion
-router.post('/api/profiles/:id/remove-honor', authenticateToken, userController.removeHonorPointToUser);
+router.post('/api/profiles/:id(\d+)/remove-honor', authenticateToken, userController.removeHonorPointToUser);
 
 // #region /api/profiles/:id/add-trophies
 /**
@@ -335,7 +335,7 @@ router.post('/api/profiles/:id/remove-honor', authenticateToken, userController.
  * }
  */
 // #endregion
-router.post('/api/profiles/:id/add-trophies', authenticateToken, userController.addTrophiesToTuser)
+router.post('/api/profiles/:id(\d+)/add-trophies', authenticateToken, userController.addTrophiesToTuser)
 
 
 //! --------------------------------------------------------------- TOURNAMENT --------------------------------------------------
@@ -453,7 +453,7 @@ router.get('/api/tournaments', tournamentController.getAllTournaments);
  * }
  */
 // #endregion
-router.get('/api/tournaments/:id', tournamentController.getTournament);
+router.get('/api/tournaments/:id(\d+)', tournamentController.getTournament);
 
 // #region /api/tournaments/:id
 /**
@@ -483,7 +483,7 @@ router.get('/api/tournaments/:id', tournamentController.getTournament);
  */
 
 // #endregion
-router.patch('/api/tournaments/:id', authenticateToken, tournamentController.patchTournament);
+router.patch('/api/tournaments/:id(\d+)', authenticateToken, tournamentController.patchTournament);
 
 // #region delete /api/tournaments/:id/
 /**
@@ -502,7 +502,7 @@ router.patch('/api/tournaments/:id', authenticateToken, tournamentController.pat
  * Unauthorized
  */
 // #endregion
-router.delete('/api/tournaments/:id', authenticateToken, tournamentController.deleteTournament);
+router.delete('/api/tournaments/:id(\d+)', authenticateToken, tournamentController.deleteTournament);
 
 // #region get /api/tournaments/:id/profiles/ 
 /**
@@ -530,7 +530,7 @@ router.delete('/api/tournaments/:id', authenticateToken, tournamentController.de
  */
 
 // #endregion
-router.get('/api/tournaments/:id/profiles/', authenticateToken, tournamentController.getUserTournamentList);
+router.get('/api/tournaments/:id(\d+)/profiles/', authenticateToken, tournamentController.getUserTournamentList);
 
 // #region post /api/tournaments/:id/profiles/
 /**
@@ -553,7 +553,7 @@ router.get('/api/tournaments/:id/profiles/', authenticateToken, tournamentContro
  * }
  */
 // #endregion
-router.post('/api/tournaments/:id/profiles/', authenticateToken, tournamentController.postUserToTournament);
+router.post('/api/tournaments/:id(\d+)/profiles/', authenticateToken, tournamentController.postUserToTournament);
 
 // #region delete /api/tournaments/:tournament_id/profiles/:user_id/
 /** 
@@ -575,7 +575,7 @@ router.post('/api/tournaments/:id/profiles/', authenticateToken, tournamentContr
  * }
  */
 // #endregion
-router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticateToken, tournamentController.deleteUserFromTournament);
+router.delete('/api/tournaments/:tournament_id(\d+)/profiles/:user_id(\d+)/', authenticateToken, tournamentController.deleteUserFromTournament);
 
 // #region get /api/tournaments/profiles/:id/
 /** 
@@ -615,7 +615,7 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
  * }
  */
 // #endregion
-router.get('/api/tournaments/profiles/:id/', authenticateToken, tournamentController.getTournamentListByUserId);
+router.get('/api/tournaments/profiles/:id(\d+)/', authenticateToken, tournamentController.getTournamentListByUserId);
 
 //! --------------------------------------------------------------- ENCOUNTER --------------------------------------------------
 
@@ -669,7 +669,7 @@ router.post('/api/encounters',authenticateToken, encounterController.addEncounte
  * }
  */
 // #endregion
-router.get('/api/encounters/:id', authenticateToken,encounterController.getEncounter);
+router.get('/api/encounters/:id(\d+)', authenticateToken,encounterController.getEncounter);
 
 //  #region /api/encounters/:id
 /**
@@ -696,7 +696,7 @@ router.get('/api/encounters/:id', authenticateToken,encounterController.getEncou
  */
 
 // #endregion
-router.patch('/api/encounters/:id', authenticateToken, encounterController.patchEncounter);
+router.patch('/api/encounters/:id(\d+)', authenticateToken, encounterController.patchEncounter);
 
 // #region post /api/encounters/:id/profiles/
 /**
@@ -719,7 +719,7 @@ router.patch('/api/encounters/:id', authenticateToken, encounterController.patch
  * }
  */
 // #endregion
-router.post('/api/encounters/:id/profiles', authenticateToken, encounterController.postUserToEncounter);
+router.post('/api/encounters/:id(\d+)/profiles', authenticateToken, encounterController.postUserToEncounter);
 
 // #region get /api/encounters/tournaments/:id
 /**
@@ -784,7 +784,7 @@ router.post('/api/encounters/:id/profiles', authenticateToken, encounterControll
  * }
  */
 // #endregion
-router.get('/api/encounters/tournaments/:id', authenticateToken, encounterController.getEncountersListByTournamentId);
+router.get('/api/encounters/tournaments/(\d+):id', authenticateToken, encounterController.getEncountersListByTournamentId);
 
 
 

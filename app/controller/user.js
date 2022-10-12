@@ -194,14 +194,14 @@ const userController = {
             // if it is not correct, return an error
             if (!checkPassword) {
                 return res.status(401).json({
-                    error: "Mauvais couple email/mot de passe"
+                    error: "Mauvais mot de passe"
                 });
             }
 
             // Delete the profile via his id (SQL function)
             await User.deleteProfileById(userToDelete.id);
 
-            return res.json({message: "Votre compte a bien été supprimé"})
+            return res.json({message: "Votre compte a bien été supprimé"});
 
         } catch (err) {
             console.error(err);
