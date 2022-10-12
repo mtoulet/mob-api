@@ -676,7 +676,7 @@ router.get('/api/tournaments/profiles/:id/', authenticateToken, tournamentContro
  * ]
  * @example response - 404 - not found
  * {
- *      "error": "aucuns tournois n'a ete t'ouvé "
+ *      "error": "aucun tournoi n'a été trouvé"
  * }
  */
 // #endregion
