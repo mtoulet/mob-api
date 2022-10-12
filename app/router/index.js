@@ -507,7 +507,7 @@ router.delete('/api/tournaments/:id(\d+)', authenticateToken, tournamentControll
 // #region get /api/tournaments/:id/profiles/ 
 /**
  * GET /api/tournaments/{id}/profiles/
- * @summary get a list of all users in tournament
+ * @summary get a list of all users in a tournament
  * @security BearerAuth
  * @tags tournament
  * @param {integer} id.path.required - tournament id info
@@ -669,7 +669,7 @@ router.post('/api/encounters',authenticateToken, encounterController.addEncounte
  * }
  */
 // #endregion
-router.get('/api/encounters/:id(\d+)', authenticateToken,encounterController.getEncounter);
+router.get('/api/encounters/:id(\d+)', encounterController.getEncounter);
 
 //  #region /api/encounters/:id
 /**
@@ -784,7 +784,7 @@ router.post('/api/encounters/:id(\d+)/profiles', authenticateToken, encounterCon
  * }
  */
 // #endregion
-router.get('/api/encounters/tournaments/(\d+):id', authenticateToken, encounterController.getEncountersListByTournamentId);
+router.get('/api/encounters/tournaments/(\d+):id', encounterController.getEncountersListByTournamentId);
 
 
 

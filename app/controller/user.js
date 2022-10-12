@@ -178,7 +178,7 @@ const userController = {
      * @return {object} a message
      */
     async deleteProfile(req, res) {
-        const id = parseInt(req.params.id);
+        const id = req.params.id;
         try {
             // find user by id
             const userToDelete = await User.getUserById(id);

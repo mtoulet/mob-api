@@ -42,7 +42,7 @@ const randomService = require('../service/random');
     }
 })();
 
-const tournamentType = ["publique", "privé"];
+const tournamentType = ["public", "privé"];
 const tournamentFormat = ["Elimination simple", "Double élimination"];
 
 setTimeout(async () => {

@@ -1,6 +1,6 @@
 const debug = require('debug')('CONTROLLER');
 
-const { Tournament } = require('../model');
+const { Tournament, User } = require('../model');
 
 const tournamentController = {
 
@@ -22,7 +22,6 @@ const tournamentController = {
                 description: req.body.description,
                 image: "https://i.imgur.com/XWdPSTS.png",
                 user_id: req.body.user_id,
-
             });
             res.json(newTournament);  
         }catch (err) {
@@ -74,18 +73,23 @@ const tournamentController = {
     async patchTournament(req, res) {
         const id = req.params.id;
         try{
-            const editedTournament = await Tournament.updateTournament({
-                label: req.body.label,
-                type: req.body.type,
-                date: req.body.date,
-                game: req.body.game,
-                format: req.body.format,
-                max_player_count: req.body.max_player_count,
-                description: req.body.description,
-                image: req.body.image,
-                id: id
-            });
-            return res.json(editedTournament);
+            const foundTournament = await Tournament.getTournamentById(id);
+            if (foundTournament.user_id === req.body.user_id) {
+                const editedTournament = await foundTournament.updateTournament({
+                    label: req.body.label,
+                    type: req.body.type,
+                    date: req.body.date,
+                    game: req.body.game,
+                    format: req.body.format,
+                    max_player_count: req.body.max_player_count,
+                    description: req.body.description,
+                    image: req.body.image,
+                    id: id
+                });
+                return res.json(editedTournament);
+            } else {
+                return res.status(403).json({ error: "Vous n'avez pas les droits nécessaires pour effectuer cette action" });
+            }
         } catch(err){
             console.error(err);
         }
@@ -105,7 +109,10 @@ const tournamentController = {
                     error: "Tournoi inexistant"
                 });
             }
-            await Tournament.deleteTournament(foundTournament.id);
+            if (foundTournament.user_id !== req.body.user_id) {
+                return res.status(403).json({ error: "Vous n'avez pas les droits nécessaires pour effectuer cette action" });
+            }
+            await foundTournament.deleteTournament(foundTournament.id);
             return res.json({ message: 'Le tournoi a bien été supprimé' });
         } catch(err) {
             console.error(err);
@@ -113,20 +120,28 @@ const tournamentController = {
     },
 
     /**
-     * @summary Get the list of all users enrolled in a tournament via their id
+     * @summary Get the list of all users enrolled in a tournament via its id
      * @param {*} req 
      * @param {*} res 
      * @returns {Array<UserTournament>} an array of user_id objects
      */
     async getUserTournamentList(req, res) {
         try {
-            const userTournamentList = await Tournament.getUsers(req.params.id);
+            // get the tournament via its id
+            const foundTournament = await Tournament.getTournamentById(req.params.id);
+            // if foundTournament is false we send an error
+            if (!foundTournament) {
+                return res.status(404).json({ error: "Tournoi inexistant" });
+            }
+            // get the list of users from the tournament
+            const userTournamentList = await foundTournament.getUsers(req.params.id);
+            if (userTournamentList.length < 1) {
+                return res.status(204).json({ error: "Aucun utilisateur n'est encore inscrit à ce tournoi" });
+            }
             return res.json(userTournamentList);
-
         } catch (err) {
             console.error(err);
         }
-
     },
 
     /**
@@ -140,8 +155,14 @@ const tournamentController = {
         const userId = req.body.user_id; // extract user ID from body
 
         try{
+            // get the tournament via its id
+            const foundTournament = await Tournament.getTournamentById(tournamentId);
+            // if foundTournament is false we send an error
+            if (!foundTournament) {
+                return res.status(404).json({ error: "Tournoi inexistant" });
+            }
             // Get all users ID from one tournament via his ID
-            const userTournamentList = await Tournament.getUsers(tournamentId); 
+            const userTournamentList = await foundTournament.getUsers(tournamentId); 
             // Check if the userID is in the list of all users ID in the tournament ID
             const existingUserInTournament = userTournamentList.find(({user_id}) => user_id === userId); 
 
@@ -171,11 +192,17 @@ const tournamentController = {
      * @returns {object} a message which says that the user can't be deleted because he's not enrolled in this tournament
      */
     async deleteUserFromTournament(req, res){
-        const tournamentId = parseInt(req.params.tournament_id); // extract tournament ID from params
-        const userId = parseInt(req.params.user_id); // extract user ID from body
+        const tournamentId = req.params.tournament_id; // extract tournament ID from params
+        const userId = req.params.user_id; // extract user ID from body
         try {
-            // Get all users ID from one tournament via his ID
-            const userTournamentList = await Tournament.getUsers(tournamentId); 
+            // get the tournament via its id
+            const foundTournament = await Tournament.getTournamentById(tournamentId);
+            // if foundTournament is false we send an error
+            if (!foundTournament) {
+                return res.status(404).json({ error: "Tournoi inexistant" });
+            }
+            // Get all users ID from one tournament via its ID
+            const userTournamentList = await foundTournament.getUsers(tournamentId); 
 
             // Check if the userID is in the list of all users ID in the tournament ID
             const existingUserInTournament = userTournamentList.find(({user_id}) => user_id === userId);
@@ -185,8 +212,8 @@ const tournamentController = {
                 return res.status(400).json({error: `L'utilisateur d'id ${userId} n'est pas inscrit au tournoi d'id ${tournamentId}`});
             }
             
-            // the user is being added to the tournament
-            await Tournament.deleteUser(tournamentId, userId);
+            // the user is being deleted from the tournament
+            await foundTournament.deleteUser(tournamentId, userId);
         
             return res.json({message: 'L\'utilisateur a bien été supprimé du tournoi'});
         } catch (err) {
@@ -204,10 +231,14 @@ const tournamentController = {
      */
     async getTournamentListByUserId(req,res){
         const userId = req.params.id;
-        try { 
-            const tournamentList = await Tournament.getTournaments(userId);
+        try {
+            const foundUser = await User.getUserById(userId);
+            if (!foundUser) {
+                return res.status(404).json({ error: "Utilisateur inexistant" });
+            }
+            const tournamentList = await Tournament.getTournaments(foundUser.id);
             if(!tournamentList){
-                res.status(404).json({error: `L'utilisateur n'a crée aucun tournoi et n'est inscrit à aucun d'entre eux`});
+                res.status(404).json({ error: "L'utilisateur n'a créé aucun tournoi et n'est inscrit à aucun d'entre eux" });
             }
             return res.json(tournamentList);
         } catch (err) {

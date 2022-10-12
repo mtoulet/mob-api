@@ -55,7 +55,11 @@ const encounterController = {
     async patchEncounter(req, res) {
         const id = req.params.id;
         try {
-            const editedEncounter = await Encounter.updateEncounter({
+            const foundEncounter = await Encounter.getEncounterById(id);
+            if (!foundEncounter) {
+                return res.status(404).json({ error: "Rencontre inexistante" });
+            }
+            const editedEncounter = await foundEncounter.updateEncounter({
                 winner: req.body.winner,
                 loser: req.body.loser,
                 date: req.body.date,
@@ -82,8 +86,12 @@ const encounterController = {
         const userId = req.body.user_id;
 
         try {
+            const foundEncounter = await Encounter.getEncounterById(id);
+            if (!foundEncounter) {
+                return res.status(404).json({ error: "Rencontre inexistante" });
+            }
             // Get all users ID from one encounter via his ID
-            const userEncounterList = await Encounter.getUsers(encounterId);
+            const userEncounterList = await foundEncounter.getUsers(encounterId);
             // Check if the userID is in the list of all users ID in the encounter ID
             const existingUserInEncounter = userEncounterList.find(({user_id}) => user_id === userId);
             if (existingUserInEncounter) {
@@ -95,7 +103,7 @@ const encounterController = {
                 encounter_id: encounterId,
                 user_id: userId
             }
-            const addedUser = await Encounter.addUserToEncounter(data);
+            const addedUser = await foundEncounter.addUserToEncounter(data);
             return res.json(addedUser);
         } catch (err) {
             console.error(err);
@@ -117,7 +125,7 @@ const encounterController = {
                     error: "Tournoi inexistant"
                 });
             }
-            const encountersList = await Encounter.getEncountersListByTournamentId(tournamentId);
+            const encountersList = await Encounter.getEncountersListByTournamentId(foundTournament.id);
             return res.json(encountersList);
         } catch (err) {
             console.error(err);
