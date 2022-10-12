@@ -205,7 +205,7 @@ const tournamentController = {
     async getTournamentListByUserId(req,res){
         const userId = req.params.id;
         try { 
-            const tournamentList = await Tournament.getTournaments(userId);
+            const tournamentList = await Tournament.getTournamentsByUsers(userId);
             if(!tournamentList){
                 res.status(404).json({error: `L'utilisateur n'a crée aucun tournoi et n'est inscrit à aucun d'entre eux`});
             }
@@ -214,6 +214,16 @@ const tournamentController = {
             console.error(err);
         }
     },
+
+    async getListOfUserInEncounterByTournamentId(req, res){
+        const tournamentId = req.params.id;
+        try{
+            const listOfUserInEncounter = await Tournament.getUsersInEncounterInTournamnet(tournamentId)
+            return res.json(listOfUserInEncounter)
+        }catch (err) {
+            console.error(err);
+        }
+    }
 }    
 
 module.exports = tournamentController;
