@@ -11,30 +11,6 @@ const { generateAccessToken, generateRefreshToken } = require('../service/jwt');
 const userController = {
 
     /**
-     * @summary add a new user in the database
-     * @param {*} req 
-     * @param {*} res 
-     * @return {User} the user which signed up
-     */
-    async register(req, res) {
-        
-        // hash the password (https://www.npmjs.com/package/bcrypt)
-        const hashedPassword = await encrypt(req.body.password);
-        // register new user
-        const newUser = await User.create({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            nickname: req.body.nickname,
-            mail: req.body.mail,
-            password: hashedPassword
-        });
-        // delete the password of the newUser before returning the newUser
-        delete newUser.password;
-        // return new user 
-        res.json(newUser);
-    },
-
-    /**
     * @summary login the user with json accessToken and check mail and password
     * @param {*} req 
     * @param {*} res 
@@ -70,8 +46,30 @@ const userController = {
         const accessToken = generateAccessToken(foundUser);
         const refreshToken = generateRefreshToken(foundUser);
         res.json({success: true, accessToken, refreshToken, foundUser});
+    },
+
+    /**
+     * @summary add a new user in the database
+     * @param {*} req 
+     * @param {*} res 
+     * @return {User} the user which signed up
+     */
+     async register(req, res) {
         
-        
+        // hash the password (https://www.npmjs.com/package/bcrypt)
+        const hashedPassword = await encrypt(req.body.password);
+        // register new user
+        const newUser = await User.create({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            nickname: req.body.nickname,
+            mail: req.body.mail,
+            password: hashedPassword
+        });
+        // delete the password of the newUser before returning the newUser
+        delete newUser.password;
+        // return new user 
+        res.json(newUser);
     },
 
     /**

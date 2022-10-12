@@ -47,7 +47,7 @@ class Encounter {
      */
     static async updateEncounter(infoEncounter) {
         const result = await client.query(`SELECT * FROM update_encounter ($1)`, [infoEncounter]);
-        return result.rows;
+        return result.rows[0];
     }
 
     /**
