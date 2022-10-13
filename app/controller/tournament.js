@@ -273,12 +273,18 @@ const tournamentController = {
         }
     },
 
+    /**
+     * Get a list of users and encounters from a tournament via its id
+     * @param {*} req 
+     * @param {*} res 
+     * @returns {Array<TournamentWithEncounterWithUser>}
+     */
     async getListOfUserInEncounterByTournamentId(req, res){
         const tournamentId = req.params.id;
-        try{
-            const listOfUserInEncounter = await Tournament.getUsersInEncounterInTournament(tournamentId)
-            return res.json(listOfUserInEncounter)
-        }catch (err) {
+        try {
+            const listOfUserInEncounter = await Tournament.getUsersInEncounterInTournament(tournamentId);
+            return res.json(listOfUserInEncounter);
+        } catch (err) {
             console.error(err);
         }
     }

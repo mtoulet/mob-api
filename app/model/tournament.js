@@ -82,7 +82,6 @@ class Tournament {
 
     static async deleteUser(tournamentId, userId){
         const result = await client.query('DELETE FROM tournament_has_user WHERE tournament_id=$1 AND user_id=$2',[tournamentId, userId]);
-
         return result.rows;
     }
 
@@ -93,8 +92,8 @@ class Tournament {
     }
 
     static async getUsersInEncounterInTournament(tournamentId){
-        // Get a list of tournaments which are created by this user_id or tournaments he's enrolled in
-        const result = await client.query('SELECT user_has_encounter.user_id, user_has_encounter.encounter_id, tournament_has_user.tournament_id FROM user_has_encounter JOIN tournament_has_user ON tournament_has_user.user_id = user_has_encounter.user_id WHERE tournament_has_user.tournament_id = $1', [tournamentId]);
+        // Get a list of users in 
+        const result = await client.query('SELECT DISTINCT user_has_encounter.user_id, user_has_encounter.encounter_id, tournament.id AS tournament_id FROM tournament JOIN encounter ON tournament.id = encounter.tournament_id JOIN user_has_encounter ON encounter.id = user_has_encounter.encounter_id JOIN public.user ON user_has_encounter.user_id = public.user.id JOIN tournament_has_user ON public.user.id = tournament_has_user.user_id WHERE tournament.id = $1 ORDER BY user_has_encounter.encounter_id ASC;', [tournamentId]);
         return result.rows;
     }
 }

@@ -307,17 +307,17 @@ router.get('/api/tournaments/profiles/:id/', authenticateToken, tournamentContro
  *      {
  *          "user_id": 5,
  *          "encounter_id": 2,
- *          "tournament_id": 8
+ *          "tournament_id": 2
  *      },
  *      {
  *          "user_id": 1,
  *          "encounter_id": 3,
- *          "tournament_id": 3
+ *          "tournament_id": 2
  *      },
  *      {
  *          "user_id": 2,
  *          "encounter_id": 6,
- *          "tournament_id": 11
+ *          "tournament_id": 2
  *      }
  * ]
  * @example response - 404 - not found
