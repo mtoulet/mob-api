@@ -300,35 +300,62 @@ router.post('/api/profiles/:id/remove-honor', authenticateToken, userController.
 // #endregion
 router.post('/api/profiles/:id/add-trophies', authenticateToken, userController.addTrophiesToTuser);
 
-// #region /api/profiles/:id/tournament/encounters
+// #region /api/profiles/:id/tournaments
 /**
- * GET /api/profiles/{id}/tournament/encounters
- * @summary A list of tournament where the user is either a moderator or a player
+ * GET /api/profiles/{id}/tournaments
+ * @summary A list of tournaments where the user is either a moderator or a player
  * @security BearerAuth
  * @tags user
  * @param {integer} id.path.required - user id info
- * @return {object} 200 - success response - application/json
+ * @return {Array<TournamentReturned>} 200 - success response - application/json
  * @return {object} 404 - not found
  * @example response - 200 - success response
- * {
- *      "id": 1,
- *      "label": "the Big One",
- *      "type": "privé",
- *      "date": "2022-09-28T12:04:51.931Z",
- *      "game": "street fighter 2",
- *      "format": "single elimination",
- *      "max_player_count": 128,
- *      "description": "lorem ipsum",
- *      "image": "image.com",
- *      "user_id": 153
- * }
+ * [
+ *      {
+ *          "id": 1,
+ *          "label": "the Big One",
+ *          "type": "privé",
+ *          "date": "2022-09-28T12:04:51.931Z",
+ *          "game": "street fighter 2",
+ *          "format": "single elimination",
+ *          "max_player_count": 128,
+ *          "description": "lorem ipsum",
+ *          "image": "image.com",
+ *          "user_id": 153
+ *          
+ *      },
+ *      {
+ *          "id": 2,
+ *          "label": "final count down",
+ *          "type": "public",
+ *          "date": "2022-08-28T12:04:51.931Z",
+ *          "game": "multiversus",
+ *          "format": "single elimination",
+ *          "max_player_count": 128,
+ *          "description": "lorem ipsum",
+ *          "image": "image.com",
+ *          "user_id": 321
+ *      },
+ *      {
+ *          "id": 3,
+ *          "label": "machine war barrel tournament",
+ *          "type": "privé",
+ *          "date": "2032-09-28T12:06:51.931Z",
+ *          "game": "League of legend",
+ *          "format": "single elimination",
+ *          "max_player_count": 128,
+ *          "description": "lorem ipsum",
+ *          "image": "image.com",
+ *          "user_id": 113
+ *      }
+ * ]
  * @example response - 404 - not found error
  * {
  *      "error": "Utilisateur inexistant"
  * }
  */
 // #endregion
-router.get('/api/profiles/:id/tournament/encounters', userController.getUserListInEncounterByTournamentId);
+router.get('/api/profiles/:id/tournaments', userController.getTournamentListByUserId);
 
 //! -------------------- JWT -----------------------
 

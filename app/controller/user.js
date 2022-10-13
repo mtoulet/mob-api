@@ -269,8 +269,8 @@ const userController = {
         }
     },
 
-    async getUserListInEncounterByTournamentId (req, res){
-        const id = req.params.id;
+    async getTournamentListByUserId (req, res){
+        const id = parseInt(req.params.id);
         try {
             const foundUser = await User.getUserById(id);
             if (!foundUser) {
@@ -278,7 +278,7 @@ const userController = {
                     error: "Utilisateur inexistant"
                 });
             }
-            const tournamentListByUserId = await User.getUserListInEncounterByTournamentId(id);
+            const tournamentListByUserId = await User.getTournamentListByUserId(id);
             return res.json(tournamentListByUserId);
 
         } catch (err){

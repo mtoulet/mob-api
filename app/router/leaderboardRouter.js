@@ -67,7 +67,7 @@ router.get('/api/leaderboard/most-trophies', leaderboardController.getMostTrophi
  * @tags leaderboard
  * @return {array<User>} 200 - success response - application/json
  * @example response - 200 - response
- *[
+ * [
  *      {
  *          "id": 1,
  *          "lastname": "Simonis",
@@ -123,7 +123,7 @@ router.get('/api/leaderboard/most-honor', leaderboardController.getMostHonorList
  * @tags leaderboard
  * @return {array<User>} 200 - success response - application/json
  * @example response - 200 - response
- *[
+ * [
  *      {
  *          "id": 1,
  *          "lastname": "Simonis",
@@ -179,7 +179,7 @@ router.get('/api/leaderboard/less-honor', leaderboardController.getLessHonorList
  * @tags leaderboard
  * @return {array<User>} 200 - success response - application/json
  * @example response - 200 - response
- *[
+ * [
  *      {
  *          "id": 1,
  *          "lastname": "Simonis",

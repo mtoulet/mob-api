@@ -262,22 +262,22 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
  *      {
  *          "label": "Get Down Tonight",
  *          "id": 1,
- *          "user_id": 2
+ *          "user_id": 23
  *      },
  *      {
  *          "label": "White Rabbit",
  *          "id": 2,
- *          "user_id": 8
+ *          "user_id": 23
  *      },
  *      {
  *          "label": "Rags to Riches",
  *          "id": 3,
- *          "user_id": 3
+ *          "user_id": 23
  *      },
  *      {
  *          "label": "10 tournament",
  *          "id": 6,
- *          "user_id": 11
+ *          "user_id": 23
  *      }
  * ]
  * @example response - 404 - not found
@@ -291,7 +291,7 @@ router.get('/api/tournaments/profiles/:id/', authenticateToken, tournamentContro
 // #region get /api/tournaments/:id/encounters/profiles/
 /** 
  * GET /api/tournaments/{id}/encounters/profiles/
- * @summary get list of user in encounters in tournament by tournament id
+ * @summary get a list of user in encounters in tournament by tournament id
  * @security BasicAuth
  * @tags tournament
  * @param {integer} id.path.required - tournament id info

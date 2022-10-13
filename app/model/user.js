@@ -103,8 +103,8 @@ class User {
         return await client.query('UPDATE public."user" SET trophies = trophies +1 WHERE id = $1;', [userId]);
     }
 
-    static async getUserListInEncounterByTournamentId(id) {
-        const result= await client.query('SELECT * FROM user_has_encounter JOIN tournament_has_user ON tournament_has_user.user_id = user_has_encounter.user_id WHERE tournament_has_user.tournament_id = $1', [id]);
+    static async getTournamentListByUserId(id) {
+        const result= await client.query('SELECT DISTINCT user_has_encounter.user_id, tournament_has_user.tournament_id, tournament.user_id AS moderator_id FROM user_has_encounter JOIN tournament_has_user ON tournament_has_user.user_id = user_has_encounter.user_id JOIN tournament ON tournament_has_user.tournament_id = tournament.id WHERE tournament_has_user.user_id = $1', [id]);
         return result.rows;
     }
 
