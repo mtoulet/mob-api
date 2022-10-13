@@ -5,15 +5,15 @@ const { User } = require('../model');
 const leaderboardController = {
 
  /**
-     * @summary Get list of 15 players with max trophies 
+     * @summary Get list of 15 players with most trophies 
      * @param {*} req 
      * @param {*} res 
-     * @returns {array<User>} List of user with max trophies
+     * @returns {array<User>} List of user with most trophies
      */
-  async getMoreTrophiesList(req, res) {
+  async getMostTrophiesList(req, res) {
     try {
-        const maxTrophiesUserList = await User.maxTrophiesLeaderboard();
-        res.json(maxTrophiesUserList);  
+        const mostTrophiesUserList = await User.mostTrophiesLeaderboard();
+        res.json(mostTrophiesUserList);  
     } catch (err) {
         console.error(err);
     }
@@ -21,15 +21,15 @@ const leaderboardController = {
 
 
  /**
-     * @summary Get list of 15 players with max honor_point
+     * @summary Get list of 15 players with most honor_point
      * @param {*} req 
      * @param {*} res 
-     * @returns {array<User>} List of user with max honor_point
+     * @returns {array<User>} List of user with most honor_point
      */
-  async getMoreHonorList(req, res) {
+  async getMostHonorList(req, res) {
     try {
-        const maxHonorUserList = await User.maxHonorLeaderboard();
-        res.json(maxHonorUserList);  
+        const mostHonorUserList = await User.mostHonorLeaderboard();
+        res.json(mostHonorUserList);  
     } catch (err) {
         console.error(err);
     }

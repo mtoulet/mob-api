@@ -109,12 +109,12 @@ class User {
         return result.rows;
     }
 
-    static async maxTrophiesLeaderboard(){
+    static async mostTrophiesLeaderboard(){
         const result = await client.query('SELECT * FROM public.user ORDER BY public.user.trophies DESC LIMIT 15;')
         return result.rows;
     }
 
-    static async maxHonorLeaderboard(){
+    static async mostHonorLeaderboard(){
         const result = await client.query('SELECT * FROM public.user ORDER BY public.user.honor_point DESC LIMIT 15;')
         return result.rows;
     }
