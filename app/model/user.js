@@ -108,6 +108,27 @@ class User {
         return result.rows;
     }
 
+    static async mostTrophiesLeaderboard(){
+        const result = await client.query('SELECT * FROM public.user ORDER BY public.user.trophies DESC LIMIT 15;')
+        return result.rows;
+    }
+
+    static async mostHonorLeaderboard(){
+        const result = await client.query('SELECT * FROM public.user ORDER BY public.user.honor_point DESC LIMIT 15;')
+        return result.rows;
+    }
+
+    static async lessHonorLeaderboard(){
+        const result = await client.query('SELECT * FROM public.user ORDER BY public.user.honor_point ASC LIMIT 15;')
+        return result.rows;
+    }
+
+    static async lastsubLeaderboard(){
+        const result = await client.query('SELECT * FROM public.user ORDER BY public.user.id DESC Limit 15;')
+        return result.rows;
+    }
+
+
 };
 
 module.exports = User;
