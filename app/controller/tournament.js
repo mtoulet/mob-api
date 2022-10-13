@@ -75,19 +75,8 @@ const tournamentController = {
         try {
             const foundTournament = await Tournament.getTournamentById(id);
             if (foundTournament.user_id === parseInt(req.body.user_id)) {
-                const editedTournament = await Tournament.updateTournament({
-                    label: req.body.label,
-                    type: req.body.type,
-                    date: req.body.date,
-                    game: req.body.game,
-                    format: req.body.format,
-                    max_player_count: req.body.max_player_count,
-                    description: req.body.description,
-                    image: req.body.image,
-                    id: id
-                });
-
-                if (editedTournament.image === null) {
+                console.log(req.body.image);
+                if (!req.body.image) {
                     const editedTournamentWithImageByDefault = {
                         label: req.body.label,
                         type: req.body.type,
@@ -99,11 +88,22 @@ const tournamentController = {
                         image: 'https://i.imgur.com/XWdPSTS.png',
                         id: id
                     }
-                    Object.assign(editedTournament, editedTournamentWithImageByDefault);
-                    editedTournament.image = 'https://i.imgur.com/XWdPSTS.png';
+                    await Tournament.updateTournament(editedTournamentWithImageByDefault);
                     return res.json(editedTournamentWithImageByDefault);
-                }
-                return res.json(editedTournament);
+                } else {
+                    const editedTournament = await Tournament.updateTournament({
+                        label: req.body.label,
+                        type: req.body.type,
+                        date: req.body.date,
+                        game: req.body.game,
+                        format: req.body.format,
+                        max_player_count: req.body.max_player_count,
+                        description: req.body.description,
+                        image: req.body.image,
+                        id: id
+                    });
+                    return res.json(editedTournament);
+                }       
             } else {
                 return res.status(403).json({ error: "Vous n'avez pas les droits nécessaires pour effectuer cette action" });
             }

@@ -8,6 +8,7 @@ const {
 
 const encrypt = require('../service/bcrypt');
 const { generateAccessToken, generateRefreshToken } = require('../service/jwt');
+const { UserSchema } = require('../service/schema');
 
 const userController = {
 
@@ -126,14 +127,26 @@ const userController = {
     async patchProfile(req, res) {
         const id = req.params.id;
         try {
-            const editedProfile = await User.patchUser({
-                firstname : req.body.firstname,
-                lastname: req.body.lastname,
-                nickname: req.body.nickname,
-                avatar: req.body.avatar,
-                id: id
-            });
-            return res.json(editedProfile);
+            if (req.body.firstname.match(/^[a-zA-ZàáâäãåąăčćęèéêëėěįìíîïłńòóőôöõøřùúûüųūÿýżźñçčšśžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ðĶņ ,.'-]+$/u)) {
+                if (req.body.lastname.match(/^[a-zA-ZàáâäãåąăčćęèéêëėěįìíîïłńòóőôöõøřùúûüųūÿýżźñçčšśžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ðĶņ ,.'-]+$/u)) {
+                    if (req.body.nickname.match(/^[a-zA-Z0-9]{3,30}$/u)) {
+                        const editedProfile = await User.patchUser({
+                            firstname: req.body.firstname,
+                            lastname: req.body.lastname,
+                            nickname: req.body.nickname,
+                            avatar: req.body.avatar,
+                            id: id
+                        });
+                        return res.json(editedProfile);
+                    } else {
+                        return res.status(500).json({ error: "Votre pseudo ne doit qu'utiliser des caractères alphanumériques et doit contenir entre 3 et 30 caractères au total" });
+                    }
+                } else {
+                    return res.status(500).json({ error: "Votre nom ne peut pas contenir certains caractères" });
+                }
+            } else {
+                return res.status(500).json({ error: "Votre prénom ne peut pas contenir certains caractères" });
+            }
         } catch (err) {
             console.error(err);
         }

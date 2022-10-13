@@ -72,13 +72,12 @@ class User {
      */
     static async patchUser(patchInfo) {
         const result = await client.query('SELECT * FROM update_user ($1);', [patchInfo]);
-        
-        return result.rows;
+        return result.rows[0];
     }
 
     static async patchPwd(pwd) {
         const result = await client.query('SELECT * FROM update_pwd ($1);', [pwd]);
-        return result.rows;
+        return result.rows[0];
     }
 
     /**

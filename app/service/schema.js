@@ -11,6 +11,7 @@ const UserSchema = Joi.object({ // I want to receive an object
     // repeat_password: Joi.ref("password"), See in future versions
 }); // .with('password', 'repeat_password'); See in future versions
 
+// The schema for the route patch password
 const PasswordSchema = Joi.object({
     password: Joi.string().pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).required(),
     newPassword: Joi.string().pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).required()
