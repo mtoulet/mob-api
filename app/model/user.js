@@ -125,7 +125,7 @@ class User {
     }
 
     static async lastsubLeaderboard(){
-        const result = await client.query('SELECT * FROM public.user ORDER BY public.user.id DESC 15;')
+        const result = await client.query('SELECT * FROM public.user ORDER BY public.user.id DESC Limit 15;')
         return result.rows;
     }
 
