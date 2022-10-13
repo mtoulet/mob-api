@@ -3,10 +3,10 @@ const leaderboardController = require('../controller/leaderboard');
 const router = express.Router();
 
 
-// #region Leaderboard /api/leaderboard/mosttrophies
+// #region Leaderboard /api/leaderboard/most-trophies
 /**
- * GET /api/leaderboard/mosttrophies
- * @summary This return list of 15 user with more trophies
+ * GET /api/leaderboard/most-trophies
+ * @summary This return a list of 15 users with the most trophies
  * @security BasicAuth
  * @tags leaderboard
  * @return {array<User>} 200 - success response - application/json
@@ -57,12 +57,12 @@ const router = express.Router();
  * ]
  */
 // #endregion
-router.get('/api/leaderboard/mosttrophies', leaderboardController.getMostTrophiesList);
+router.get('/api/leaderboard/most-trophies', leaderboardController.getMostTrophiesList);
 
-// #region Leaderboard /api/leaderboard/mosthonor
+// #region Leaderboard /api/leaderboard/most-honor
 /**
  * GET /api/leaderboard/mosthonor
- * @summary This return list of 15 user with more honor_points
+ * @summary This return a list of 15 users with the most honor_points
  * @security BasicAuth
  * @tags leaderboard
  * @return {array<User>} 200 - success response - application/json
@@ -113,12 +113,12 @@ router.get('/api/leaderboard/mosttrophies', leaderboardController.getMostTrophie
  * ]
  */
 // #endregion
-router.get('/api/leaderboard/mosthonor', leaderboardController.getMostHonorList);
+router.get('/api/leaderboard/most-honor', leaderboardController.getMostHonorList);
 
-// #region Leaderboard /api/leaderboard/lowhonor
+// #region Leaderboard /api/leaderboard/less-honor
 /**
- * GET /api/leaderboard/lowhonor
- * @summary This return list of 15 user with less honor_points
+ * GET /api/leaderboard/less-honor
+ * @summary This return a list of 15 users with the less honor_points
  * @security BasicAuth
  * @tags leaderboard
  * @return {array<User>} 200 - success response - application/json
@@ -169,12 +169,12 @@ router.get('/api/leaderboard/mosthonor', leaderboardController.getMostHonorList)
  * ]
  */
 // #endregion
-router.get('/api/leaderboard/lowhonor', leaderboardController.getLessHonorList);
+router.get('/api/leaderboard/less-honor', leaderboardController.getLessHonorList);
 
-// #region Leaderboard /api/leaderboard/lastregister
+// #region Leaderboard /api/leaderboard/last-registered
 /**
- * GET /api/leaderboard/lastregister
- * @summary This return list of 15 last register
+ * GET /api/leaderboard/last-registered
+ * @summary This return a list of 15 last registered users
  * @security BasicAuth
  * @tags leaderboard
  * @return {array<User>} 200 - success response - application/json
@@ -225,6 +225,6 @@ router.get('/api/leaderboard/lowhonor', leaderboardController.getLessHonorList);
  * ]
  */
 // #endregion
-router.get('api/leaderboard/lastregister', leaderboardController.getlastregisterUserList)
+router.get('api/leaderboard/last-registered', leaderboardController.getlastregisterUserList)
 
 module.exports = router;

@@ -302,8 +302,8 @@ router.post('/api/profiles/:id/add-trophies', authenticateToken, userController.
 
 // #region /api/profiles/:id/tournament/encounters
 /**
- * POST /api/profiles/{id}/tournament/encounters
- * @summary A list of tournament where user is moderator or player
+ * GET /api/profiles/{id}/tournament/encounters
+ * @summary A list of tournament where the user is either a moderator or a player
  * @security BearerAuth
  * @tags user
  * @param {integer} id.path.required - user id info
