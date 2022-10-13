@@ -270,18 +270,18 @@ const userController = {
     },
 
     async getUserListInEncounterByTournamentId (req, res){
-        const id= req.params.id;
-        try{
-            const foundTournament = await Tournament.getTournamentById(id);
-            if (!foundTournament) {
+        const id = req.params.id;
+        try {
+            const foundUser = await User.getUserById(id);
+            if (!foundUser) {
                 return res.status(404).json({
-                    error: "Tournoi inexistant"
+                    error: "Utilisateur inexistant"
                 });
             }
-            const list = await User.getUserListInEncounterByTournamentId(id);
-            return res.json(list)
+            const tournamentListByUserId = await User.getUserListInEncounterByTournamentId(id);
+            return res.json(tournamentListByUserId);
 
-        }catch (err){
+        } catch (err){
             console.error(err)
         }
     }
