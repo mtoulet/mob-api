@@ -209,9 +209,9 @@ expressJSDocSwagger(app)(options);
 /**
  * A List of Tournament_id with encounter_id contain user_id
  * @typedef {object} TournamentWithEncounterWithUser
- * @property {integer} user_id
- * @property {integer} encounter_id
- * @property {integer} tournament_id
+ * @property {integer} user_id - The id of the user
+ * @property {integer} encounter_id - The id of the encounter
+ * @property {integer} tournament_id - The id of the tournament
  */
 
 // #endregion

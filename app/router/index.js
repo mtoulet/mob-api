@@ -610,7 +610,7 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
  * @tags tournament
  * @param {integer} id.path.required - user_id info
  * @return {array<TournamentByUserId>} 200 - success response - application/json
- * @return {object} 204 - no content
+ * @return {object} 404 - not found
  * @example response - 200 - response
  * [
  *      {
@@ -634,9 +634,9 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
  *          "user_id": 11
  *      }
  * ]
- * @example response - 204 - no content
+ * @example response - 404 - not found
  * {
- *      "error": "L'utilisateur n'a crée aucun tournoi et n'est inscrit à aucun d'entre eux"
+ *      "error": "Tournoi inexistant"
  * }
  */
 // #endregion
@@ -659,17 +659,17 @@ router.get('/api/tournaments/profiles/:id/', authenticateToken, tournamentContro
  *          "tournament_id": 2
  *      },
  *      {
- *          "user_id": 5,
+ *          "user_id": "5",
  *          "encounter_id": 2,
  *          "tournament_id": 8
  *      },
  *      {
- *          "user_id": "1,
+ *          "user_id": "1",
  *          "encounter_id": 3,
  *          "tournament_id": 3
  *      },
  *      {
- *          "user_id": 2,
+ *          "user_id": "2",
  *          "encounter_id": 6,
  *          "tournament_id": 11
  *      }
