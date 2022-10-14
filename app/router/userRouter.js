@@ -213,7 +213,7 @@ router.patch('/api/profiles/:id/pwd', authenticateToken, validationModule.valida
 // #region /api/profiles/:id/
 /**
  * DELETE /api/profiles/{id}/
- * @summary delete user profile via his id
+ * @summary allow to delete a user profile via his id
  * @security BearerAuth
  * @tags user
  * @param {integer} id.path.required - user id info
@@ -240,7 +240,7 @@ router.delete('/api/profiles/:id', authenticateToken, userController.deleteProfi
 // #region /api/profiles/:id/add-honor
 /**
  * POST /api/profiles/{id}/add-honor
- * @summary A user can upvote another user to give him +1 honor point
+ * @summary Allow a user to upvote another user to give him +1 honor point
  * @security BearerAuth
  * @tags user
  * @param {integer} id.path.required - user id info
@@ -261,7 +261,7 @@ router.post('/api/profiles/:id/add-honor', authenticateToken, userController.add
 // #region /api/profiles/:id/remove-honor
 /**
  * POST /api/profiles/{id}/remove-honor
- * @summary A user can downvote another user to reduce his honor points by 1
+ * @summary Allow a user to downvote another user to reduce his honor points by 1
  * @security BearerAuth
  * @tags user
  * @param {integer} id.path.required - user id info
@@ -282,7 +282,7 @@ router.post('/api/profiles/:id/remove-honor', authenticateToken, userController.
 // #region /api/profiles/:id/add-trophies
 /**
  * POST /api/profiles/{id}/add-trophies
- * @summary A winner of a tournament win a trophy (in bdd)
+ * @summary Give the winner of a tournament a trophy (in bdd)
  * @security BearerAuth
  * @tags user
  * @param {integer} id.path.required - user id info
@@ -383,7 +383,7 @@ router.get('/api/profiles/:id/tournaments', userController.getTournamentListByUs
 // Refresh token route
 /**
  * POST /api/refreshToken
- * @summary return new accessToken
+ * @summary return a new accessToken
  * @tags user
  * @security BearerAuth
  * @return {object} 200 - succes response - application/json

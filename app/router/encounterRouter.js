@@ -55,7 +55,7 @@ router.get('/api/encounters/:id', encounterController.getEncounter);
 //  #region /api/encounters/:id
 /**
  * PATCH /api/encounters/{id}
- * @summary allow to edit an encounter informations
+ * @summary Edit an encounter informations
  * @security BearerAuth
  * @tags encounter
  * @param {integer} id.path.required - encounter id info
