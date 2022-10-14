@@ -43,7 +43,7 @@ const options = {
             scheme: "bearer"
         }
     },
-    swaggerUIPath: "/api-docs", // URL where SwaggerUI will be rendered
+    swaggerUIPath: "/", // URL where SwaggerUI will be rendered
     baseDir: __dirname, // Base directory which we use to locate your JSDOC files
     filesPattern: "./**/*.js", // Global pattern to find our jsdoc files (multiple patterns can be added in an array)
     exposeSwaggerUI: true // Expose OpenAPI UI
