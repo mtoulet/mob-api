@@ -225,6 +225,6 @@ router.get('/api/leaderboard/less-honor', leaderboardController.getLessHonorList
  * ]
  */
 // #endregion
-router.get('api/leaderboard/last-registered', leaderboardController.getlastregisterUserList)
+router.get('/api/leaderboard/last-registered', leaderboardController.getlastregisterUserList)
 
 module.exports = router;
