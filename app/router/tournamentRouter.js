@@ -83,7 +83,7 @@ router.get('/api/tournaments', tournamentController.getAllTournaments);
 // #region get tournament
 /**
  * GET /api/tournaments/{id}
- * @summary This return all informations of the tournament via its id
+ * @summary This return all informations of a tournament via its id
  * @security BasicAuth
  * @tags tournament
  * @param {integer} id.path.required - tournament id info
@@ -145,7 +145,7 @@ router.patch('/api/tournaments/:id', authenticateToken, tournamentController.pat
 // #region delete /api/tournaments/:id/
 /**
  * DELETE /api/tournaments/{id}/
- * @summary Delete a tournament via its id
+ * @summary It delete a tournament via its id
  * @security BearerAuth
  * @tags tournament
  * @param {integer} id.path.required - tournament id info
@@ -171,7 +171,7 @@ router.delete('/api/tournaments/:id', authenticateToken, tournamentController.de
 // #region get /api/tournaments/:id/profiles/ 
 /**
  * GET /api/tournaments/{id}/profiles/
- * @summary get a list of all users in a tournament
+ * @summary return a list of all users in a tournament
  * @security BearerAuth
  * @tags tournament
  * @param {integer} id.path.required - tournament id info
@@ -206,7 +206,7 @@ router.get('/api/tournaments/:id/profiles/', authenticateToken, tournamentContro
 // #region post /api/tournaments/:id/profiles/
 /**
  * POST /api/tournaments/{id}/profiles/
- * @summary add a user to a tournament
+ * @summary subscribe a user to a tournament
  * @security BearerAuth
  * @tags tournament
  * @param {integer} id.path.required - tournament id info
@@ -229,7 +229,7 @@ router.post('/api/tournaments/:id/profiles/', authenticateToken, tournamentContr
 // #region delete /api/tournaments/:tournament_id/profiles/:user_id/
 /** 
  * DELETE /api/tournaments/{tournament_id}/profiles/{user_id}/
- * @summary delete a user from a tournament
+ * @summary It unsubscribe a user from a tournament
  * @security BearerAuth
  * @tags tournament
  * @param {integer} tournament_id.path.required - tournament_id info
@@ -251,7 +251,7 @@ router.delete('/api/tournaments/:tournament_id/profiles/:user_id/', authenticate
 // #region get /api/tournaments/profiles/:id/
 /** 
  * GET /api/tournaments/profiles/{id}/
- * @summary get list of tournament by user_id
+ * @summary return a list of tournament by user_id
  * @security BearerAuth
  * @tags tournament
  * @param {integer} id.path.required - user_id info
@@ -291,7 +291,7 @@ router.get('/api/tournaments/profiles/:id/', authenticateToken, tournamentContro
 // #region get /api/tournaments/:id/encounters/profiles/
 /** 
  * GET /api/tournaments/{id}/encounters/profiles/
- * @summary get a list of user in encounters in tournament by tournament id
+ * @summary return a list of user in encounters in tournament by tournament id
  * @security BasicAuth
  * @tags tournament
  * @param {integer} id.path.required - tournament id info
