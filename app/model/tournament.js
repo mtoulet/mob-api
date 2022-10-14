@@ -93,7 +93,7 @@ class Tournament {
 
     static async getUsersInEncounterInTournament(tournamentId){
         // Get a list of users in 
-        const result = await client.query('SELECT DISTINCT user_has_encounter.user_id, user_has_encounter.encounter_id, tournament.id AS tournament_id FROM tournament JOIN encounter ON tournament.id = encounter.tournament_id JOIN user_has_encounter ON encounter.id = user_has_encounter.encounter_id JOIN public.user ON user_has_encounter.user_id = public.user.id JOIN tournament_has_user ON public.user.id = tournament_has_user.user_id WHERE tournament.id = $1 ORDER BY user_has_encounter.encounter_id ASC;', [tournamentId]);
+        const result = await client.query('SELECT DISTINCT user_has_encounter.user_id, public."user".nickname, user_has_encounter.encounter_id, tournament.id AS tournament_id FROM tournament JOIN encounter ON tournament.id = encounter.tournament_id JOIN user_has_encounter ON encounter.id = user_has_encounter.encounter_id JOIN public.user ON user_has_encounter.user_id = public.user.id JOIN tournament_has_user ON public.user.id = tournament_has_user.user_id WHERE tournament.id = $1 ORDER BY user_has_encounter.encounter_id ASC;', [tournamentId]);
         return result.rows;
     }
 }
