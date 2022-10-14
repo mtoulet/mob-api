@@ -145,7 +145,7 @@ router.patch('/api/tournaments/:id', authenticateToken, tournamentController.pat
 // #region delete /api/tournaments/:id/
 /**
  * DELETE /api/tournaments/{id}/
- * @summary It delete a tournament via its id
+ * @summary It removes a tournament via its id
  * @security BearerAuth
  * @tags tournament
  * @param {integer} id.path.required - tournament id info
@@ -301,21 +301,25 @@ router.get('/api/tournaments/profiles/:id/', authenticateToken, tournamentContro
  * [
  *      {
  *          "user_id": 10,
+ *          "nickname": "Jean"
  *          "encounter_id": 1,
  *          "tournament_id": 2
  *      },
  *      {
  *          "user_id": 5,
+ *          "nickname": "Paul"
  *          "encounter_id": 2,
  *          "tournament_id": 2
  *      },
  *      {
  *          "user_id": 1,
+ *          "nickname": "Gauthier"
  *          "encounter_id": 3,
  *          "tournament_id": 2
  *      },
  *      {
  *          "user_id": 2,
+ *          "nickname": "YSL"
  *          "encounter_id": 6,
  *          "tournament_id": 2
  *      }
