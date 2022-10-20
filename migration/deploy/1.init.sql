@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS encounter (
     "date" timestamptz NOT NULL,
     winner_score integer DEFAULT 0,
     loser_score integer DEFAULT 0,
+    "row" integer DEFAULT 1,
     tournament_id integer NOT NULL REFERENCES "tournament"(id) ON DELETE CASCADE
 );
 
